@@ -1,12 +1,12 @@
 function calc(num1, num2, operator) {
     switch (operator) {
-      case "1":
+      case "+":
         return num1 + num2;
-      case "2":
+      case "-":
         return num1 - num2;
-      case "3":
+      case "*":
         return num1 * num2;
-      case "4":
+      case "/":
         return num2 !== 0 ? num1 / num2 : "Cannot divide by zero";
       default:
         return "Invalid operator";
