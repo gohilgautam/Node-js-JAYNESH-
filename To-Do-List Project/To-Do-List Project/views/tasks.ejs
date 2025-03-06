@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Today's Tasks</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Today's Tasks</h1>
+      <ul class="task-list">
+        <% tasks.forEach(task => { %>
+        <li class="task-item">
+          <form
+            action="/complete-task/<%= task.id %>"
+            method="POST"
+            class="task-form"
+          >
+            <input type="checkbox" onchange="this.form.submit()" />
+            <span class="task-title"><%= task.title %></span>
+            <span class="task-description"><%= task.description %></span>
+          </form>
+          <form
+            action="/delete-task/<%= task.id %>"
+            method="POST"
+            class="delete-form"
+          >
+            <button type="submit" class="delete-btn">Delete</button>
+          </form>
+        </li>
+        <% }) %>
+      </ul>
+
+      <h2>Completed Tasks</h2>
+      <ul class="task-list completed-tasks">
+        <% completedTasks.forEach(task => { %>
+        <li class="task-item completed">
+          <span class="task-title"><%= task.title %></span>
+          <span class="task-description"><%= task.description %></span>
+        </li>
+        <% }) %>
+      </ul>
+
+      <a href="/" class="add-task-btn">Add New Task</a>
+    </div>
+  </body>
+</html>
