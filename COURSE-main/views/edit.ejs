@@ -51,7 +51,8 @@
     <div class="container-box">
         <div class="right-panel">
             <h3 class="mb-4">Edit Course Details</h3>
-            <form method="post" action="/edit/<%= record._id %>" enctype="multipart/form-data">
+            <form method="post" action="/insert" enctype="multipart/form-data">
+                <input type="hidden" value="<%= record.id%>" name="id">
                 <div class="mb-3">
                     <label class="form-label">Course Title</label>
                     <input type="text" class="form-control" name="course_name" placeholder="Enter Course Title"
@@ -72,11 +73,11 @@
 
                 <div class="mb-3">
                     <label class="form-label">Course Category</label>
-                    <select class="form-control" name="category" required>
+                    <select class="form-control" name="course_category" required>
                         <option value="">Select Category</option>
                         <% let genres = ["Full-stack", "Front-End", "Back-End", "AI/ML", "Game-Developer"]; %>
                         <% genres.forEach((category) => { %>
-                            <option value="<%= category %>" <% if (record.category === category) { %> selected <% } %>>
+                            <option value="<%= record.course_category %>" <% if (record.course_category == category) { %> selected <% } %>>
                                 <%= category %>
                             </option>
                         <% }) %>
@@ -87,7 +88,7 @@
                     <label class="form-label">Course Image</label>
                     <input type="file" class="form-control" name="course_cover">
                     <% if (record.course_cover) { %>
-                        <img src="/uploads/<%= record.course_cover %>" alt="Course Image" width="150" class="mt-2">
+                        <img src="<%= record.course_cover %>" alt="Course Image" width="150" class="mt-2">
                     <% } %>
                 </div>
 

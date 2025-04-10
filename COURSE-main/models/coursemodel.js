@@ -4,18 +4,18 @@ const path = require('path');
 const courseSchema = new mongoose.Schema({
     course_name: {
         type: String,
-        required: true
+        required: true,
     },
     course_price:
     {
         type: Number,
-        required: true
+        required: true,
     },
     course_duration:{
         type : String,
         required : true, 
     },
-    course_duration:{
+    course_category:{
         type : String,
         required : true, 
     },

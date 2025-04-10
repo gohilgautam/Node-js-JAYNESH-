@@ -10,7 +10,7 @@ const port = 8000;
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
-app.use('/images', express.static(path.join(__dirname , 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Setup Multer
@@ -27,7 +27,7 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/form", (req, res) => {
-    res.render("form"); 
+    res.render("form");
 });
 
 app.get("/update", async (req, res) => {
@@ -36,33 +36,34 @@ app.get("/update", async (req, res) => {
     res.render("edit", { record });
 });
 
-app.post("/insert", upload.single("image"), async (req, res) => {
-    const { id, course_name, course_price, course_duration, category } = req.body;
-    let imagePath = req.file ? req.file.path : "";
+app.post("/insert", upload.single("course_cover"), async (req, res) => {
+    const { id, course_name, course_price, course_duration, course_category, course_cover } = req.body;
+   const imagePath = req.file ? "uploads/" + req.file.filename : "";
 
     if (id) {
+        console.log("updated data........");
         const existing = await course.findById(id);
+
         if (imagePath && existing.image && fs.existsSync(existing.image)) {
             fs.unlinkSync(existing.image);
+            await course.findByIdAndUpdate(id, {
+                name: course_name,
+                price: course_price,
+                duration: course_duration,
+                category: course_category,
+                image: course_cover || existing.image
+            });
         }
-        await course.findByIdAndUpdate(id, {
-            name: course_name,
-            price: course_price,
-            duration: course_duration,
-            category,
-            image: imagePath || existing.image
-        });
+        
     } else {
-        await course.create({
-            name: course_name,
-            price: course_price,
-            duration: course_duration,
-            category,
-            image: imagePath
-        });
+        req.body.course_cover = imagePath;
+        await course.create(req.body);
     }
     res.redirect("/");
 });
+
+
+
 
 app.get("/delete/:id", async (req, res) => {
     const id = req.params.id;

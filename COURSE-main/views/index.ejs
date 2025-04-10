@@ -122,76 +122,6 @@
             border-radius: 5px;
             display: inline-block;
         }
-        .artist-section {
-            padding: 50px 0;
-            text-align: center;
-            color: white;
-        }
-        .artist-title {
-            font-size: 28px;
-            font-weight: bold;
-            color: rgb(205, 62, 133);
-            margin-bottom: 10px;
-        }
-        .artist-description {
-            font-size: 1rem;
-            color: black;
-            margin-bottom: 30px;
-        }
-        .artist-grid {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        .artist-card {
-            position: relative;
-            width: 200px;
-            height: 300px;
-            overflow: hidden;
-            border-radius: 5px;
-        }
-        .artist-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease-in-out;
-        }
-        .artist-card:hover img {
-            transform: scale(1.1);
-        }
-        .artist-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            mix-blend-mode: multiply;
-        }
-        .artist-card .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom right, rgba(255, 0, 0, 0.7), rgba(255, 255, 255, 0.7));
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out;
-        }
-        .artist-card:hover .overlay {
-            opacity: 1;
-        }
-        .artist-card .overlay h3 {
-            font-size: 18px;
-            font-weight: bold;
-        }
         .album-card {
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
@@ -203,6 +133,9 @@
         }
         .album-info li {
             margin-bottom: 8px;
+        }
+        .album-card img{
+            height: 300x;
         }
     </style>
 </head>
@@ -262,23 +195,26 @@
     <div class="container mt-5" id="card">
         <h2 class="text-center mb-4">Course Info</h2>
         <div class="album row">
-            <% records.forEach((data) => { %>
-            <div class="col-md-4 mb-4">
-                <div class="card album-card">
-                    <img src="/<%= data.image %>" class="card-img-top" alt="course">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= data_name %></h5>
-                        <ul class="album-info">
-                            <li><strong>Course Price:</strong> <%= data_price %></li>
-                            <li><strong>Course Duration:</strong> <%= data_duration %></li>
-                            <li><strong>Course Category:</strong> <%= data_category %></li>
-                        </ul>
-                        <a href="/update?id=<%= data._id %>" class="btn-update">Update</a>
-                        <a href="/delete/<%= data._id %>" class="btn-delete">Delete</a>
+            <% records.map((e) => { 
+                const {id, course_name ,course_price, course_duration, course_category, course_cover} = e;
+                %>
+               
+                <div class="col-md-4 mb-4">
+                    <div class="card album-card">
+                        <img src="<%= course_cover %>" class="card-img-top" alt="course">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= course_name %></h5>
+                            <ul class="album-info">
+                                <li><strong>Course Price:</strong> <%= course_price %></li>
+                                <li><strong>Course Duration:</strong> <%= course_duration %></li>
+                                <li><strong>Course Category:</strong> <%= course_category %></li>
+                            </ul>
+                            <a href="/update?id=<%= id %>" class="btn-update">Update</a>
+                            <a href="/delete/<%= id %>" class="btn-delete">Delete</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <% }); %>
+            <% }) %>
         </div>
     </div>
     
