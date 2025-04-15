@@ -5,13 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive Movie Website</title>
-    <link rel="stylesheet" href="../public/dist/css/style.css">
-    <link rel="stylesheet" href="../public/dist/css/card.css">
+    <link rel="stylesheet" href="../dist/css/style.css">
+    <link rel="stylesheet" href="../dist/css/card.css">
+    <link href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css" rel="stylesheet">
+
 </head>
 
 <body>
     <div class="container">
-        <!-- <header class="">
+        <header class="">
             <div class="navbar">
                 <button class="navbar-menu-btn">
                     <span class="one"></span>
@@ -48,16 +50,20 @@
                         <ion-icon name="search"></ion-icon>
                     </button>
 
+                    <a href="/form" class="navbar">
+                        <span>ADD MOVIE</span>
+                    </a>
+
                     <a href="#" class="navbar-signin">
                         <span>Sign In</span>
                         <ion-icon name="log-in"></ion-icon>
                     </a>
                 </div>
             </div>
-        </header> -->
+        </header>
 
         <main>
-            <!-- <section class="banner">
+            <section class="banner">
                 <div class="banner-card">
                     <img src="https://i.postimg.cc/Y9SMdz0P/John-Wick-3.jpg" alt="banner" class="banner-img">
 
@@ -84,9 +90,9 @@
                     </div>
                 </div>
 
-            </section> -->
+            </section>
 
-            <!-- <section class="movies">
+            <section class="movies">
                 <div class="filter-bar">
                     <div class="filter-dropdowns">
                         <select name="genre" class="genre">
@@ -689,68 +695,63 @@
                 </div>
 
                 <button class="load-more">LOAD MORE</button>
-            </section> -->
+            </section>
 
             <section class="card">
                 <div class="cellphone-container">
-                    <div class="movie">
-                        <div class="menu"><i class="material-icons"></i></div>
-                        <div class="movie-img"></div>
-                        <div class="text-movie-cont">
-                            <div class="mr-grid">
-                                <div class="col1">
-                                    <h1>Interstellar</h1>
-                                    <ul class="movie-gen">
-                                        <li>PG-13 /</li>
-                                        <li>2h 49min /</li>
-                                        <li>Adventure, Drama, Sci-Fi,</li>
-                                    </ul>
-                                </div>
+                    <% record.map((e)=> {
+                        const {id, MovieName, Genere, Price, Rating, Description, MovieImage}%>
+                        <div class="movie">
+                            <div class="menu"><i class="material-icons"></i></div>
+                            <div class="movie-img">
+                                <img src="<%= MovieImage %>" alt="img">
                             </div>
-                            <div class="mr-grid summary-row">
-                                <div class="col2">
-                                    <h5>SUMMARY</h5>
-                                </div>
-                                <div class="col2">
-                                    <ul class="movie-likes">
-                                        <li><i class="material-icons">&#xE813;</i>124</li>
-                                        <li><i class="material-icons">&#xE813;</i>3</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="mr-grid">
-                                <div class="col1">
-                                    <p class="movie-description">A group of elderly people are giving interviews about
-                                        having lived in a climate of crop blight and constant dust reminiscent of The
-                                        Great
-                                        Depression of the 1930's. The first one seen is an elderly woman stating her
-                                        father was a farmer, but did not start out that way. </p>
-                                </div>
-                            </div>
-                            <div class="mr-grid actors-row">
-                                <div class="col1">
-                                    <p class="movie-actors">Matthew McConaughey, Anne Hathaway, Jessica Chastain</p>
-                                </div>
-                            </div>
-                            <div class="mr-grid action-row">
-                                <div class="col2">
-                                    <div class="watch-btn">
-                                        <h3><i class="material-icons">&#xE037;</i>WATCH TRAILER</h3>
+                            <div class="text-movie-cont">
+                                <div class="mr-grid">
+                                    <div class="col1">
+                                        <h1>
+                                            <%= MovieName%>
+                                        </h1>
+                                        <ul class="movie-gen">
+                                            <li>
+                                                <%= Genere%>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="col6 action-btn"><i class="material-icons">&#xE161;</i>
+                                <div class="mr-grid summary-row">
+                                    <div class="col2">
+                                        <h5>Price: <span>
+                                                <%= Price%>
+                                            </span> </h5>
+                                        <h5>Rating: <span>
+                                                <%= Rating%>
+                                            </span> </h5>
+                                    </div>
                                 </div>
-                                <div class="col6 action-btn"><i class="material-icons">&#xE866;</i>
+                                <div class="mr-grid">
+                                    <div class="col1">
+                                        <p class="movie-description">
+                                            <%= Description%>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="col6 action-btn"><i class="material-icons">&#xE80D;</i>
+                                <div class="mr-grid action-row">
+                                    <div class="col2">
+                                        <div class="watch-btn">
+                                            <h3><i class="material-icons">&#xE037;</i>WATCH TRAILER</h3>
+                                        </div>
+                                    </div>
+                                    <a href="/update?id=<%= id %>" class="watch-btn" style="color: green; text-decoration: none;" >Update</a>
+                                    <a href="/delete/<%= id %>" class="watch-btn" style="color: red; text-decoration: none;" >Delete</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <% })%>
                 </div>
             </section>
 
-            <!-- <section class="live" id="live">
+            <section class="live" id="live">
                 <h2 class="section-heading">Live TV Shows</h2>
 
                 <div class="live-grid">
@@ -802,7 +803,7 @@
                         </div>
                     </div>
                 </div>
-            </section> -->
+            </section>
         </main>
 
         <footer>

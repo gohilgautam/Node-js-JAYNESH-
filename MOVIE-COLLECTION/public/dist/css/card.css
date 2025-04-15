@@ -79,7 +79,7 @@ body {
 
 .action-btn i {
     color: #fe4141;
-    font-size: 28px;
+    font-size: 20px;
     text-align: right;
 }
 
@@ -111,11 +111,7 @@ body {
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic");
 
-h1,
-h2,
-h3,
-h4,
-h5 {
+h1,h2,h3,h4,h5 {
     font-family: 'Montserrat', sans-serif;
     color: #e7e7e7;
     margin: 0px;
@@ -208,8 +204,7 @@ h5 {
     zoom: 1;
 }
 
-.mr-grid:before,
-.mr-grid:after {
+.mr-grid:before,.mr-grid:after {
     content: "";
     display: table;
 }
@@ -218,16 +213,7 @@ h5 {
     clear: both;
 }
 
-.col1,
-.col2,
-.col3,
-.col3rest,
-.col4,
-.col4rest,
-.col5,
-.col5rest,
-.col6,
-.col6rest {
+.col1,.col2,.col3,.col3rest,.col4,.col4rest,.col5,.col5rest,.col6,.col6rest {
     margin: 0% 0.5% 0.5% 0.5%;
     padding: 1%;
     float: left;
