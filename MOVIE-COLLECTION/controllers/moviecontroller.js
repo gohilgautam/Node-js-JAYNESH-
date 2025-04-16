@@ -1,12 +1,14 @@
 const movie = require('../models/MovieModel');
+const fs = require('fs');
+const path = require('path');
 
 const moviePage = async (req, res) => {
     try {
-        const records = await movie.find({});
+        const record = await movie.find();
 
-        console.log(records);
+        console.log(record);
 
-        res.render('movie', { records })
+        res.render('movie', { record})
 
     } catch (e) {
         console.log(e);
@@ -15,6 +17,7 @@ const moviePage = async (req, res) => {
 }
 
 const insertMovie = async (req, res) => {
+    
     console.log(req.body);
 
     const insert = await movie.create(req.body);
@@ -42,7 +45,7 @@ const updateMovie = async (req, res) => {
 
     const record = await movie.findById(id);
 
-    // await emp.findByIdAndDelete(id);
+    await movie.findByIdAndDelete(id);
 
     res.render('updateMovie', { record });
 }

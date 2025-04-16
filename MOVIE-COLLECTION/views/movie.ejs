@@ -51,7 +51,7 @@
                     </button>
 
                     <a href="/form" class="navbar">
-                        <span>ADD MOVIE</span>
+                        <h3>ADD MOVIE</h3>
                     </a>
 
                     <a href="#" class="navbar-signin">
@@ -699,22 +699,21 @@
 
             <section class="card">
                 <div class="cellphone-container">
-                    <% record.map((e)=> {
-                        const {id, MovieName, Genere, Price, Rating, Description, MovieImage}%>
+                    <% record.map((e)=> {const {id, MovieName, Genere, Price, Rating, Description, MovieImage} = e; %>
                         <div class="movie">
                             <div class="menu"><i class="material-icons"></i></div>
                             <div class="movie-img">
-                                <img src="<%= MovieImage %>" alt="img">
+                                <img src="<%= e.MovieImage %>" alt="img">
                             </div>
                             <div class="text-movie-cont">
                                 <div class="mr-grid">
                                     <div class="col1">
                                         <h1>
-                                            <%= MovieName%>
+                                            <%= e.MovieName%>
                                         </h1>
                                         <ul class="movie-gen">
                                             <li>
-                                                <%= Genere%>
+                                                <%= e.Genere%>
                                             </li>
                                         </ul>
                                     </div>
@@ -722,17 +721,17 @@
                                 <div class="mr-grid summary-row">
                                     <div class="col2">
                                         <h5>Price: <span>
-                                                <%= Price%>
+                                                <%= e.Price%>
                                             </span> </h5>
                                         <h5>Rating: <span>
-                                                <%= Rating%>
+                                                <%= e.Rating%>
                                             </span> </h5>
                                     </div>
                                 </div>
                                 <div class="mr-grid">
                                     <div class="col1">
                                         <p class="movie-description">
-                                            <%= Description%>
+                                            <%= e.Description%>
                                         </p>
                                     </div>
                                 </div>
