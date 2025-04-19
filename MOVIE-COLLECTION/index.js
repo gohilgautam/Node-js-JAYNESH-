@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
-app.use('/', require('./routes'))
+app.use('/', require('./routes/index'))
 
 app.listen(port, (err) => {
     if (err) {

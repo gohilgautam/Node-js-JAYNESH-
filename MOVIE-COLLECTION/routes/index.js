@@ -1,5 +1,17 @@
 const express = require('express');
 const route = express.Router();
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
 
 const MovieCTR = require('../controllers/moviecontroller');
 
@@ -7,7 +19,7 @@ route.get('/form', (req, res) => {
     res.render('form'); 
 });
 
-route.post('/form', MovieCTR.insertMovie);
+route.post('/form', upload.single('MovieImage'), MovieCTR.insertMovie);
 
 // Other movie routes
 route.get('/', MovieCTR.moviePage);
@@ -19,13 +31,10 @@ route.post('/movie',(req, res) => {
 
     console.log('Movie Data:', { MovieName, Genre, Price, Rating, Description });
     console.log('Uploaded Image:', MovieImage);
-
-    // You could store the data in a database here
-
     res.send('Movie successfully added!');
 });
 
-route.get('/deleteMovie', MovieCTR.deleteMovie);
+route.get('/deleteMovie/:id', MovieCTR.deleteMovie);
 route.get('/updateMovie/:id', MovieCTR.updateMovie);
 route.post('/editMovie/:id', MovieCTR.editMovie); 
 

@@ -8,7 +8,7 @@ const moviePage = async (req, res) => {
 
         console.log(record);
 
-        res.render('movie', { record})
+        res.render('movie', { record })
 
     } catch (e) {
         console.log(e);
@@ -17,25 +17,49 @@ const moviePage = async (req, res) => {
 }
 
 const insertMovie = async (req, res) => {
-    
+
+    const { id, MovieName, Genere, Price, Rating, Description, MovieImage } = req.body
     console.log(req.body);
+    const imagePath = req.file ? "uploads/" + req.file.filename: "";
 
-    const insert = await movie.create(req.body);
+    if(id){
+        console.log("updated data...");
+        const exiting = await movie.findById(id);
 
-    if(insert){
-        console.log('Movie is inserted....', insert);
+        if (imagePath && existing.image && fs.existsSync(existing.image)) {
+            fs.unlinkSync(existing.image);
+            await course.findByIdAndUpdate(id, {
+                MovieName:MovieName,
+                Genere:Genere,
+                Price:Price,
+                Rating:Rating,
+                Description:Description, 
+                MovieImage:MovieImage,
+            }); 
+
     }else{
-        console.log ('Movie is no instered....', insert);
-    }
+        req.body.MovieImage = imagePath;
+        // await movie.create(req.body);
+    }}
+
+
+    // const insert = await movie.create(req.body);
+
+    // if(insert){
+    //     console.log('Movie is inserted....', insert);
+    // }else{
+    //     console.log ('Movie is no instered....', insert);
+    // }
     res.redirect('/movie')
 }
 
 const deleteMovie = async (req, res) => {
     const id = req.query.id;
     console.log(id);
-
+    if(movie.image && fs.existsSync(movie.image)){
+        fs.unlinkSync(movie.image);
+    }
     await movie.findByIdAndDelete(id);
-
     res.redirect('/movie');
 }
 
