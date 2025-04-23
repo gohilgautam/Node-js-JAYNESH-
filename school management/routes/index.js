@@ -19,3 +19,5 @@ route.post('/school/:id', SchoolCTR.updateSchool);
 route.post('/school/:id/delete', SchoolCTR.deleteSchool);
 
 module.exports = route;
+
+

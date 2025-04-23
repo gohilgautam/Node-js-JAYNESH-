@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const URI = "mongodb://localhost:27017/School-Management"
+const URI = "mongodb://localhost:27017/School-Management";
 
 mongoose.connect(URI);
 
@@ -14,6 +14,4 @@ db.on('error', (err) => {
 });
 db.on('disconnected', () => {
     console.log("Database is Disconnected...")
-});
-
-module.expots = db;
+});s
