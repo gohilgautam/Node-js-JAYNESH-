@@ -20,7 +20,7 @@ console.log("Routing...");
 const { loginPage, lostPassword, checkEmail, otpVerifyPage, checkOTP, newSetPasswordPage, checkNewPassword, userChecked, dashboardPage, addAdminPage, viewAdminPage, insertAdminData, deleteAdmin, updateAdmin, editAdmin, logout, changePassword, changeMyNewPassword, viewProfile } = require('../controllers/adminController');
 
 // Login 
-route.get('/', loginPage);
+route.get('/', dashboardPage);
 
 route.post('/login', userChecked);
 
@@ -35,7 +35,7 @@ route.post('/checkNewPassword', checkNewPassword);
 
 // Dashboard
 
-route.get('/dashboard', dashboardPage);
+// route.get('/dashboard', dashboardPage);
 
 route.get('/addAdmin', addAdminPage);
 route.get('/viewAdmin', viewAdminPage);
