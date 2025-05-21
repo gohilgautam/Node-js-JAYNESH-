@@ -1,0 +1,150 @@
+<%- include('header') %>
+  <!-- End Navbar -->
+  <div class="container-fluid py-2">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">Admin table</h6>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+              <% if(currentAdmin._id=="682dbe0c4e83a84ac1f51550" ) { %>
+                <table class="table" align="center">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status
+                      </th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        Employed</th>
+                      <th class="text-secondary opacity-7 text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% records.forEach((data)=> { %>
+                      <tr>
+                        <td>
+                          <div class="d-flex px-2 py-1">
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-sm">
+                                <%= data.adminFname %>
+                                  <%= data.adminLname %>
+                              </h6>
+                              <td >
+                                <p class="text-xs text-secondary mb-0">
+                                <%= data.adminEmail %>
+                              </p>
+                              </td>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <p class="text-xs font-weight-bold mb-0">
+                            <%= data.adminFunction %>
+                          </p>
+                        </td>
+                        <td>
+                          <span class="badge badge-sm bg-gradient-success">
+                            <%= data.adminStatus %>
+                          </span>
+                        </td>
+                        <td>
+                        <div>
+                              <img src="<%= data.adminImage %>" class="avatar avatar-sm me-3 border-radius-lg"
+                                alt="user1">
+                            </div>
+                            </td>
+                        <td>
+                          <span class="text-secondary text-xs font-weight-bold">
+                            <%= data.joinDate %>
+                          </span>
+                        </td>
+                        <td>
+                          <div class="d-flex justify-content-center gap-4">
+                            <a href="/editAdmin/<%= data._id %>" class="text-secondary font-weight-bold text-xs btn btn-warning"
+                              data-toggle="tooltip" data-original-title="Edit user">
+                              Edit
+                            </a>
+                            <a href="/deleteAdmin/<%= data._id %>" class="text-secondary font-weight-bold text-xs btn btn-danger"
+                              data-toggle="tooltip" data-original-title="Delete user">
+                              Delete
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      <% }); %>
+                  </tbody>
+
+                </table>
+                <% } else { %>
+                  <table class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function
+                        </th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                          Status
+                        </th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                          Admin Join Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% records.forEach((data)=> { %>
+                        <tr>
+                          <td>
+                            <div class="d-flex px-2 py-1">
+                              <div>
+                                <img src="<%= data.adminImage %>" class="avatar avatar-sm me-3 border-radius-lg"
+                                  alt="user1">
+                              </div>
+                              <div class="d-flex flex-column">
+                                <h6 class="mb-0 text-sm">
+                                  <%= data.adminFname %>
+                                    <%= data.adminLname %>
+                                </h6>
+                                <p>
+                                  <%= data.adminEmail %>
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <p>
+                              <%= data.adminFunction %>
+                            </p>
+                          </td>
+                          <td >
+                            <span class=" px-2 py-1 rounded 
+                              <%= data.adminStatus === 'ONLINE' 
+                                ? 'bg-success' 
+                                : 'bg-danger' %>">
+                              <%= data.adminStatus.toUpperCase() %>
+                            </span>
+                          </td>
+                          <td>
+                            <span class="text-secondary text-xs font-weight-bold">
+                              <%= data.joinDate %>
+                            </span>
+                          </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+
+                  </table>
+                  <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<%- include('footer')%> 
+
+
