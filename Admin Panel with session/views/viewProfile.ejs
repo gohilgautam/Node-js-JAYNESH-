@@ -1,0 +1,107 @@
+<%- include('header') %>
+
+    <style>
+        
+    .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .profile-card {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        padding: 20px;
+        align-items: center;
+    }
+
+    .profile-img {
+        width: 100px;
+        height: 200x;
+        object-fit: cover;
+        border: 3px solid #ddd;
+    }
+
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-info p {
+        margin: 8px 0;
+    }
+
+    .social-links {
+        margin-top: 10px;
+    }
+
+    .btn-social {
+        margin-right: 10px;
+        font-size: 20px;
+        color: #555;
+    }
+
+    .action-buttons {
+        margin-top: 15px;
+    }
+
+    .action-buttons a {
+        padding: 8px 16px;
+        text-decoration: none;
+        color: white;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    .edit-btn {
+        background-color: #007bff;
+    }
+
+    .logout-btn {
+        background-color: #dc3545;
+    }
+</style>
+
+    </style>
+
+  <div class="container">
+    <main>
+        <header>
+            <h1>Admin Profile</h1>
+        </header>
+
+        <section class="dashboard">
+            <div class="profile-card">
+                <img src="<%= currentAdmin.adminImage %>" class="profile-img" alt="Profile Image">
+                <div class="profile-info">
+                    <h3><%= currentAdmin.adminFname + " " + currentAdmin.adminLname %></h3>
+                    <p>📧 <%= currentAdmin.adminEmail %></p>
+                    <p>🧑‍💼 <%= currentAdmin.adminFunction %></p>
+                    <p>📅 Joined on: <%= currentAdmin.joinDate %></p>
+
+                    <div class="social-links">
+                        <a href="javascript:;" class="btn-social"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="javascript:;" class="btn-social"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="javascript:;" class="btn-social"><i class="fab fa-instagram fa-lg"></i></a>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="/editAdmin/<%= currentAdmin._id %>" class="edit-btn">Edit</a>
+                        <a href="/logout" class="logout-btn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+
+        
+
+    
+  
+
+    <%- include('footer') %>

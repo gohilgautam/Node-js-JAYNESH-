@@ -2,61 +2,52 @@ const adminDetails = require('../models/adminModel');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
 
-// Sign In Page
+// Render sign-in page
 const signInPage = (req, res) => {
-    if (!req.cookies.admin) {
-        res.render('signInPage');
-    } else {
-        res.redirect('/dashboard');
-    }
+  if (!req.cookies.admin) return res.render('signInPage');
+  res.redirect('/dashboard');
 };
 
-// Admin Checked (login)
+// Check credentials
 const adminChecked = async (req, res) => {
-    const { adminEmail, adminPassword } = req.body;
-    try {
-        const adminData = await adminDetails.findOne({ adminEmail });
-        if (adminData && adminData.adminPassword === adminPassword) {
-            res.cookie('admin', { _id: adminData._id });
-            res.redirect('/dashboard');
-        } else {
-            console.log("Invalid email or password.");
-            res.redirect('/signInPage');
-        }
-    } catch (e) {
-        res.send(`<p>Error: ${e}</p>`);
-    }
+  const { adminEmail, adminPassword } = req.body;
+  const admin = await adminDetails.findOne({ adminEmail });
+  if (admin && admin.adminPassword === adminPassword) {
+    res.cookie('admin', { _id: admin._id });
+    return res.redirect('/dashboard');
+  }
+  res.redirect('/signInPage');
 };
 
-// Lost Password Page
-const lostpasswordpage = (req, res) => {
-    res.render('auth/lostpasswordpage');  // updated to lowercase path
-};
+// Forgot Password Pages
+const lostpasswordpage = (req, res) => res.render('auth/lostpasswordpage');
+const otpVerifyPage = (req, res) => res.render('auth/otpVerifyPage');
+const setNewPasswordPage = (req, res) => res.render('auth/setNewPasswordPage');
 
-// Check Email for password reset (send OTP)
+// Check email and send OTP
 const lostpasswordforcheckemail = async (req, res) => {
-    const email = req.body.resetEmail;
-    const data = await adminDetails.findOne({ adminEmail: email });
+  const email = req.body.resetEmail;
+  const admin = await adminDetails.findOne({ adminEmail: email });
 
-    if (data) {
-        const transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            service: "gmail",
-            secure: false, 
-            auth: {
-                user: "gohilgautam2406@gmail.com",
-                pass: "yhliwejqeabrdmqf",
-            },
-        });
+  if (!admin) return res.redirect('/lostpasswordpage');
 
-        const OTP = Math.floor(Math.random() * 999999);
+  const OTP = Math.floor(100000 + Math.random() * 900000);
+  res.cookie('OTP', OTP);
+  res.cookie('resetEmail', email);
 
-        const info = await transporter.sendMail({
-            from: '"Admin Panel" <gohilgautam2406@gmail.com>',
-            to: email,
-            subject: "OTP for Password Reset",
-            html: `<!DOCTYPE html>
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'gohilgautam2406@gmail.com',
+      pass: 'yhliwejqeabrdmqf',
+    },
+  });
+
+  await transporter.sendMail({
+    from: '"Admin Panel" <gohilgautam2406@gmail.com>',
+    to: email,
+    subject: 'Password Reset OTP',
+    html: `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -214,252 +205,134 @@ const lostpasswordforcheckemail = async (req, res) => {
       </tr>
     </table>
   </body>
-</html>`,
-        });
+</html>`
+  });
 
-        if (info.messageId) {
-            res.cookie('OTP', OTP);
-            res.cookie('resetEmail', email);
-            res.redirect('/otpVerifyPage');
-        } else {
-            res.redirect('/lostpasswordpage');
-        }
-    } else {
-        res.redirect('/lostpasswordpage');
-    }
+  res.redirect('/otpVerifyPage');
 };
-
-
-// OTP Verify Page
-const otpVerifyPage = (req, res) => {
-    res.render('auth/otpVerifyPage');
-};
-
 
 // Verify OTP
 const verifyOTP = (req, res) => {
-    console.log(req.body);
-    console.log(req.cookies.OTP);
-    console.log(req.cookies.resetEmail);
-    // Verify OTP here
-    if (req.body.OTP == req.cookies.OTP) {
-        res.render('/setNwePasswordPage');
-    } else {
-        console.log("Invalid OTP.");
-        res.redirect('back');
-    }
+  if (req.body.OTP == req.cookies.OTP) {
+    return res.redirect('/auth/setNewPasswordPage');
+  }
+  res.redirect('/otpVerifyPage');
 };
 
-// New Set Password Page
-const setNewPasswordPage = (req, res) => {
-    res.render('auth/setNewPasswordPage');
+// Check and set new password
+const checkNewPassword = async (req, res) => {
+  const { newPassword, confirmPassword } = req.body;
+  const email = req.cookies.resetEmail;
+
+  if (newPassword !== confirmPassword) return res.redirect('/auth/setNewPasswordPage');
+
+  await adminDetails.findOneAndUpdate({ adminEmail: email }, { adminPassword: newPassword });
+
+  res.clearCookie('OTP');
+  res.clearCookie('resetEmail');
+  res.redirect('/signInPage');
 };
 
-// Change Password Page
+// Change password from profile
 const changePasswordPage = (req, res) => {
-    if (!req.cookies.admin) {
-        return res.redirect('/signInPage');
-    }
-    res.render('auth/changePasswordPage'); 
+  if (!req.cookies.admin) return res.redirect('/signInPage');
+  res.render('auth/changePasswordPage');
 };
 
 const changePassword = async (req, res) => {
-    const { oldPassword, newPassword, confirmPassword } = req.body;
-    const adminId = req.cookies.admin?._id;
+  const { oldPassword, newPassword, confirmPassword } = req.body;
+  const admin = await adminDetails.findById(req.cookies.admin._id);
 
-    try {
-        const admin = await adminDetails.findById(adminId);
+  if (!admin || admin.adminPassword !== oldPassword) return res.send("Invalid old password.");
+  if (newPassword !== confirmPassword) return res.send("Passwords do not match.");
 
-        if (!admin) {
-            return res.send("Admin not found.");
-        }
-
-        if (admin.adminPassword !== oldPassword) {
-            return res.send("Old password is incorrect.");
-        }
-
-        if (newPassword !== confirmPassword) {
-            return res.send("New passwords do not match.");
-        }
-
-        admin.adminPassword = newPassword;
-        await admin.save();
-
-        res.redirect('/dashboard');
-    } catch (e) {
-        res.send(`Error changing password: ${e}`);
-    }
-};
-
-
-// Check and save new password
-const checkNewPassword = async (req, res) => {
-    const { newPassword, confirmPassword } = req.body;
-    const email = req.cookies.resetEmail;
-
-    if (newPassword !== confirmPassword) {
-        console.log("Passwords do not match.");
-        res.redirect('/signInPage');
-    }
-
-    try {
-        const updated = await adminDetails.findOneAndUpdate(
-            { adminEmail: email },
-            { adminPassword: newPassword }
-        );
-
-        if (updated) {
-            res.clearCookie('resetEmail');
-            res.clearCookie('OTP');
-            res.redirect('/signInPage');
-        } else {
-            res.redirect('/auth/setNewPasswordPage'); 
-        }
-    } catch (e) {
-        res.send(`Error: ${e}`);
-    }
+  admin.adminPassword = newPassword;
+  await admin.save();
+  res.redirect('/dashboard');
 };
 
 // Dashboard
 const dashboard = (req, res) => {
-    if (!req.cookies.admin) {
-        return res.redirect('/signInPage');
-    }
-    res.render('dashboard', { currentAdmin: req.cookies.admin });
+  if (!req.cookies.admin) return res.redirect('/signInPage');
+  res.render('dashboard', { currentAdmin: req.cookies.admin });
 };
 
-// Add Admin Page
-const addAdminPage = (req, res) => {
-    if (!req.cookies.admin) {
-        return res.redirect('/signInPage');
-    }
-    res.render('addAdminPage');
-};
-
-// Admin Table (list all admins except current)
-const adminTable = async (req, res) => {
-    if (!req.cookies.admin) return res.redirect('/signInPage');
-
-    try {
-        let records = await adminDetails.find({});
-        const currentAdmin = req.cookies.admin;
-
-        records = records.filter(data => data._id.toString() !== currentAdmin._id);
-        res.render('adminTable', { records, currentAdmin });
-    } catch (e) {
-        res.send(`<p>Error: ${e}</p>`);
-    }
-};
-
-// Insert Admin (create)
-const adminInsert = async (req, res) => {
-    try {
-        await adminDetails.create({
-            ...req.body,
-            adminImage: req.file ? req.file.path : ''
-        });
-        res.redirect('/addAdminPage');
-    } catch (e) {
-        res.send(`<p>Error: ${e}</p>`);
-    }
-};
-
-// Delete Admin
-const deleteAdmin = async (req, res) => {
-    try {
-        const data = await adminDetails.findById(req.params.deleteId);
-        if (data) {
-            if (data.adminImage && fs.existsSync(data.adminImage)) {
-                fs.unlinkSync(data.adminImage);
-            }
-            await adminDetails.findByIdAndDelete(req.params.deleteId);
-            res.redirect('/adminTable');
-        } else {
-            res.send("Admin not found.");
-        }
-    } catch (e) {
-        res.send(`<p>Error: ${e}</p>`);
-    }
-};
-
-// Edit Admin Page
-const editAdminPage = async (req, res) => {
-    try {
-        const record = await adminDetails.findById(req.params.id);
-        if (record) {
-            res.render('editAdminPage', { record });
-        } else {
-            res.send("Admin not found.");
-        }
-    } catch (e) {
-        res.send(`<p>Error: ${e}</p>`);
-    }
-};
-
-// Update Admin
-const updateAdmin = async (req, res) => {
-    try {
-        const existing = await adminDetails.findById(req.params.id);
-        if (!existing) return res.send("Admin not found.");
-
-        let updateData = req.body;
-
-        if (req.file) {
-            if (existing.adminImage && fs.existsSync(existing.adminImage)) {
-                fs.unlinkSync(existing.adminImage);
-            }
-            updateData.adminImage = req.file.path;
-        } else {
-            updateData.adminImage = existing.adminImage;
-        }
-
-        const updated = await adminDetails.findByIdAndUpdate(req.params.id, updateData, { new: true });
-        res.cookie('admin', { _id: updated._id });
-        res.redirect('/viewProfile');
-    } catch (e) {
-        res.send(`<p>Update Failed: ${e}</p>`);
-    }
-};
-
-// View Profile
+// View profile
 const viewProfile = async (req, res) => {
-    const cookieAdmin = req.cookies.admin;
-    if (cookieAdmin) {
-        const newAdmin = await adminDetails.findById(cookieAdmin._id);
-        if (newAdmin) {
-            res.render('viewProfile', { currentAdmin: newAdmin });
-        } else {
-            res.redirect('/signInPage');
-        }
-    } else {
-        res.redirect('/signInPage');
-    }
+  const admin = await adminDetails.findById(req.cookies.admin._id);
+  if (admin) return res.render('viewProfile', { currentAdmin: admin });
+  res.redirect('/signInPage');
+};
+
+// Add admin page
+const addAdminPage = (req, res) => res.render('addAdminPage');
+
+// Admin table
+const adminTable = async (req, res) => {
+  const records = await adminDetails.find();
+  res.render('adminTable', { records });
+};
+
+// Insert new admin
+const adminInsert = async (req, res) => {
+  const imagePath = req.file ? req.file.path : '';
+  await adminDetails.create({ ...req.body, adminImage: imagePath });
+  res.redirect('/addAdminPage');
+};
+
+// Delete admin
+const deleteAdmin = async (req, res) => {
+  const admin = await adminDetails.findById(req.params.deleteId);
+  if (admin?.adminImage && fs.existsSync(admin.adminImage)) fs.unlinkSync(admin.adminImage);
+  await adminDetails.findByIdAndDelete(req.params.deleteId);
+  res.redirect('/adminTable');
+};
+
+// Edit admin
+const editAdminPage = async (req, res) => {
+  const admin = await adminDetails.findById(req.params.id);
+  if (admin) return res.render('editAdminPage', { record: admin });
+  res.send("Admin not found.");
+};
+
+// Update admin
+const updateAdmin = async (req, res) => {
+  const admin = await adminDetails.findById(req.params.id);
+  if (!admin) return res.send("Admin not found.");
+
+  if (req.file && admin.adminImage && fs.existsSync(admin.adminImage)) {
+    fs.unlinkSync(admin.adminImage);
+  }
+
+  const updateData = { ...req.body, adminImage: req.file ? req.file.path : admin.adminImage };
+  await adminDetails.findByIdAndUpdate(req.params.id, updateData);
+  res.redirect('/viewProfile');
 };
 
 // Logout
 const logout = (req, res) => {
-    res.clearCookie('admin');
-    res.redirect('/')
-}
+  res.clearCookie('admin');
+  res.redirect('/');
+};
 
 module.exports = {
-    signInPage,
-    adminChecked,
-    lostpasswordpage,
-    lostpasswordforcheckemail,
-    otpVerifyPage,
-    verifyOTP,
-    setNewPasswordPage,
-    checkNewPassword,
-    changePasswordPage,
-   changePassword,
-    dashboard,
-    addAdminPage,
-    adminTable,
-    adminInsert,
-    deleteAdmin,
-    editAdminPage,
-    updateAdmin,
-    viewProfile,
-    logout,
+  signInPage,
+  adminChecked,
+  lostpasswordpage,
+  otpVerifyPage,
+  setNewPasswordPage,
+  lostpasswordforcheckemail,
+  verifyOTP,
+  checkNewPassword,
+  changePasswordPage,
+  changePassword,
+  dashboard,
+  addAdminPage,
+  adminTable,
+  adminInsert,
+  deleteAdmin,
+  editAdminPage,
+  updateAdmin,
+  viewProfile,
+  logout
 };
