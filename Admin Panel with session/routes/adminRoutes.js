@@ -57,7 +57,7 @@ router.get('/auth/setNewPasswordPage', passport.checkLostPasswordAuthentication,
 router.post('/checkNewPassword', checkNewPassword);
 
 // Change Password for logged-in user
-router.get('/auth/changePasswordPage', passport.checkAuthentication, changePasswordPage);
+router.get('/changePasswordPage', passport.checkAuthentication, changePasswordPage);
 router.post('/changePassword', changePassword);
 
 // Dashboard

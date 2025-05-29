@@ -5,7 +5,10 @@ const nodemailer = require('nodemailer');
 
 // Sign In Page
 const signInPage = (req, res) => {
-  res.render("signInPage");
+  res.render("signInPage", {
+    success: req.flash("success", "Admin Login Successfully..."),
+    error: req.flash('error')
+  });
 };
 
 // Admin Checked (Login)
@@ -18,15 +21,18 @@ const adminChecked = async (req, res) => {
     req.flash("success", "Admin Login Successfully...");
     res.redirect('/dashboard');
   } else {
+    req.flash("error", "Invalid Email or Password");
     res.redirect('/signInPage');
   }
 };
 
 // Lost Password Page
 const lostpasswordpage = (req, res) => {
-  res.render('auth/lostpasswordpage');
+  res.render('auth/lostpasswordpage', {
+    success: req.flash('success'),
+    error: req.flash('error')
+  });
 };
-
 
 // Send OTP to Email
 const lostpasswordforcheckemail = async (req, res) => {
@@ -213,22 +219,29 @@ const lostpasswordforcheckemail = async (req, res) => {
       if (info.messageId) {
         res.cookie("otp", OTP);             // No maxAge
         res.cookie("resetEmail", email);    // No maxAge
+        req.flash("success", "OTP sent to your email.");
         res.redirect('/otpVerifyPage');
       } else {
+        req.flash("error", "Failed to send OTP. Try again.");
         res.redirect('/lostpasswordpage');
       }
     } else {
+      req.flash("error", "Email not registered.");
       res.redirect('/lostpasswordpage');
     }
   } catch (e) {
     console.log(e);
+    req.flash("error", "Something went wrong.");
     res.redirect('/lostpasswordpage');
   }
 };
 
 // OTP Verification Page
 const otpVerifyPage = (req, res) => {
-  res.render('auth/otpVerifyPage');
+  res.render('auth/otpVerifyPage', {
+    success: req.flash('success'),
+    error: req.flash('error')
+  });
 };
 
 // Verify OTP from Cookie
@@ -237,15 +250,20 @@ const verifyOTP = (req, res) => {
   const storedOTP = req.cookies.otp;
 
   if (userOTP == storedOTP) {
+    req.flash("success", "OTP verified successfully.");
     res.redirect('/auth/setNewPasswordPage');
   } else {
+    req.flash("error", "Invalid OTP. Please try again.");
     res.redirect('back');
   }
 };
 
 // Set New Password Page
 const setNewPasswordPage = (req, res) => {
-  res.render("auth/setNewPasswordPage", { success: "", error: "" });
+  res.render("auth/setNewPasswordPage", {
+    success: req.flash('success'),
+    error: req.flash('error')
+  });
 };
 
 // Update Password after Forgot
@@ -254,6 +272,7 @@ const checkNewPassword = async (req, res) => {
   const email = req.cookies.resetEmail;
 
   if (newPassword !== confirmPassword) {
+    req.flash('error', 'Passwords do not match.');
     return res.redirect('/auth/setNewPasswordPage');
   }
 
@@ -266,43 +285,59 @@ const checkNewPassword = async (req, res) => {
     if (updated) {
       res.clearCookie("otp");
       res.clearCookie("resetEmail");
+      req.flash('success', 'Password updated successfully. Please login.');
       res.redirect('/signInPage');
     } else {
+      req.flash('error', 'Failed to update password.');
       res.redirect('/auth/setNewPasswordPage');
     }
   } catch (e) {
-    res.send(`Error: ${e}`);
+    req.flash('error', `Error: ${e.message}`);
+    res.redirect('/auth/setNewPasswordPage');
   }
 };
 
-
-
 // Change Password (Logged-in Admin)
 const changePasswordPage = (req, res) => {
-  res.render("auth/changePasswordPage", { success: "Password Has Been Changed", error: "Please check your password" });
+  res.render("changePasswordPage", {
+    success: req.flash('success'),
+    error: req.flash('error')
+  });
 };
 
+// Change Password
 const changePassword = async (req, res) => {
   const { oldPassword, newPassword, confirmPassword } = req.body;
-  const adminId = req.session.admin?._id;
-  const adminData = await adminDetails.findById(adminId);
+  const email = req.session.admin?.adminEmail;
+  if (!email) {
+    req.flash('error', 'Unauthorized access.');
+    return res.redirect('/signInPage');
+  }
 
-  if (adminData.adminPassword === oldPassword) {
-    if (newPassword !== oldPassword && newPassword === confirmPassword) {
-      try {
-        await adminDetails.findByIdAndUpdate(adminId, { adminPassword: newPassword });
-        req.session.destroy(err => {
-          if (err) return res.send("Error logging out.");
-          res.redirect('/');
-        });
-      } catch (e) {
-        res.send(`Update error: ${e}`);
-      }
-    } else {
-      res.redirect("/changePasswordPage");
-    }
-  } else {
-    res.redirect("/changePasswordPage");
+  const admin = await adminDetails.findOne({ adminEmail: email });
+
+  if (!admin) {
+    req.flash('error', 'Admin not found.');
+    return res.redirect('/changePasswordPage');
+  }
+
+  if (admin.adminPassword !== oldPassword) {
+    req.flash('error', 'Old password is incorrect.');
+    return res.redirect('/changePasswordPage');
+  }
+
+  if (newPassword !== confirmPassword) {
+    req.flash('error', 'New password and confirmation do not match.');
+    return res.redirect('/changePasswordPage');
+  }
+
+  try {
+    await adminDetails.findOneAndUpdate({ adminEmail: email }, { adminPassword: newPassword });
+    req.flash('success', 'Password has been changed successfully.');
+    res.redirect('/dashboard');
+  } catch (e) {
+    req.flash('error', `Error: ${e.message}`);
+    res.redirect('/changePasswordPage');
   }
 };
 
@@ -310,22 +345,18 @@ const changePassword = async (req, res) => {
 const dashboard = (req, res) => {
   const admin = req.session.admin;
   res.render("dashboard", {
-    success: req.session.success || "",
-    error: req.session.error || "",
+    success: req.flash('success'),
+    error: req.flash('error'),
     admin
   });
-  req.session.success = "";
-  req.session.error = "";
 };
 
 // Add Admin Page
 const addAdminPage = (req, res) => {
   res.render("addAdminPage", {
-    success: req.session.success || "",
-    error: req.session.error || ""
+    success: req.flash('success'),
+    error: req.flash('error')
   });
-  req.session.success = "";
-  req.session.error = "";
 };
 
 // Admin List
@@ -335,26 +366,30 @@ const adminTable = async (req, res) => {
     records = records.filter(admin => admin.id != req.session.admin?._id);
     res.render("adminTable", {
       records,
-      success: req.session.success || "",
-      error: req.session.error || ""
+      success: req.flash('success'),
+      error: req.flash('error')
     });
-    req.session.success = "";
-    req.session.error = "";
   } catch (e) {
-    res.send(`Error: ${e}`);
+    req.flash('error', `Error: ${e.message}`);
+    res.redirect('/dashboard');
   }
 };
 
 // Insert Admin
 const adminInsert = async (req, res) => {
   try {
-    req.body.adminImage = req.file.path;
+    req.body.adminImage = req.file?.path;
     const insert = await adminDetails.create(req.body);
 
-    req.session.success = insert ? "New Admin Inserted..." : "Insertion Failed...";
+    if (insert) {
+      req.flash('success', "New Admin Inserted...");
+    } else {
+      req.flash('error', "Insertion Failed...");
+    }
     res.redirect("/addAdminPage");
   } catch (e) {
-    res.send(`Error: ${e}`);
+    req.flash('error', `Error: ${e.message}`);
+    res.redirect("/addAdminPage");
   }
 };
 
@@ -367,12 +402,15 @@ const deleteAdmin = async (req, res) => {
         fs.unlinkSync(data.adminImage);
       }
       await adminDetails.findByIdAndDelete(req.params.deleteId);
+      req.flash('success', 'Admin deleted successfully.');
       res.redirect('/adminTable');
     } else {
-      res.send("Admin not found.");
+      req.flash('error', 'Admin not found.');
+      res.redirect('/adminTable');
     }
   } catch (e) {
-    res.send(`Error: ${e}`);
+    req.flash('error', `Error: ${e.message}`);
+    res.redirect('/adminTable');
   }
 };
 
@@ -380,41 +418,46 @@ const deleteAdmin = async (req, res) => {
 const editAdminPage = async (req, res) => {
   const editId = req.params.id;
   const records = await adminDetails.findById(editId);
-  res.render("editAdminPage", { records });  // pass as records
+  res.render("editAdminPage", {
+    records,
+    success: req.flash('success'),
+    error: req.flash('error')
+  });
 };
-
 
 // Edit Admin
-const editAdmin = async (req, res) =>{
+const editAdmin = async (req, res) => {
   try {
-  const editId = req.params.id;
-  const data = await adminDetails.findById(editId);
-  if (data) {
-    if (req.file) {
-      if (data.adminImage && fs.existsSync(data.adminImage)) {
-        fs.unlinkSync(data.adminImage);
+    const editId = req.params.id;
+    const data = await adminDetails.findById(editId);
+    if (data) {
+      if (req.file) {
+        if (data.adminImage && fs.existsSync(data.adminImage)) {
+          fs.unlinkSync(data.adminImage);
+        }
+        req.body.adminImage = req.file.path;
       }
-      req.body.adminImage = req.file.path;
+      await adminDetails.findByIdAndUpdate(editId, req.body, { new: true });
+      req.flash('success', "Admin Updated Successfully");
+      res.redirect("/adminTable");
+    } else {
+      req.flash('error', "Admin not found.");
+      res.redirect("/adminTable");
     }
-    const update = await adminDetails.findByIdAndUpdate(editId, req.body, {
-      new: true,
-    });
-    req.session.success = "Admin Updated Successfully";
+  } catch (e) {
+    req.flash('error', `Error: ${e.message}`);
     res.redirect("/adminTable");
-  } else {
-    res.send("Admin not found.");
   }
-} catch (e) {
-  res.send(`Error: ${e}`);
-}
 };
-
 
 // Update Admin
 const updateAdmin = async (req, res) => {
   try {
     const existing = await adminDetails.findById(req.params.id);
-    if (!existing) return res.send("Admin not found.");
+    if (!existing) {
+      req.flash('error', "Admin not found.");
+      return res.redirect('/adminTable');
+    }
 
     let updateData = req.body;
     if (req.file) {
@@ -428,9 +471,11 @@ const updateAdmin = async (req, res) => {
 
     const updated = await adminDetails.findByIdAndUpdate(req.params.id, updateData);
     req.session.admin = updated;
+    req.flash('success', 'Admin updated successfully.');
     res.redirect('/adminTable');
   } catch (e) {
-    res.send(`Update Failed: ${e}`);
+    req.flash('error', `Update Failed: ${e.message}`);
+    res.redirect('/adminTable');
   }
 };
 
@@ -438,8 +483,8 @@ const updateAdmin = async (req, res) => {
 const viewProfile = async (req, res) => {
   res.render("viewProfile", {
     currentAdmin: req.session.admin,
-    success: "",
-    error: ""
+    success: req.flash('success'),
+    error: req.flash('error')
   });
 };
 
