@@ -35,6 +35,7 @@ const {
   logout,
   adminInsert,
   editAdminPage,
+  editAdmin,
   updateAdmin,
   deleteAdmin,
 } = require('../controllers/adminCTR');
@@ -71,6 +72,7 @@ router.get('/addAdminPage', passport.checkAuthentication, addAdminPage);
 router.post('/insertAdmin', passport.checkAuthentication, upload.single('adminImage'), adminInsert);
 router.get('/adminTable', passport.checkAuthentication, adminTable);
 router.get('/editAdmin/:id', passport.checkAuthentication, editAdminPage);
+router.post('/editAdmin', passport.checkAuthentication, upload.single('adminImage'), editAdmin);
 router.post('/updateAdmin/:id', passport.checkAuthentication, upload.single('adminImage'), updateAdmin);
 router.get('/deleteAdmin/:deleteId', passport.checkAuthentication, deleteAdmin);
 

@@ -379,9 +379,36 @@ const deleteAdmin = async (req, res) => {
 // Edit Admin Page (Load Existing)
 const editAdminPage = async (req, res) => {
   const editId = req.params.id;
-  const data = await adminDetails.findById(editId);
-  res.render("editAdminPage", { adminData: data });
+  const records = await adminDetails.findById(editId);
+  res.render("editAdminPage", { records });  // pass as records
 };
+
+
+// Edit Admin
+const editAdmin = async (req, res) =>{
+  try {
+  const editId = req.params.id;
+  const data = await adminDetails.findById(editId);
+  if (data) {
+    if (req.file) {
+      if (data.adminImage && fs.existsSync(data.adminImage)) {
+        fs.unlinkSync(data.adminImage);
+      }
+      req.body.adminImage = req.file.path;
+    }
+    const update = await adminDetails.findByIdAndUpdate(editId, req.body, {
+      new: true,
+    });
+    req.session.success = "Admin Updated Successfully";
+    res.redirect("/adminTable");
+  } else {
+    res.send("Admin not found.");
+  }
+} catch (e) {
+  res.send(`Error: ${e}`);
+}
+};
+
 
 // Update Admin
 const updateAdmin = async (req, res) => {
@@ -444,6 +471,7 @@ module.exports = {
   adminInsert,
   deleteAdmin,
   editAdminPage,
+  editAdmin,
   updateAdmin,
   viewProfile,
   logout,

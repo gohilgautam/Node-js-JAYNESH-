@@ -62,24 +62,28 @@
 </script>
 
 <script>
-   <%if (success && success.length > 0) { %>
 
-    Swal.fire({
-      title: "Success!",
-      text: "<%= success%>",
-      icon: "success"
-    });
-<%}%>
+    <%if (success && success.length > 0) { %>
 
-<%if (error && error.length > 0) { %>
-  
-    Swal.fire({
-      title: "Error!",
-      text: "<%= error%>",
-      icon: "error"
-    });
+        Swal.fire({
+            title: "Success!",
+            text: "<%= success%>",
+            icon: "success"
+        });
+<% } %>
+
+    
+<% if (error && error.length > 0) { %>
+
+        Swal.fire({
+            title: "Error!",
+            text: "<%= error%>",
+            icon: "error"
+        });
+<% } %>
 
 </script>
+
 </body>
 
 </html>
