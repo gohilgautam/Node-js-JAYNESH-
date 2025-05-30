@@ -42,7 +42,8 @@
                                 <div class="mb-3">
                                     <select name="adminFunction" class="form-select">
                                         <option disabled selected hidden>-- Select Function --</option>
-                                        <% ["Manager", "HR" , "Web-Developer" , "Application-Developer"
+                                        <% ["Manager", "HR" , "Web-Developer" , "Application-Developer" , "UI/UX Designer"
+                    , "Project Coordinator" , "QA Engineer" , "DevOps Engineer" , "Database Administrator"
                                             ].forEach((func)=> { %>
                                             <option value="<%= func %>" <%=records?.adminFunction===func ? "selected" : "" %>><%= func %>
                                             </option>

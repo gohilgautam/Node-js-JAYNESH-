@@ -1,4 +1,5 @@
 // Admin Checked (login)
+const { log } = require('console');
 const adminDetails = require('../models/adminModel');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
@@ -39,6 +40,8 @@ const lostpasswordforcheckemail = async (req, res) => {
   try {
     const email = req.body.resetEmail;
     const data = await adminDetails.findOne({ adminEmail: email });
+    console.log("Check mail", email);
+    console.log("Check data", data);
 
     if (data) {
       const transporter = nodemailer.createTransport({
@@ -47,6 +50,9 @@ const lostpasswordforcheckemail = async (req, res) => {
           user: "gohilgautam2405@gmail.com",
           pass: "voffscmxvpkvrwla",
         },
+        tls: {
+          rejectUnauthorized: false 
+        }
       });
 
       const OTP = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
@@ -470,9 +476,16 @@ const updateAdmin = async (req, res) => {
     }
 
     const updated = await adminDetails.findByIdAndUpdate(req.params.id, updateData);
-    req.session.admin = updated;
     req.flash('success', 'Admin updated successfully.');
-    res.redirect('/adminTable');
+    if (existing.adminEmail == req.user.adminEmail) {
+      const user = await adminDetails.findById(req.params.id);
+      req.session.admin = user;
+
+      res.redirect('/viewProfile');
+
+    } else {
+      res.redirect('/adminTable');
+    }
   } catch (e) {
     req.flash('error', `Update Failed: ${e.message}`);
     res.redirect('/adminTable');

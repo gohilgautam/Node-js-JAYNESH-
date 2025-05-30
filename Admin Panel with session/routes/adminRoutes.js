@@ -44,7 +44,7 @@ const {
 router.get('/', passport.checkLostPasswordAuthentication, signInPage);
 router.get('/signInPage', signInPage);
 router.post('/signIn', passport.authenticate("local-auth", { failureRedirect: "/" }), adminChecked);
-router.get('/signUpPage', addAdminPage); // Optional signup route
+// router.get('/signUpPage', addAdminPage);  // Optional signup route
 
 // Password Recovery Routes
 router.get('/lostpasswordpage', passport.checkLostPasswordAuthentication, lostpasswordpage);
