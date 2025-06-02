@@ -51,176 +51,152 @@ const lostpasswordforcheckemail = async (req, res) => {
           pass: "voffscmxvpkvrwla",
         },
         tls: {
-          rejectUnauthorized: false 
+          rejectUnauthorized: false
         }
       });
 
-      const OTP = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+const OTP_NUMBER = Math.floor(Math.random() * 1000000);
+const OTP = OTP_NUMBER.toString().padStart(6, '0');
 
-      const info = await transporter.sendMail({
-        from: '"Admin Panel" <gohilgautam2405@gmail.com>',
-        to: email,
-        subject: "OTP for Password Reset",
-        html: `<!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                    <title>Email Confirmation</title>
-                    <style>
-                    /* Base Reset */
-                    body {
-                        margin: 0;
-                        padding: 0;
-                        font-family: Inter, Arial, sans-serif;
-                        background-color: #fafafa;
-                        -webkit-text-size-adjust: 100%;
-                        -ms-text-size-adjust: 100%;
-                    }
-                    table,
-                    td {
-                        border-collapse: collapse;
-                        mso-table-lspace: 0pt;
-                        mso-table-rspace: 0pt;
-                    }
-                    img {
-                        border: 0;
-                        height: auto;
-                        line-height: 100%;
-                        outline: none;
-                        text-decoration: none;
-                    }
-                    p {
-                        font-size: 16px;
-                        margin: 0 0 12px;
-                    }
+const otpDigits = OTP.split('');
 
-                    /* Hidden Preheader */
-                    .preheader {
-                        display: none;
-                        font-size: 1px;
-                        color: #ffffff;
-                        line-height: 1px;
-                        max-height: 0px;
-                        max-width: 0px;
-                        opacity: 0;
-                        overflow: hidden;
-                    }
+let otpBoxesHtml = '';
+otpDigits.forEach(digit => {
+  otpBoxesHtml += `<div>${digit}</div>`;
+});
 
-                    /* Wrapper Styles */
-                    .email-wrapper {
-                        background-color: #fafafa;
-                        word-spacing: normal;
-                    }
+const info = await transporter.sendMail({
+  from: '"Admin Panel" <gohilgautam2405@gmail.com>',
+  to: email,
+  subject: "OTP for Password Reset",
+  html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Email Verification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+    }
 
-                    .container {
-                        max-width: 600px;
-                        margin: 0 auto;
-                        padding: 16px;
-                    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-                    .email-box {
-                        background-color: #ffffff;
-                        border-radius: 8px;
-                        max-width: 568px;
-                        margin: 0 auto;
-                        padding: 32px;
-                        text-align: center;
-                    }
+    .card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      max-width: 500px;
+      width: 100%;
+    }
 
-                    .logo {
-                        width: 180px;
-                        margin: 0 auto 24px;
-                    }
+    .header {
+      background-color: #2b6cb0;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
 
-                    .heading {
-                        font-size: 24px;
-                        font-weight: bold;
-                        color: #000;
-                        margin: 16px 0;
-                    }
+    .logo {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 10px;
+    }
 
-                    .message {
-                        font-size: 16px;
-                        color: #000;
-                        margin-bottom: 24px;
-                    }
+    .header h2 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
 
-                    .otp-container {
-                        background-color: #ebe3ff;
-                        border-radius: 8px;
-                        padding: 16px;
-                        max-width: 250px;
-                        margin: 0 auto 16px;
-                    }
+    .header h3 {
+      margin: 5px 0 0;
+      font-size: 20px;
+    }
 
-                    .otp {
-                        font-size: 32px;
-                        font-weight: 700;
-                        letter-spacing: 16px;
-                        color: #000000;
-                        margin: 0;
-                    }
+    .content {
+      padding: 25px 20px;
+      color: #333;
+      font-size: 14px;
+    }
 
-                    .footer {
-                        font-size: 13px;
-                        color: #555;
-                        margin-top: 16px;
-                    }
+    .otp-boxes {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
 
-                    @media only screen and (max-width: 480px) {
-                        .container,
-                        .email-box {
-                        width: 100% !important;
-                        }
-                        .otp-container {
-                        max-width: 100% !important;
-                        }
-                        .otp {
-                        font-size: 28px;
-                        letter-spacing: 8px;
-                        }
-                    }
-                    </style>
-                </head>
-                <body class="email-wrapper">
-                    <!-- Hidden Preheader -->
-                    <div class="preheader">OTP for email confirmation</div>
+    .otp-boxes div {
+      width: 45px;
+      height: 45px;
+      border: 2px solid #2b6cb0;
+      border-radius: 6px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 20px;
+      color: #2b6cb0;
+    }
 
-                    <!-- Email Body -->
-                    <table class="container" align="center" cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
-                        <td>
-                        <div class="email-box">
-                            <!-- Logo -->
-                            <img
-                            class="logo"
-                            src="https:i.imghippo.com/files/xZkvY1724649505.png"
-                            alt="Company Logo"
-                            />
+    .note {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 20px;
+    }
 
-                            <!-- Heading -->
-                            <h1 class="heading">Please confirm your email</h1>
+    .verify-button {
+      background-color: #f97316;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-                            <!-- Message -->
-                            <p class="message">
-                            Use this code to confirm your email and complete signup.
-                            </p>
+    .verify-button:hover {
+      background-color: #ea580c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <img src="https://www.svgrepo.com/show/448221/mail.svg" alt="Mail Icon" class="logo"/>
+        <h2>THANKS FOR SIGNING UP!</h2>
+        <h3>Verify Your E-Mail Address</h3>
+      </div>
 
-                            <!-- OTP Box -->
-                            <div class="otp-container">
-                            <p>Your OTP is: <b>${OTP}</b></p> 
-                            </div>
+      <div class="content">
+        <p>Hello John Deo,</p>
+        <p>Please use the following One Time Password (OTP)</p>
 
-                            <!-- Footer -->
-                            <p class="footer">This code is valid for 15 minutes.</p>
-                        </div>
-                        </td>
-                    </tr>
-                    </table>
-                </body>
-                </html>`,
-      });
+        <div class="otp-boxes" id="otp-boxes">
+          ${otpBoxesHtml}
+        </div>
+
+        <p class="note">
+          This passcode will only be valid for the next <strong>2 minutes</strong>. If the passcode does not work, you can use this login verification link:
+        </p>
+
+        <button class="verify-button">Verify Email</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`,
+});
 
       if (info.messageId) {
         res.cookie("otp", OTP);             // No maxAge
@@ -313,37 +289,44 @@ const changePasswordPage = (req, res) => {
 
 // Change Password
 const changePassword = async (req, res) => {
+  console.log(req.body);
+
   const { oldPassword, newPassword, confirmPassword } = req.body;
-  const email = req.session.admin?.adminEmail;
-  if (!email) {
-    req.flash('error', 'Unauthorized access.');
-    return res.redirect('/signInPage');
-  }
+  // const email = req.session.admin?.adminEmail;
+  const Admin = req.user;
+  console.log(Admin);
+  if (oldPassword == Admin.password) {
+    if (newPassword != Admin.password) {
+      if (newPassword == confirmPassword) {
+        try {
+          const isUpdate = await admin.findByIdAndUpdate(Admin._id, {
+            password: newPassword,
+          });
+          if (isUpdate) {
+            console.log("Password updated...", isUpdate);
+            req.session.destroy(function (err) {
+              if (err) {
+                console.log(err);
+                return false;
+              }
+              res.redirect("/");
+            });
+          } else {
+            console.log("Password updation failed...");
+          }
+        } catch (e) {
+          res.send(`<p> Not Found : ${e} </p>`);
+        }
+      } else {
+        res.redirect("/changePassword");
+      }
+    } else {
+      res.redirect("/changePassword");
+    }
+  } else {
+    console.log("Password is incorrect............");
 
-  const admin = await adminDetails.findOne({ adminEmail: email });
-
-  if (!admin) {
-    req.flash('error', 'Admin not found.');
-    return res.redirect('/changePasswordPage');
-  }
-
-  if (admin.adminPassword !== oldPassword) {
-    req.flash('error', 'Old password is incorrect.');
-    return res.redirect('/changePasswordPage');
-  }
-
-  if (newPassword !== confirmPassword) {
-    req.flash('error', 'New password and confirmation do not match.');
-    return res.redirect('/changePasswordPage');
-  }
-
-  try {
-    await adminDetails.findOneAndUpdate({ adminEmail: email }, { adminPassword: newPassword });
-    req.flash('success', 'Password has been changed successfully.');
-    res.redirect('/dashboard');
-  } catch (e) {
-    req.flash('error', `Error: ${e.message}`);
-    res.redirect('/changePasswordPage');
+    res.redirect("/changePassword");
   }
 };
 
