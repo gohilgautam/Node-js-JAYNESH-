@@ -173,7 +173,7 @@ const info = await transporter.sendMail({
   <div class="container">
     <div class="card">
       <div class="header">
-        <img src="https://www.svgrepo.com/show/448221/mail.svg" alt="Mail Icon" class="logo"/>
+        <img src="https://images.app.goo.gl/K5ryy7u1iJ7gjsGJ6" alt="Mail Icon" class="logo"/>
         <h2>THANKS FOR SIGNING UP!</h2>
         <h3>Verify Your E-Mail Address</h3>
       </div>
