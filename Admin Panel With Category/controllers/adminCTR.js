@@ -1,5 +1,4 @@
 // Admin Checked (login)
-const { log } = require('console');
 const adminDetails = require('../models/adminModel');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
@@ -292,14 +291,14 @@ const changePassword = async (req, res) => {
   console.log(req.body);
 
   const { oldPassword, newPassword, confirmPassword } = req.body;
-  // const email = req.session.admin?.adminEmail;
+  // const email = req.session.admin.adminEmail;
   const Admin = req.user;
   console.log(Admin);
   if (oldPassword == Admin.password) {
     if (newPassword != Admin.password) {
       if (newPassword == confirmPassword) {
         try {
-          const isUpdate = await admin.findByIdAndUpdate(Admin._id, {
+          const isUpdate = await adminDetails.findByIdAndUpdate(Admin._id, {
             password: newPassword,
           });
           if (isUpdate) {
@@ -318,15 +317,15 @@ const changePassword = async (req, res) => {
           res.send(`<p> Not Found : ${e} </p>`);
         }
       } else {
-        res.redirect("/changePassword");
+        res.redirect("/changePasswordPage");
       }
     } else {
-      res.redirect("/changePassword");
+      res.redirect("/changePasswordPage");
     }
   } else {
     console.log("Password is incorrect............");
 
-    res.redirect("/changePassword");
+    res.redirect("/changePasswordPage");
   }
 };
 
