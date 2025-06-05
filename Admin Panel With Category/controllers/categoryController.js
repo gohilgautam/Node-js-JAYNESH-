@@ -26,10 +26,10 @@ const insertCategory = async (req, res) => {
     } else {
       req.flash("error", "Category Insertion failed...");
     }
-    res.redirect("back");
+    res.redirect("/insertCategory");
   } catch (e) {
     req.flash("error", `Exception : ${e}`);
-    res.redirect("back");
+    res.redirect("/insertCategory");
   }
 };
 
@@ -46,12 +46,12 @@ const viewCategoryPage = async (req, res) => {
       });
     } else {
       req.flash("error", "No Category Found....");
-      res.redirect("back");
+      res.redirect("/viewCategoryPage");
     }
   } catch (e) {
     console.log(e);
 
-    res.redirect("back");
+    res.redirect("/viewCategoryPage");
   }
 };
 
@@ -88,10 +88,10 @@ const deleteCategory = async (req, res) => {
       req.flash("error", "Category Not Deleted...");
     }
 
-    req.redirect("back");
+    req.redirect("/viewCategoryPage");
   } catch (e) {
     console.log(e);
-    res.redirect("back");
+    res.redirect("/viewCategoryPage");
   }
 };
 
@@ -111,12 +111,12 @@ const editCategoryPage = async (req, res) => {
         error: "",
       });
     } else {
-      res.redirect("back");
+      res.redirect("/editCategoryPage");
     }
   } catch (e) {
     console.log(e);
 
-    res.redirect("back");
+    res.redirect("/editCategoryPage");
   }
 };
 
@@ -173,7 +173,7 @@ const updateCategory = async (req, res) => {
     res.redirect("/category/viewCategoryPage");
   } catch (e) {
     console.log("Exception", e);
-    res.redirect("back");
+    res.redirect("/editCategoryPage");
   }
 };
 
