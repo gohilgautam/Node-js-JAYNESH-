@@ -1,6 +1,5 @@
 const express = require('express');
 const multer = require('multer');
-// const path = require('path');
 const passport = require("passport");
 
 const router = express.Router();
@@ -36,7 +35,6 @@ const {
 router.get('/', passport.checkLostPasswordAuthentication, signInPage);
 router.get('/signInPage', signInPage);
 router.post('/signIn', passport.authenticate("local-auth", { failureRedirect: "/" }), adminChecked);
-// router.get('/signUpPage', addAdminPage);  // Optional signup route
 
 // Password Recovery Routes
 router.get('/lostpasswordpage', passport.checkLostPasswordAuthentication, lostpasswordpage);
@@ -60,12 +58,28 @@ router.get('/viewProfile', passport.checkAuthentication, viewProfile);
 router.get('/logout', logout);
 
 // Admin Management (CRUD)
-router.get('/addAdminPage', passport.checkAuthentication, addAdminPage);
+router.get('/admin/addAdminPage', passport.checkAuthentication, addAdminPage);
 router.post('/insertAdmin', passport.checkAuthentication, upload.single('adminImage'), adminInsert);
-router.get('/adminTable', passport.checkAuthentication, adminTable);
-router.get('/editAdmin/:id', passport.checkAuthentication, editAdminPage);
+router.get('/admin/adminTable', passport.checkAuthentication, adminTable);
+router.get('/admin/editAdmin/:id', passport.checkAuthentication, editAdminPage);
 router.post('/editAdmin', passport.checkAuthentication, upload.single('adminImage'), editAdmin);
 router.post('/updateAdmin/:id', passport.checkAuthentication, upload.single('adminImage'), updateAdmin);
 router.get('/deleteAdmin/:deleteId', passport.checkAuthentication, deleteAdmin);
+
+
+router.use("/category", passport.checkAuthentication, require("./category"));
+router.use(
+  "/subcategory",
+  passport.checkAuthentication,
+  require("./subcategory")
+);
+router.use(
+  "/extracategory",
+  passport.checkAuthentication,
+  require("./extracategory")
+);
+
+router.use("/product", passport.checkAuthentication, require("./product"));
+
 
 module.exports = router;

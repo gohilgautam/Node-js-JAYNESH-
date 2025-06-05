@@ -1,6 +1,25 @@
-<%- include('header') %>
+<%- include('../header') %>
 
-    <div class="auth-main relative">
+    <!-- [ Main Content ] start -->
+  <div class="pc-container">
+    <div class="pc-content">
+      <!-- [ breadcrumb ] start -->
+      <div class="page-header">
+        <div class="page-block">
+          <div class="page-header-title">
+            <h5 class="mb-0 font-medium">Add Admin Page</h5>
+          </div>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a href="javascript: void(0)">Admin</a></li>
+            <li class="breadcrumb-item" aria-current="page">Sample Page</li>
+          </ul>
+        </div>
+      </div>
+      <!-- [ breadcrumb ] end -->
+
+
+    <div class="auth-main relative ">
         <div class="auth-wrapper v1 flex items-center w-full h-full min-h-screen">
             <div class="auth-form flex items-center justify-center grow flex-col min-h-screen relative p-6">
                 <div class="w-full max-w-[550px] relative">
@@ -96,4 +115,4 @@
         </div>
     </div>
 
-    <%- include('footer') %>
+    <%- include('../footer') %>

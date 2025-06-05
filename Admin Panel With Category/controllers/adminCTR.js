@@ -341,7 +341,7 @@ const dashboard = (req, res) => {
 
 // Add Admin Page
 const addAdminPage = (req, res) => {
-  res.render("addAdminPage", {
+  res.render("admin/addAdminPage", {
     success: req.flash('success'),
     error: req.flash('error')
   });
@@ -352,7 +352,7 @@ const adminTable = async (req, res) => {
   try {
     let records = await adminDetails.find({});
     records = records.filter(admin => admin.id != req.session.admin?._id);
-    res.render("adminTable", {
+    res.render("admin/adminTable", {
       records,
       success: req.flash('success'),
       error: req.flash('error')
@@ -406,7 +406,7 @@ const deleteAdmin = async (req, res) => {
 const editAdminPage = async (req, res) => {
   const editId = req.params.id;
   const records = await adminDetails.findById(editId);
-  res.render("editAdminPage", {
+  res.render("admin/editAdminPage", {
     records,
     success: req.flash('success'),
     error: req.flash('error')
@@ -430,11 +430,11 @@ const editAdmin = async (req, res) => {
       res.redirect("/adminTable");
     } else {
       req.flash('error', "Admin not found.");
-      res.redirect("/adminTable");
+      res.redirect("/admin/adminTable");
     }
   } catch (e) {
     req.flash('error', `Error: ${e.message}`);
-    res.redirect("/adminTable");
+    res.redirect("/admin/adminTable");
   }
 };
 
@@ -444,7 +444,7 @@ const updateAdmin = async (req, res) => {
     const existing = await adminDetails.findById(req.params.id);
     if (!existing) {
       req.flash('error', "Admin not found.");
-      return res.redirect('/adminTable');
+      return res.redirect('/admin/adminTable');
     }
 
     let updateData = req.body;
@@ -470,7 +470,7 @@ const updateAdmin = async (req, res) => {
     }
   } catch (e) {
     req.flash('error', `Update Failed: ${e.message}`);
-    res.redirect('/adminTable');
+    res.redirect('/admin/adminTable');
   }
 };
 
