@@ -1,0 +1,295 @@
+<%- include('../header') %>
+
+    <style>
+        :root {
+            --dark-bg-1: #1a1d21;
+            --dark-bg-2: #22252a;
+            --card-bg: #2b2e32;
+            --form-control-bg: #34373b;
+            --form-control-border: #4d5156;
+            --text-light: #e0e0e0;
+            --text-muted: #b0b0b0;
+            --border-color: #3c4046;
+            --primary-color: #007bff;
+            --primary-hover-color: #0056b3;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg-2) 0%, var(--dark-bg-1) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            /* Ensure full height for background */
+        }
+
+        .page-wrapper {
+            background-color: transparent;
+            padding-top: 30px;
+            /* Adjust as needed for header space */
+            padding-bottom: 30px;
+        }
+
+        .page-breadcrumb {
+            margin-bottom: 30px;
+            padding: 0 20px;
+            /* Add some padding to breadcrumb area */
+        }
+
+        .page-title {
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 2.2rem;
+            letter-spacing: 0.02em;
+        }
+
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        .breadcrumb-item a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb-item a:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb-item.active {
+            color: #6c757d;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .card-title {
+            color: var(--text-light);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .form-horizontal .form-group {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-horizontal .control-label {
+            color: var(--text-light);
+            font-weight: 500;
+            text-align: right;
+            /* Ensure labels are right-aligned */
+            padding-right: 15px;
+            /* Space between label and input */
+        }
+
+        .form-control {
+            background-color: var(--form-control-bg);
+            border: 1px solid var(--form-control-border);
+            color: var(--text-light);
+            border-radius: 8px;
+            padding: 10px 15px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        .form-control:focus {
+            background-color: var(--form-control-bg);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            color: var(--text-light);
+        }
+
+        /* Custom File Input Styling */
+        .custom-file {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            height: calc(2.25rem + 2px);
+            /* Match height of form-control */
+            margin-bottom: 0;
+        }
+
+        .custom-file-input {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: calc(2.25rem + 2px);
+            margin: 0;
+            opacity: 0;
+        }
+
+        .custom-file-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1;
+            height: calc(2.25rem + 2px);
+            padding: 10px 15px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--text-muted);
+            background-color: var(--form-control-bg);
+            border: 1px solid var(--form-control-border);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            /* Hide overflow text */
+        }
+
+        .custom-file-label::after {
+            content: "Browse";
+            /* Text for the button part */
+            display: block;
+            height: 100%;
+            padding: 10px 15px;
+            margin-left: 10px;
+            color: #fff;
+            background-color: var(--primary-color);
+            border-left: 1px solid var(--form-control-border);
+            border-radius: 0 8px 8px 0;
+            /* Apply border-radius to the right side */
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .custom-file-input:focus~.custom-file-label {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .invalid-feedback {
+            color: #dc3545;
+            display: block;
+            /* Make it visible for demonstration if needed, otherwise controlled by Bootstrap */
+            margin-top: 5px;
+        }
+
+        .border-top {
+            border-top: 1px solid var(--border-color) !important;
+            padding-top: 25px;
+            margin-top: 25px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover-color);
+            border-color: var(--primary-hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+        }
+    </style>
+
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-12 d-flex no-block align-items-center">
+                    <h4 class="page-title">Category Form</h4>
+                    <div class="ms-auto text-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Category Library
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row justify-content-center"> <%-- Centered the form column --%>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <form class="form-horizontal" method="post" action="/category/insertCategory"
+                                enctype="multipart/form-data">
+                                <div class="card-body">
+                                    <h4 class="card-title">Add New Category</h4>
+
+
+                                    <div class="form-group row">
+                                        <label for="c_title"
+                                            class="col-sm-3 text-end control-label col-form-label">Category
+                                            Title</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="c_title" id="c_title"
+                                                placeholder="Enter Category Title" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="c_image"
+                                            class="col-sm-3 text-end control-label col-form-label">Image</label>
+                                        <div class="col-md-9">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="c_image" id="c_image"
+                                                    required />
+                                                <label class="custom-file-label" for="c_image">Choose
+                                                    file...</label>
+                                                <div class="invalid-feedback">
+                                                    Please choose an image for the category.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-top">
+                                        <div class="card-body text-center"> <%-- Centered the button --%>
+                                                <button type="submit" class="btn btn-primary">
+                                                    Add Category
+                                                </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <%- include('../footer') %>

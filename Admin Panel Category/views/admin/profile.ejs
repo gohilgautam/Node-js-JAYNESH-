@@ -1,0 +1,221 @@
+<%- include('../header') %>
+
+    <style>
+        :root {
+            --dark-bg-1: #1a1d21;
+            --dark-bg-2: #22252a;
+            --card-bg: #2b2e32;
+            --text-light: #e0e0e0;
+            --text-muted: #b0b0b0;
+            --border-color: #3c4046;
+            --primary-blue-gradient: linear-gradient(90deg, #007bff 0%, #4facfe 100%);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg-2) 0%, var(--dark-bg-1) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        main {
+            padding: 40px 0;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            color: var(--text-light);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+        }
+
+        .dashboard {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(0, 123, 255, 0.1);
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: 0;
+        }
+
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: 0;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #007bff;
+            margin-bottom: 25px;
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .profile-info h3 {
+            font-size: 2.2rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-info p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            /* Space between emoji and text */
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-info p:last-of-type {
+            margin-bottom: 30px;
+        }
+
+        .save-btn {
+            background: var(--primary-blue-gradient);
+            border: none;
+            font-size: 1.2rem;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 0.05rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .save-btn a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 123, 255, 0.7);
+            filter: brightness(1.1);
+        }
+
+        /* Preloader if any */
+        .preloader {
+            background: linear-gradient(135deg, var(--dark-bg-2) 0%, var(--dark-bg-1) 100%);
+        }
+
+        .lds-ripple div {
+            border: 4px solid #fff;
+        }
+    </style>
+
+    <div class="container">
+        <main>
+            <header>
+                <h1>My Profile</h1>
+            </header>
+
+            <section class="dashboard">
+                <div class="profile-card">
+                    <img src="<%= currentAdmin.avatar %>" class="profile-img" alt="Profile Image">
+                    <div class="profile-info">
+                        <h3>
+                            <%= currentAdmin.fname + " " + currentAdmin.lname %>
+                        </h3>
+                        <p>📧 <%= currentAdmin.email %>
+                        </p>
+                        <p>
+                            <% if(currentAdmin.gender==='Male' ) { %>
+                                👨
+                                <% } else { %>
+                                    👧
+                                    <% } %>
+                                        <%= currentAdmin.gender %>
+                        </p>
+
+                        <p>🏓 <%= currentAdmin.hobby %>
+                        </p>
+                        <p>🏙 <%= currentAdmin.city %>
+                        </p>
+                        <p>
+                            <%= currentAdmin.desc %>
+                        </p>
+                        <button class="save-btn"><a href="/updateAdmin/?id=<%= currentAdmin._id %>">Edit
+                                Profile</a></button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <%- include('../footer') %>

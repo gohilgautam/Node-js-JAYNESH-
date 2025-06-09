@@ -1,0 +1,449 @@
+<%- include('../header') %>
+
+<style>
+    :root {
+        --dark-bg-1: #1a1d21;
+        --dark-bg-2: #22252a;
+        --card-bg: #2b2e32;
+        --input-bg: #383b40;
+        --text-light: #e0e0e0;
+        --text-muted: #b0b0b0;
+        --border-color: #3c4046;
+        --primary-blue-gradient: linear-gradient(90deg, #007bff 0%, #4facfe 100%);
+        --success-alert-bg: rgba(40, 167, 69, 0.2);
+        --success-alert-border: #28a745;
+        --error-alert-bg: rgba(220, 53, 69, 0.2);
+        --error-alert-border: #dc3545;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, var(--dark-bg-2) 0%, var(--dark-bg-1) 100%);
+        color: var(--text-light);
+    }
+
+    .page-wrapper {
+        background-color: transparent;
+        padding-top: 30px; /* Adjust as needed for header space */
+        padding-bottom: 30px;
+    }
+
+    .page-breadcrumb {
+        margin-bottom: 30px;
+        padding: 0 20px; /* Add some padding to breadcrumb area */
+    }
+
+    .page-title {
+        color: var(--text-light);
+        font-weight: 600;
+        font-size: 2.2rem;
+        letter-spacing: 0.02em;
+    }
+
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+    .breadcrumb-item a {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .breadcrumb-item a:hover {
+        color: #007bff;
+    }
+
+    .breadcrumb-item.active {
+        color: #6c757d;
+    }
+
+    .card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s ease;
+        overflow: hidden; /* Ensures child elements respect border-radius */
+    }
+
+    .card:hover {
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+    }
+
+    .card-body {
+        padding: 40px;
+    }
+
+    .card-title {
+        color: var(--text-light);
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        font-weight: 600;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 15px;
+    }
+
+    .form-group.row {
+        margin-bottom: 25px;
+        align-items: center;
+    }
+
+    .control-label {
+        color: var(--text-light);
+        font-weight: 500;
+        font-size: 1rem;
+        padding-top: calc(0.375rem + 1px); /* Align with form-control padding */
+        text-align: left !important; /* Override text-end for better mobile alignment */
+    }
+
+    @media (min-width: 768px) {
+        .control-label {
+            text-align: right !important;
+        }
+    }
+
+    .form-control,
+    .form-select,
+    .custom-file-label,
+    .custom-file-input {
+        background-color: var(--input-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-light);
+        padding: 10px 15px;
+        border-radius: 8px;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus,
+    .custom-file-input:focus ~ .custom-file-label {
+        background-color: #44494f;
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25), inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        outline: none;
+    }
+
+    .form-control::placeholder {
+        color: #777;
+        opacity: 0.8;
+    }
+
+    .form-check-input {
+        background-color: var(--input-bg);
+        border: 1px solid var(--border-color);
+        appearance: none;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .form-check-input:checked {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .form-check-input[type="radio"] {
+        border-radius: 50%;
+    }
+
+    .form-check-input[type="radio"]:checked {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+    }
+
+    .form-check-input[type="checkbox"]:checked {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .form-check-label {
+        color: var(--text-light);
+        margin-left: 0.5rem;
+        cursor: pointer;
+    }
+
+    .custom-file-label {
+        background-color: var(--input-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-light);
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .custom-file-label::after {
+        content: "Browse";
+        background-color: #3c4046;
+        color: var(--text-light);
+        padding: 10px 15px;
+        border-left: 1px solid var(--border-color);
+        border-radius: 0 8px 8px 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .custom-file-input:focus ~ .custom-file-label::after {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+
+    .alert {
+        border-radius: 8px;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        font-weight: 500;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .alert-success {
+        background-color: var(--success-alert-bg);
+        border-color: var(--success-alert-border);
+        color: var(--success-alert-border);
+    }
+
+    .alert-danger {
+        background-color: var(--error-alert-bg);
+        border-color: var(--error-alert-border);
+        color: var(--error-alert-border);
+    }
+
+    .alert .btn-close {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        opacity: 0.8;
+        padding: 0.5rem;
+        margin: -0.5rem -0.5rem -0.5rem auto;
+        color: inherit;
+        transition: opacity 0.3s ease;
+    }
+
+    .alert .btn-close:hover {
+        opacity: 1;
+    }
+
+    .border-top {
+        border-top: 1px solid var(--border-color) !important;
+        margin-top: 30px;
+        padding-top: 20px;
+    }
+
+    .btn-primary {
+        background: var(--primary-blue-gradient);
+        border: none;
+        font-size: 1.1rem;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.03rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+        text-transform: uppercase;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6);
+        filter: brightness(1.1);
+    }
+
+    /* Preloader if any */
+    .preloader {
+        background: linear-gradient(135deg, var(--dark-bg-2) 0%, var(--dark-bg-1) 100%);
+    }
+    .lds-ripple div {
+        border: 4px solid #fff;
+    }
+</style>
+
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-12 d-flex no-block align-items-center">
+                    <h4 class="page-title">Admin Form</h4>
+                    <div class="ms-auto text-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Add Admin
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+                    <div class="card">
+                        <form class="form-horizontal" method="post" action="/insertAdminData"
+                            enctype="multipart/form-data">
+                            <div class="card-body">
+                                <h4 class="card-title">Admin Information</h4>
+
+                                <% if(typeof success !== 'undefined' && success && success.length > 0) { %>
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>Success!</strong>
+                                        <%= success %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                <% } %>
+
+                                <% if(typeof error !== 'undefined' && error && error.length > 0) { %>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Error!</strong>
+                                        <%= error %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                <% } %>
+
+                                <div class="form-group row">
+                                    <label for="fname"
+                                        class="col-sm-3 text-end control-label col-form-label">First
+                                        Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="fname" name="fname"
+                                            placeholder="First Name Here" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="lname"
+                                        class="col-sm-3 text-end control-label col-form-label">Last
+                                        Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="lname" name="lname"
+                                            placeholder="Last Name Here" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="email"
+                                        class="col-sm-3 text-end control-label col-form-label">Email</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            placeholder="Email Here" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="password"
+                                        class="col-sm-3 text-end control-label col-form-label">Password</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" class="form-control" id="password"
+                                            name="password" placeholder="Password Here" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="gender"
+                                        class="col-sm-3 text-end control-label col-form-label">Gender</label>
+                                    <div class="col-md-9">
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input"
+                                                id="customControlValidation1" name="gender" value="Male"
+                                                required />
+                                            <label class="form-check-label mb-0" for="customControlValidation1">Male</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input"
+                                                id="customControlValidation2" name="gender"
+                                                value="Female" required />
+                                            <label class="form-check-label mb-0" for="customControlValidation2">Female</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input"
+                                                id="customControlValidation3" name="gender"
+                                                value="Other" required />
+                                            <label class="form-check-label mb-0" for="customControlValidation3">Other</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="hobby"
+                                        class="col-sm-3 text-end control-label col-form-label">Hobby</label>
+                                    <div class="col-md-9">
+                                        <% let myHobby=['Reading', 'Coding' , 'Gaming' ]; %>
+                                        <% myHobby.map((item, index)=> { %>
+                                            <div class="form-check mr-sm-2">
+                                                <input type="checkbox" class="form-check-input"
+                                                    id="hobbyCheckbox<%= index %>" name="hobby"
+                                                    value="<%= item %>" />
+                                                <label class="form-check-label mb-0"
+                                                    for="hobbyCheckbox<%= index %>"><%= item %></label>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="city"
+                                        class="col-sm-3 text-end control-label col-form-label">City</label>
+                                    <div class="col-md-9">
+                                        <select class="form-select shadow-none"
+                                            style="width: 100%; height: 36px" name="city" required>
+                                            <option value="">Select</option>
+                                            <% let myCity=['Surat', 'Baroda' , 'Rajkot' , 'Mumbai' , 'Ahmedabad' ];%>
+                                            <% myCity.map((item)=> { %>
+                                                <option value="<%= item %>">
+                                                    <%= item %>
+                                                </option>
+                                            <% }); %>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="desc"
+                                        class="col-sm-3 text-end control-label col-form-label">Message</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" name="desc" placeholder="Enter a message here"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="avatar"
+                                        class="col-sm-3 text-end control-label col-form-label">Avatar</label>
+                                    <div class="col-md-9">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="avatar"
+                                                id="validatedCustomFile" required />
+                                            <label class="custom-file-label" for="validatedCustomFile">Choose
+                                                file...</label>
+                                            <div class="invalid-feedback">
+                                                Please choose an avatar file.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="border-top">
+                                <div class="card-body text-center">
+                                    <button type="submit" class="btn btn-primary">
+                                        Add Admin
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../footer') %>

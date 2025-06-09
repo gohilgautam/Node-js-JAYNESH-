@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const URI = "mongodb://localhost:27017/CRUD-Admin-Panel";
+const URI = "mongodb://localhost:27017/Admin-Panel-Category";
 
 mongoose.connect(URI);
 
@@ -10,10 +10,10 @@ db.on('connected', () => {
     console.log("DB Connected...🎇");
 })
 db.on('error', (err) => {
-    console.log("DB not Connected...🎃", err);
+    console.log("DB not Connected...", err);
 })
 db.on('disconnected', () => {
-    console.log("DB DisConnected...😎");
+    console.log("DB DisConnected...");
 })
 
 module.exports = db;
