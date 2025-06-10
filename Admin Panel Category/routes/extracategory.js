@@ -6,15 +6,19 @@ const {
   addExtraCategoryPage,
   insertExtraCategory,
   viewExtraCategoryPage,
+  deleteExtracategory,
+  updateExtracategory,
+  editExtraCategory,
 } = require("../controllers/extraCategoryController");
 
-// Add Extra Category Page
 route.get("/addExtraCategoryPage", addExtraCategoryPage);
 
-// Insert Extra Category
 route.post("/insertExtraCategory", insertExtraCategory);
 
-// View Extra Category Page
 route.get("/viewExtraCategoryPage", viewExtraCategoryPage);
+
+route.get('/deleteExtracategory/:id',deleteExtracategory);
+route.get('/updateExtracategorypage/:id', updateExtracategory);
+route.post('/editExtraCategory/:id', editExtraCategory);
 
 module.exports = route;

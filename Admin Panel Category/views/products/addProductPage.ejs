@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .page-wrapper {
+            padding: 30px 0;
+        }
+
+        .page-breadcrumb {
+            margin-bottom: 25px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #343a40;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title i {
+            margin-right: 10px;
+            color: #007bff;
+        }
+
+        .breadcrumb-item a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .breadcrumb-item a:hover {
+            color: #0056b3;
+        }
+
+        .breadcrumb-item.active {
+            color: #6c757d;
+        }
+
+        .card {
+            border-radius: 0.75rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 2.5rem;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #343a40;
+            text-align: center;
+        }
+
+        .form-group.row {
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #495057;
+            text-align: right;
+            padding-right: 15px;
+        }
+
+        .form-control,
+        .custom-file-input,
+        .custom-file-label {
+            border-radius: 0.35rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ced4da;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .form-control:focus,
+        .custom-file-input:focus~.custom-file-label {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .custom-file-label {
+            background-color: #e9ecef;
+            cursor: pointer;
+        }
+
+        .custom-file-label::after {
+            content: "Browse";
+            background-color: #007bff;
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0 0.35rem 0.35rem 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .border-top {
+            border-top: 1px solid #e9ecef !important;
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 0.75rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 0.35rem;
+            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary i {
+            margin-right: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 123, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../header') %>
+
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-12 d-flex no-block align-items-center">
+                    <h4 class="page-title"><i class="fas fa-box-open"></i> Product</h4>
+                    <div class="ms-auto text-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Library
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-6">
+                    <div class="card">
+                        <form class="form-horizontal" method="post" action="/product/insertProduct"
+                            enctype="multipart/form-data">
+                            <div class="card-body">
+                                <h4 class="card-title">Add Product</h4>
+
+                                <div class="form-group row">
+                                    <label for="product_name"
+                                        class="col-sm-3 text-end control-label col-form-label">Product Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="product_name" name="product_name"
+                                            placeholder="Enter Product Name" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="category_id"
+                                        class="col-sm-3 text-end control-label col-form-label">Category</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" id="category_id" name="category_id" required>
+                                            <option value="">--- Select Category ---</option>
+                                            <% allCategory.map((data)=> { %>
+                                            <option value="<%= data.id %>">
+                                                <%= data.c_title %>
+                                            </option>
+                                            <% })%>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="subcategory_id"
+                                        class="col-sm-3 text-end control-label col-form-label">SubCategory</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" id="subcategory_id" name="subcategory_id" required>
+                                            <option value="">--- Select SubCategory ---</option>
+                                            <% allSubCategory.map((data)=> { %>
+                                            <option value="<%= data.id %>">
+                                                <%= data.subcategory_title %>
+                                            </option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="extracategory_id"
+                                        class="col-sm-3 text-end control-label col-form-label">ExtraCategory</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" id="extracategory_id" name="extracategory_id" required>
+                                            <option value="">--- Select ExtraCategory ---</option>
+                                            <% allExtraCategory.map((data)=> { %>
+                                            <option value="<%= data.id %>">
+                                                <%= data.extraCategory_title %>
+                                            </option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="old_price" class="col-sm-3 text-end control-label col-form-label">Old
+                                        Price</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" id="old_price" name="old_price"
+                                            placeholder="Enter Old Price" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="product_price"
+                                        class="col-sm-3 text-end control-label col-form-label">Price</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" id="product_price"
+                                            name="product_price" placeholder="Enter Price" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="product_desc"
+                                        class="col-sm-3 text-end control-label col-form-label">Description</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" id="product_desc" name="product_desc"
+                                            placeholder="Enter Product Description"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="product_stock"
+                                        class="col-sm-3 text-end control-label col-form-label">Stock</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" id="product_stock"
+                                            name="product_stock" placeholder="Enter Stock Quantity" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="product_image"
+                                        class="col-sm-3 text-end control-label col-form-label">Product Image</label>
+                                    <div class="col-md-9">
+                                        <div class="input-group">
+                                            <input type="file" class="form-control" id="product_image" name="product_image" required>
+                                            <label class="input-group-text" for="product_image">Upload</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="border-top">
+                                    <div class="card-body text-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-plus"></i> Add Product
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../footer') %>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

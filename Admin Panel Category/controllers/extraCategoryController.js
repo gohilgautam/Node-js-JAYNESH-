@@ -67,8 +67,80 @@ const viewExtraCategoryPage = async (req, res) => {
   }
 };
 
+const deleteExtracategory = async (req, res) => {
+    const id = req.params.id;
+    console.log("Deleting extracategory with id:", id);
+    try {
+        const productDeleteData = await product.deleteMany({
+            extraCategory_id: id,
+        });
+
+        const deleteextraCategory = await extracategory.findByIdAndDelete(id);
+
+        if (deleteextraCategory && productDeleteData) {
+            req.flash("success", `${deleteextraCategory.extraCategory_title} deleted successfully.`);
+        } else {
+            req.flash("error", "ExtraCategory not found.");
+        }
+    } catch (error) {
+        console.log("Error deleting extracategory:", error);
+        req.flash("error", "Something went wrong while deleting.");
+    }
+    res.redirect("/extracategory/viewextracategorypage");
+};
+
+// update extracategory
+const updateExtracategory = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const currentAdmin = req.user;
+
+        const allCategory = await Category.find({});
+        const allSubCategory = await SubCategory.find({});
+        const updateExtraCategory = await extracategory.findById(id);
+
+        if (!updateExtraCategory) {
+            req.flash("error", "ExtraCategory not found");
+            return res.redirect("/extracategory/updateExtracategory");
+        }
+
+        res.render('extracategory/updateExtracategory', {
+            currentAdmin,
+            success: req.flash("success"),
+            error: req.flash("error"),
+            allCategory,
+            allSubCategory,
+            updateExtraCategory
+        });
+    } catch (error) {
+        console.error(error);
+        req.flash("error", "Server error");
+        res.redirect("/extracategory/updateExtracategory");
+    }
+};
+
+// Edit ExtraCategory
+const editExtraCategory = async (req, res) => {
+    try {
+        const updateData = await extracategory.findByIdAndUpdate(req.params.id, req.body);
+        if (updateData) {
+            req.flash("success", "ExtraCategory updated successfully.");
+        } else {
+            req.flash("error", "ExtraCategory update failed.");
+        }
+        res.redirect("/extracategory/viewextracategorypage");
+    } catch (e) {
+        console.error(e);
+        req.flash("error", "Server error while updating ExtraCategory.");
+        res.redirect("/extracategory/viewextracategorypage");
+    }
+};
+
 module.exports = {
   addExtraCategoryPage,
   insertExtraCategory,
   viewExtraCategoryPage,
+  deleteExtracategory,
+  updateExtracategory,
+  editExtraCategory,
 };
