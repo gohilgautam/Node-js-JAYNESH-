@@ -9,11 +9,11 @@ const adminSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  adminEmail: {
+  email: {
     type: String,
     required: true,
   },
-  adminPassword: {
+  password: {
     type: String,
     required: true,
   },
@@ -42,3 +42,4 @@ const adminSchema = mongoose.Schema({
 const admin = mongoose.model("Admin", adminSchema, "Admin");
 
 module.exports = admin;
+  

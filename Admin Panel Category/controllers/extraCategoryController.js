@@ -122,7 +122,7 @@ const updateExtracategory = async (req, res) => {
 // Edit ExtraCategory
 const editExtraCategory = async (req, res) => {
     try {
-        const updateData = await extracategory.findByIdAndUpdate(req.params.id, req.body);
+        const updateData = await editExtraCategory.findByIdAndUpdate(req.params.id, req.body);
         if (updateData) {
             req.flash("success", "ExtraCategory updated successfully.");
         } else {

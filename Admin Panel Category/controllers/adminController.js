@@ -15,7 +15,6 @@ const userChecked = async (req, res) => {
   } catch (e) {
     res.send(`<p> Not Found : ${e} </p>`);
   }
-  // res.redirect('/dashboard');
 };
 
 // Lost Password
@@ -40,8 +39,8 @@ const checkEmail = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "rw5.jaynesh.pc@gmail.com",
-        pass: "cbsrmclmeravauug",
+        user: "gohilgautam2406@gmail.com",
+        pass: "yhliwejqeabrdmqf",
       },
     });
 
@@ -50,80 +49,168 @@ const checkEmail = async (req, res) => {
     const OTP = Math.floor(Math.random() * 999999);
 
     const info = await transporter.sendMail({
-      from: '"Matrix Admin 👻" rw5.jaynesh.pc@gmail.com', // sender address
+      from: 'gohilgautam2406@gmail.com', // sender address
       to: email, // list of receivers
       subject: "One-Time Password (OTP) for Forget Password", // Subject line
-      html: `
-              <!DOCTYPE html>
-              <html>
-              <head>
-                <style>
-                  body {
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background-color: #f5f5f5;
-                    margin: 0;
-                    padding: 0;
-                  }
-                  .container {
-                    background-color: #ffffff;
-                    max-width: 600px;
-                    margin: 30px auto;
-                    padding: 30px;
-                    border: 1px solid #ddd;
-                    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-                  }
-                  .title {
-                    text-align: center;
-                    font-size: 20px;
-                    font-weight: 600;
-                    margin-bottom: 5px;
-                  }
-                  .underline {
-                    width: 60px;
-                    height: 3px;
-                    background-color: #007BFF;
-                    margin: 0 auto 20px auto;
-                  }
-                  p {
-                    font-size: 14px;
-                    color: #333;
-                    line-height: 1.6;
-                  }
-                  .otp-box {
-                    font-size: 18px;
-                    font-weight: bold;
-                    background-color: #f1f1f1;
-                    padding: 10px 15px;
-                    border-left: 5px solid #007BFF;
-                    margin: 10px 0 20px 0;
-                    display: inline-block;
-                  }
-                  .footer {
-                    margin-top: 30px;
-                  }
-                </style>
-              </head>
-              <body>
-                <div class="container">
-                  <div class="title">One-Time Password</div>
-                  <div class="underline"></div>
-                  <p>Hi,</p>
-                  <p>
-                    To enhance the security of your account, we have implemented Two-Factor Authentication (2FA) for your account. To ensure it's you logging in, we are providing you with a One-Time Password (OTP) via email.
-                  </p>
-                  <p>Please find your OTP below:</p>
-                  <div class="otp-box">OTP: ${OTP}</div>
-                  <p>
-                    Enter the OTP accurately and within 10 minutes. It is valid for a single use only and should not be shared with anyone, including our support staff.
-                  </p>
-                  <p>Thank you for your cooperation.</p>
-                  <div class="footer">
-                    <p>Regards,<br>Jaynesh Sarkar</p>
-                  </div>
-                </div>
-              </body>
-              </html>
-            `,
+      html: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Confirmation</title>
+    <style>
+      /* Base Reset */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Inter, Arial, sans-serif;
+        background-color: #fafafa;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+      table,
+      td {
+        border-collapse: collapse;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+      img {
+        border: 0;
+        height: auto;
+        line-height: 100%;
+        outline: none;
+        text-decoration: none;
+      }
+      p {
+        font-size: 16px;
+        margin: 0 0 12px;
+      }
+
+      /* Hidden Preheader */
+      .preheader {
+        display: none;
+        font-size: 1px;
+        color: #ffffff;
+        line-height: 1px;
+        max-height: 0px;
+        max-width: 0px;
+        opacity: 0;
+        overflow: hidden;
+      }
+
+      /* Wrapper Styles */
+      .email-wrapper {
+        background-color: #fafafa;
+        word-spacing: normal;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+
+      .email-box {
+        background-color: #ffffff;
+        border-radius: 8px;
+        max-width: 568px;
+        margin: 0 auto;
+        padding: 32px;
+        text-align: center;
+      }
+
+      .logo {
+        width: 180px;
+        margin: 0 auto 24px;
+      }
+
+      .heading {
+        font-size: 24px;
+        font-weight: bold;
+        color: #000;
+        margin: 16px 0;
+      }
+
+      .message {
+        font-size: 16px;
+        color: #000;
+        margin-bottom: 24px;
+      }
+
+      .otp-container {
+        background-color: #ebe3ff;
+        border-radius: 8px;
+        padding: 16px;
+        max-width: 250px;
+        margin: 0 auto 16px;
+      }
+
+      .otp {
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 16px;
+        color: #000000;
+        margin: 0;
+      }
+
+      .footer {
+        font-size: 13px;
+        color: #555;
+        margin-top: 16px;
+      }
+
+      @media only screen and (max-width: 480px) {
+        .container,
+        .email-box {
+          width: 100% !important;
+        }
+        .otp-container {
+          max-width: 100% !important;
+        }
+        .otp {
+          font-size: 28px;
+          letter-spacing: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body class="email-wrapper">
+    <!-- Hidden Preheader -->
+    <div class="preheader">OTP for email confirmation</div>
+
+    <!-- Email Body -->
+    <table class="container" align="center" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td>
+          <div class="email-box">
+            <!-- Logo -->
+            <img
+              class="logo"
+              src="https://i.imghippo.com/files/xZkvY1724649505.png"
+              alt="Company Logo"
+            />
+
+            <!-- Heading -->
+            <h1 class="heading">Please confirm your email</h1>
+
+            <!-- Message -->
+            <p class="message">
+              Use this code to confirm your email and complete signup.
+            </p>
+
+            <!-- OTP Box -->
+            <div class="otp-container">
+              <p>Your OTP is: <b>${OTP}</b></p> 
+            </div>
+
+            <!-- Footer -->
+            <p class="footer">This code is valid for 15 minutes.</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`,
     });
 
     console.log("Message sent: %s", info.messageId);

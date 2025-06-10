@@ -7,7 +7,7 @@ mongoose.connect(URI);
 const db = mongoose.connection;
 
 db.on('connected', () => {
-    console.log("DB Connected...🎇");
+    console.log("DB Connected...");
 })
 db.on('error', (err) => {
     console.log("DB not Connected...", err);
