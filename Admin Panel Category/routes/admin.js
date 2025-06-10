@@ -62,7 +62,7 @@ route.post("/checkNewPassword", checkNewPassword);
 
 // Dashboard
 
-route.get("/dashboard", dashboardPage);
+route.get("/dashboard", passport.checkAuthentication, dashboardPage);
 
 route.get("/addAdmin", passport.checkAuthentication, addAdminPage);
 route.get("/viewAdmin", passport.checkAuthentication, viewAdminPage);
