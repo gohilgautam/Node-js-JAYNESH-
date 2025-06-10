@@ -4,15 +4,14 @@ const localStrategy = require('passport-local').Strategy;
 const admin = require('../models/AdminModel');
 
 passport.use('local-auth', new localStrategy({
-    usernameField: "adminEmail",
-    passwordField: "adminPassword",
-}, async function (adminEmail, adminPassword, done) {
-    console.log(`adminEmail : ${adminEmail} , adminPassword : ${adminPassword}`);
+    usernameField: "email",
+}, async function (email, password, done) {
+    console.log(`email : ${email} , password : ${password}`);
 
-    const adminData = await admin.findOne({ adminEmail: adminEmail }); // null
+    const adminData = await admin.findOne({ email: email }); // null
 
     if (adminData) {
-        if (adminData.adminPassword == adminPassword) {
+        if (adminData.password == password) {
             console.log(`Login Successfully....`);
             return done(null, adminData);
         } else {

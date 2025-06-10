@@ -24,12 +24,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    name: "testing",
-    secret: "myJS-Web", // main session ID
+    name: "Admin Panel",
+    secret: "8799125274", // main session ID
     resave: true,
     saveUninitialized: false,
     cookie: {
-      maxAge: 86400000, // 600000 ms => 10 minutes
+      maxAge: 600000, // 10 minutes
     },
   })
 );
