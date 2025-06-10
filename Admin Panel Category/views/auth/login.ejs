@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<%- include('../header') %>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
     body {
       font-family: 'Open Sans', sans-serif;
-      background-image: linear-gradient(to bottom, #191c24 0%,#191c24 50%,#191c24 51%,#191c24 100%), url(https://cdn.pixabay.com/photo/2022/01/03/05/45/sunset-6911736_1280.jpg);
+      background-image: linear-gradient(to bottom, #191c24 0%, #191c24 50%, #191c24 51%, #191c24 100%), url(https://cdn.pixabay.com/photo/2022/01/03/05/45/sunset-6911736_1280.jpg);
       background-blend-mode: soft-light;
       background-repeat: no-repeat;
       background-size: cover;
@@ -199,45 +192,45 @@
       color: #2980b9;
     }
   </style>
-</head>
+  </head>
 
-<body>
-  <div class="login-container">
-    <h2>Login</h2>
-    <form id="loginForm" method="post" action="/login">
-      <div class="form-group">
-        <label for="username">Username or email *</label>
-        <input type="text" id="username" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password *</label>
-        <input type="password" id="password" name="password" required>
-      </div>
-      <div class="options-row">
-        <div class="remember-me">
-          <input type="checkbox" id="rememberMe" name="rememberMe">
-          <label for="rememberMe">Remember me</label>
+  <body>
+    <div class="login-container">
+      <h2>Login</h2>
+      <form id="loginForm" method="post" action="/login">
+        <div class="form-group">
+          <label for="username">Username or email *</label>
+          <input type="text" id="username" name="email" required>
         </div>
-        <a href="lostPasswordPage" class="forgot-password">Forgot password</a>
+        <div class="form-group">
+          <label for="password">Password *</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <div class="options-row">
+          <div class="remember-me">
+            <input type="checkbox" id="rememberMe" name="rememberMe">
+            <label for="rememberMe">Remember me</label>
+          </div>
+          <a href="lostPasswordPage" class="forgot-password">Forgot password</a>
+        </div>
+        <button type="submit" class="login-button">Login</button>
+      </form>
+
+      <div class="social-login">
+        <button class="social-button facebook-button">
+          <i class="fab fa-facebook-f"></i> Facebook
+        </button>
+        <button class="social-button google-plus-button">
+          <i class="fab fa-google-plus-g"></i> Google plus
+        </button>
       </div>
-      <button type="submit" class="login-button">Login</button>
-    </form>
 
-    <div class="social-login">
-      <button class="social-button facebook-button">
-        <i class="fab fa-facebook-f"></i> Facebook
-      </button>
-      <button class="social-button google-plus-button">
-        <i class="fab fa-google-plus-g"></i> Google plus
-      </button>
+      <div class="signup-link">
+        Don't have an Account? <a href="#">Sign Up</a>
+      </div>
     </div>
 
-    <div class="signup-link">
-      Don't have an Account? <a href="#">Sign Up</a>
-    </div>
-  </div>
-
-  <!-- <script>
+    <!-- <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
 
@@ -283,6 +276,4 @@
             });
         });
     </script> -->
-</body>
-
-</html>
+    <%- include('../footer')%>
