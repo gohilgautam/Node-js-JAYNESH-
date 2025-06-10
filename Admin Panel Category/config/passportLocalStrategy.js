@@ -1,21 +1,23 @@
 const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;  // constructor username , password
+const localStrategy = require('passport-local').Strategy;
 
 const admin = require('../models/AdminModel');
 
 passport.use('local-auth', new localStrategy({
-    usernameField: 'email'
-}, async function (email, password, done) {
-    console.log(`Email : ${email} , Password : ${password}`);
-    const adminData = await admin.findOne({ email: email }); // null
+    usernameField: "adminEmail",
+    passwordField: "adminPassword",
+}, async function (adminEmail, adminPassword, done) {
+    console.log(`adminEmail : ${adminEmail} , adminPassword : ${adminPassword}`);
+
+    const adminData = await admin.findOne({ adminEmail: adminEmail }); // null
 
     if (adminData) {
-        if (adminData.password == password) {
+        if (adminData.adminPassword == adminPassword) {
             console.log(`Login Successfully....`);
             return done(null, adminData);
         } else {
             console.log(`Wrong Password....`);
-            return done(null, false);
+            return done(null, false); 
         }
     } else {
         console.log(`Wrong Email....`);
@@ -43,7 +45,7 @@ passport.deserializeUser(async function (id, done) {
 
 // Check Login MiddleWare
 passport.checkAuthentication = function (req, res, next) {
-    console.log("Auth Middlewate is called....");
+    console.log("Auth Middleware is called....");
 
     console.log("Auth : ", req.isAuthenticated());
 
@@ -56,7 +58,7 @@ passport.checkAuthentication = function (req, res, next) {
 
 // Lost Password
 passport.checkLostPasswordAuthentication = function (req, res, next) {
-    console.log("Auth Middlewate is called....");
+    console.log("Auth Middleware is called....");
 
     console.log("Auth : ", req.isAuthenticated());
 

@@ -9,11 +9,11 @@ const adminSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  email: {
+  adminEmail: {
     type: String,
     required: true,
   },
-  password: {
+  adminPassword: {
     type: String,
     required: true,
   },
