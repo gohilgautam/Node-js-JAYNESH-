@@ -40,7 +40,7 @@ const checkEmail = async (req, res) => {
       service: "gmail",
       auth: {
         user: "gohilgautam2406@gmail.com",
-        pass: "yhliwejqeabrdmqf",
+        pass: "haplndideulmtcne",
       },
     });
 
@@ -315,6 +315,7 @@ const changeMyNewPassword = async (req, res) => {
   console.log(myAdmin);
 
   if (currentPassword == myAdmin.password) {
+   
     if (newPassword != myAdmin.password) {
       if (newPassword == conformPassword) {
         try {
@@ -323,28 +324,37 @@ const changeMyNewPassword = async (req, res) => {
           });
           if (isUpdate) {
             console.log("Password updated...", isUpdate);
+            req.flash('success', 'Your password has been updated successfully!');
             req.session.destroy(function (err) {
               if (err) {
                 console.log(err);
-                return false;
+                req.flash('error', 'There was an issue logging you out after password change.');
+                return res.redirect("/changePassword");
               }
               res.redirect("/");
             });
           } else {
             console.log("Password updation failed...");
+           
+            req.flash('error', 'Failed to update your password. Please try again.');
+            res.redirect("/changePassword");
           }
         } catch (e) {
-          res.send(`<p> Not Found : ${e} </p>`);
+          console.error("Error updating password:", e);
+          req.flash('error', `An unexpected error occurred: ${e.message || 'Please try again.'}`);
+          res.redirect("/changePassword");
         }
       } else {
+        req.flash('error', 'New password and confirm password do not match.');
         res.redirect("/changePassword");
       }
     } else {
+      req.flash('error', 'Your new password cannot be the same as your current password.');
       res.redirect("/changePassword");
     }
   } else {
     console.log("Password is incorrect............");
-
+    req.flash('error', 'The current password you entered is incorrect.');
     res.redirect("/changePassword");
   }
 };

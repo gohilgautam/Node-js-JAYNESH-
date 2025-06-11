@@ -32,14 +32,19 @@ passport.serializeUser(function (admin, done) {
 
 passport.deserializeUser(async function (id, done) {
     console.log("Deseriallize is called....");
-    const authAdmin = await admin.findById(id);
-
-    if (authAdmin) {
-        return done(null, authAdmin);
-    } else {
-        return done(null, false);
+    try {
+        const authAdmin = await admin.findById(id);
+        if (authAdmin) {
+            return done(null, authAdmin);
+        } else {
+            console.log("User not found during deserialization.");
+            return done(null, false); 
+        }
+    } catch (err) {
+        console.error("Error during deserialization:", err);
+        return done(err); 
     }
-})
+});
 
 
 // Check Login MiddleWare

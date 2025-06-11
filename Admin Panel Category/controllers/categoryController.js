@@ -8,8 +8,8 @@ const fs = require("fs");
 // Add Category Page Render
 const addCategoryPage = (req, res) => {
   res.render("category/addCategoryPage", {
-    success: req.flash("success"),
-    error: req.flash("error"),
+    success: req.flash("success"), 
+    error: req.flash("error"), 
   });
 };
 // Insert Category Page
