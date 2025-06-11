@@ -24,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
+    name: 'adminpanel',
     secret: "8799125274", // main session ID
     resave: true,
     saveUninitialized: false,
