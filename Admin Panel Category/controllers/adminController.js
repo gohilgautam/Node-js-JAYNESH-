@@ -315,7 +315,7 @@ const changeMyNewPassword = async (req, res) => {
   console.log(myAdmin);
 
   if (currentPassword == myAdmin.password) {
-   
+
     if (newPassword != myAdmin.password) {
       if (newPassword == conformPassword) {
         try {
@@ -335,7 +335,7 @@ const changeMyNewPassword = async (req, res) => {
             });
           } else {
             console.log("Password updation failed...");
-           
+
             req.flash('error', 'Failed to update your password. Please try again.');
             res.redirect("/changePassword");
           }
@@ -363,7 +363,7 @@ const changeMyNewPassword = async (req, res) => {
 
 const viewProfile = (req, res) => {
   const currentAdmin = req.user;
-  res.render("admin/profile", { currentAdmin, success: "", error: "" });
+  res.render("admin/viewProfile", { currentAdmin, success: "", error: "" });
 };
 
 // DashBoard
@@ -474,26 +474,24 @@ const updateAdmin = async (req, res) => {
 
 const editAdmin = async (req, res) => {
   const editId = req.params.editId;
-
-  const data = await admin.findById(editId);
-
   try {
-    if (req.file) {
-      // unlink
-      // update
-    } else {
-      req.body.avatar = data.avatar;
+    const data = await admin.findById(editId);
 
-      try {
-        await admin.findByIdAndUpdate();
-      } catch (e) {
-        res.send(`<p> Not Found : ${e} </p>`);
-      }
+    if (req.file) {
+      if (data.image)
+        fs.unlinkSync(data.image);
+      req.body.image = req.file.path;
+    } else {
+      req.body.image = data.image;
     }
-  } catch (e) {
-    res.send(`<p> Not Found : ${e} </p>`);
+    await admin.findByIdAndUpdate(editId, req.body);
+    req.flash('success', ' edit admin successfully!');
+    res.redirect('/viewAdmin');
+  } catch (error) {
+    res.send(`<h2> Not found: ${error} </h2>`);
   }
 };
+
 
 module.exports = {
   loginPage,

@@ -11,25 +11,38 @@
             --primary-blue-gradient: linear-gradient(90deg, #007bff 0%, #4facfe 100%);
         }
 
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, var(--dark-bg-2) 0%, var(--dark-bg-1) 100%);
             color: var(--text-light);
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
+        }
+
+        .container {
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-
-        .container {
+            padding: 40px 20px;
             width: 100%;
-            max-width: 900px;
-            padding: 20px;
         }
 
         main {
-            padding: 40px 0;
+            flex-grow: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         header {
@@ -45,10 +58,36 @@
             text-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
         }
 
+        /* Glow on hover for header and profile info */
+        header h1:hover,
+        .profile-info h3:hover,
+        .profile-info p:hover {
+            text-shadow: 0 0 8px #00bfff, 0 0 16px #00bfff, 0 0 24px #00bfff;
+            transition: text-shadow 0.3s ease;
+        }
+
+        ::selection {
+            background: rgba(0, 191, 255, 0.3);
+            color: #ffffff;
+            text-shadow: 0 0 8px #00bfff, 0 0 16px #00bfff;
+        }
+
         .dashboard {
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .content-wrapper {
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #6a11cb, #2575fc);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            padding: 20px;
         }
 
         .profile-card {
@@ -132,7 +171,6 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            /* Space between emoji and text */
             position: relative;
             z-index: 1;
         }
@@ -169,13 +207,56 @@
             filter: brightness(1.1);
         }
 
-        /* Preloader if any */
-        .preloader {
-            background: linear-gradient(135deg, var(--dark-bg-2) 0%, var(--dark-bg-1) 100%);
+        .profile-info h3:hover,
+        .profile-info p:hover {
+            text-shadow: 0 0 8px #00bfff, 0 0 16px #00bfff, 0 0 24px #00bfff;
+            transition: text-shadow 0.3s ease;
         }
 
-        .lds-ripple div {
-            border: 4px solid #fff;
+        ::selection {
+            background: rgba(0, 191, 255, 0.3);
+            color: #fff;
+            text-shadow: 0 0 8px #00bfff, 0 0 16px #00bfff;
+        }
+
+        @media (max-width: 600px) {
+            .profile-card {
+                padding: 25px;
+            }
+
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-info h3 {
+                font-size: 1.8rem;
+            }
+
+            .save-btn {
+                font-size: 1rem;
+                padding: 12px 30px;
+            }
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .preloader {
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #6a11cb, #2575fc);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
     </style>
 
@@ -202,7 +283,6 @@
                                     <% } %>
                                         <%= currentAdmin.gender %>
                         </p>
-
                         <p>🏓 <%= currentAdmin.hobby %>
                         </p>
                         <p>🏙 <%= currentAdmin.city %>
@@ -210,8 +290,9 @@
                         <p>
                             <%= currentAdmin.desc %>
                         </p>
-                        <button class="save-btn"><a href="/updateAdmin/?id=<%= currentAdmin._id %>">Edit
-                                Profile</a></button>
+                        <button class="save-btn">
+                            <a href="/updateAdmin/?id=<%= currentAdmin._id %>">Edit Profile</a>
+                        </button>
                     </div>
                 </div>
             </section>
