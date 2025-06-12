@@ -1,7 +1,7 @@
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 
-const admin = require('../models/AdminModel');
+const admin = require('../model/AdminModel');
 
 passport.use('local-auth', new localStrategy({
     usernameField: "email",

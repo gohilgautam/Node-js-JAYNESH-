@@ -1,33 +1,13 @@
-const express = require("express");
-
+const express = require('express');
 const route = express.Router();
+const { addproductPage, insertProduct, viewProductPage, deleteProduct, editProductPage, updateProductpage } = require('../controller/product');
+const uploade = require('../middleware/product');
 
-const {
-  addProductPage,
-  insertProduct,
-  viewProductPage,
-  editProductPage,
-  updateProductpage,
-  deleteProduct,
-} = require("../controllers/productController");
-
-const upload = require("../middleware/productMulter");
-
-// Add Product Page
-route.get("/addProductPage", addProductPage);
-// Insert Product
-route.post("/insertProduct", upload.single("product_image"), insertProduct);
-
-// View Products
-route.get("/viewProductsPage", viewProductPage);
-
-//Delete Product
+route.get('/addproductPage', addproductPage);
+route.post('/insertProduct', uploade.single('product_image'), insertProduct);
+route.get('/viewProductsPage', viewProductPage);
 route.get('/deleteProduct/:id', deleteProduct);
-
-// Update Product
 route.get('/updateProductpage/:id', updateProductpage);
-
-//Edit Product
-route.post('/editProductPage/:id', upload.single('product_image'), editProductPage);
+route.post('/editProductPage/:id', uploade.single('product_image'), editProductPage);
 
 module.exports = route;

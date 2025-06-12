@@ -1,24 +1,12 @@
-const express = require("express");
-
+const express = require('express');
 const route = express.Router();
+const { addextracategorypage, insertcategory, viewextracategorypage, deleteExtracategory, editExtraCategory, updateExtracategorypage } = require('../controller/addextracategory');
+const upload = require('../middleware/extracategoryMulter');
 
-const {
-  addExtraCategoryPage,
-  insertExtraCategory,
-  viewExtraCategoryPage,
-  deleteExtracategory,
-  updateExtracategory,
-  editExtraCategory,
-} = require("../controllers/extraCategoryController");
-
-route.get("/addExtraCategoryPage", addExtraCategoryPage);
-
-route.post("/insertExtraCategory", insertExtraCategory);
-
-route.get("/viewExtraCategoryPage", viewExtraCategoryPage);
-
-route.get('/deleteExtracategory/:id',deleteExtracategory);
-route.get('/updateExtracategorypage/:id', updateExtracategory);
+route.get('/addextracategorypage', addextracategorypage);
+route.post('/insertextracategory', insertcategory);
+route.get('/viewextracategorypage', viewextracategorypage);
+route.get('/deleteExtracategory/:id', deleteExtracategory);
+route.get('/updateExtracategorypage/:id', updateExtracategorypage);
 route.post('/editExtraCategory/:id', editExtraCategory);
-
 module.exports = route;

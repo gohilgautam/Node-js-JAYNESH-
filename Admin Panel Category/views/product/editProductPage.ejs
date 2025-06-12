@@ -1,0 +1,165 @@
+<%- include('../header') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <% if (success && success.length> 0) { %>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '<%= success %>',
+                confirmButtonColor: '#28a745'
+            });
+        </script>
+        <% } %>
+
+            <% if (error && error.length> 0) { %>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: '<%= error %>',
+                        confirmButtonColor: '#dc3545'
+                    });
+                </script>
+                <% } %>
+
+                    <div class="page-wrapper">
+                        <div class="container-fluid py-4">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 col-md-10">
+                                    <div class="card shadow rounded-4 border-0">
+                                        <div class="card-body p-4">
+                                            <h4 class="card-title mb-4">Edit Product</h4>
+                                            <form method="post" action="/product/editProductPage/<%= allProduct._id %>"
+                                                enctype="multipart/form-data">
+
+                                                <!-- Product Name -->
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label text-end">Product Name</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="product_name" class="form-control"
+                                                            placeholder="Product Name Here"
+                                                            value="<%= allProduct.product_name %>" required />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Category -->
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label text-end">Category</label>
+                                                    <div class="col-sm-9">
+                                                        <select class="form-select" name="category_id" required>
+                                                            <option value="">Select</option>
+                                                            <% allCategory.forEach((data)=> { %>
+                                                                <option value="<%= data._id %>"
+                                                                    <%=(allProduct.category_id &&
+                                                                    allProduct.category_id.toString()===data._id.toString())
+                                                                    ? 'selected' : '' %>>
+                                                                    <%= data.category_title %>
+                                                                </option>
+                                                                <% }) %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <!-- SubCategory -->
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label text-end">SubCategory</label>
+                                                    <div class="col-sm-9">
+                                                        <select class="form-select" name="subcategory_id" required>
+                                                            <option value="">Select</option>
+                                                            <% allSubCategory.forEach((data)=> { %>
+                                                                <option value="<%= data._id %>"
+                                                                    <%=(allProduct.subcategory_id &&
+                                                                    allProduct.subcategory_id.toString()===data._id.toString())
+                                                                    ? 'selected' : '' %>>
+                                                                    <%= data.subcategory_title %>
+                                                                </option>
+                                                                <% }) %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <!-- ExtraCategory -->
+                                                <div class="mb-3 row">
+                                                    <label
+                                                        class="col-sm-3 col-form-label text-end">ExtraCategory</label>
+                                                    <div class="col-sm-9">
+                                                        <select class="form-select" name="extracategory_id">
+                                                            <option value="">Select</option>
+                                                            <% allExtraCategory.forEach((data)=> { %>
+                                                                <option value="<%= data._id %>"
+                                                                    <%=(allProduct.extracategory_id &&
+                                                                    allProduct.extracategory_id.toString()===data._id.toString())
+                                                                    ? 'selected' : '' %>>
+                                                                    <%= data.extraCategory_title %>
+                                                                </option>
+                                                                <% }) %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Old Price -->
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label text-end">Old Price</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" name="old_price" class="form-control"
+                                                            placeholder="Old Price Here"
+                                                            value="<%= allProduct.old_price %>" required />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Price -->
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label text-end">Price</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" name="product_price" class="form-control"
+                                                            placeholder="Price Here"
+                                                            value="<%= allProduct.product_price %>" required />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Description -->
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label text-end">Description</label>
+                                                    <div class="col-sm-9">
+                                                        <textarea class="form-control" name="product_desc" rows="3"
+                                                            placeholder="Product description..."><%= allProduct.product_desc %></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Stock -->
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label text-end">Stock</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" name="product_stock" class="form-control"
+                                                            placeholder="Stock Here"
+                                                            value="<%= allProduct.product_stock %>" required />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Image Upload -->
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 col-form-label text-end">Image</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="file" name="product_image" />
+
+                                                        <img src="../../<%= allProduct.product_image %>"
+                                                            alt="Product Image"
+                                                            style="max-width: 100px; margin-top: 10px;" />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Submit Button -->
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary px-4">Update
+                                                        Product</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%- include('../footer') %>
