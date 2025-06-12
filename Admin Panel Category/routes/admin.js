@@ -51,10 +51,10 @@ route.get('/viewProfile', passport.checkAuthentication, viewProfile);
 route.get('/updateProfile', passport.checkAuthentication, updateProfile);
 route.post('/editProfile', passport.checkAuthentication, upload.single('image'), editProfile);
 
-route.post('/insertAdminData', passport.checkAuthentication, upload.single('image'), insertAdminData);
-route.get('/deleteAdmin/:DeleteId', passport.checkAuthentication, DeleteAdmin);
-route.get('/updateAdmin/:UpdateId', passport.checkAuthentication, UpdateAdmin);
-route.post('/editAdmin/:editId', passport.checkAuthentication, upload.single('image'), editAdmin);
+route.post('/insertAdminData', passport.checkAuthentication, upload.single('avatar'), insertAdminData);
+route.get('/deleteAdmin/:delId', passport.checkAuthentication, DeleteAdmin);
+route.get('/updateAdmin', passport.checkAuthentication, UpdateAdmin);
+route.post('/editAdmin/:editId', passport.checkAuthentication, upload.single('avatar'), editAdmin);
 
 route.use('/category', passport.checkAuthentication, require('./category'));
 route.use('/subcategory', passport.checkAuthentication, require('./subcategory'));

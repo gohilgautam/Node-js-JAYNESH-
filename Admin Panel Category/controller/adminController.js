@@ -313,23 +313,31 @@ const viewAdminPage = async (req, res) => {
 
 // insert admin
 const insertAdminData = async (req, res) => {
-    try {
-        req.body.image = req.file.path;
-        const insert = await admin.create(req.body);
-        if (insert) {
-            req.flash('success', 'Admin added successfully!');
-            console.log('admin data inserted..')
-        }
-        else {
-            req.flash('error', 'Admin could not be added.');
-            console.log('admin data not inserted..')
-        }
-        res.redirect('/addAdmin');
-    } catch (error) {
-        req.flash('error', 'Something went wrong.');
-        res.send(`<h2> not found : ${error} </h2>`);
+  try {
+    if (!req.file) {
+      req.flash('error', 'Image file is required.');
+      return res.redirect('/addAdmin');
     }
+
+    req.body.avatar = req.file.path; // Important: avatar field must match schema
+
+    const insert = await admin.create(req.body);
+
+    if (insert) {
+      req.flash('success', 'Admin added successfully!');
+      console.log('admin data inserted..');
+    } else {
+      req.flash('error', 'Admin could not be added.');
+      console.log('admin data not inserted..');
+    }
+
+    res.redirect('/addAdmin');
+  } catch (error) {
+    req.flash('error', 'Something went wrong.');
+    res.send(`<h2> not found : ${error} </h2>`);
+  }
 };
+
 
 // delete admin
 const DeleteAdmin = async (req, res) => {
@@ -370,11 +378,11 @@ const editAdmin = async (req, res) => {
         const data = await admin.findById(editId);
 
         if (req.file) {
-            if (data.image)
-                fs.unlinkSync(data.image);
-            req.body.image = req.file.path;
+            if (data.avatar)
+                fs.unlinkSync(data.avatar);
+            req.body.avatar = req.file.path;
         } else {
-            req.body.image = data.image;
+            req.body.avatar = data.avatar;
         }
         await admin.findByIdAndUpdate(editId, req.body);
         req.flash('success', ' edit admin successfully!');

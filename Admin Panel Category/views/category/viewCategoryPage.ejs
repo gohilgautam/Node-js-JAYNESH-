@@ -32,41 +32,37 @@
                                             <div class="card-title">View Category</div>
                                         </div>
                                         <div class="card-body" style="overflow-x: auto;">
-                                            <% if (categories.length===0) { %>
-                                                <h4 class="text-center text-danger">No Category added yet.</h4>
-                                                <% } else { %>
-                                                    <table class="table mt-3">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>#</th>
-                                                                <th>category_title</th>
-                                                                <th>category_image</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <% categories.map((data, index)=> { %>
-                                                                <tr>
-                                                                    <td>
-                                                                        <%= index + 1 %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= data.category_title %>
-                                                                    </td>
-                                                                    <td><img src="../<%= data.category_image %>"
-                                                                            height="80px"></td>
-                                                                    <td>
-                                                                        <a href="/category/deletecategory/<%= data.id%>"
-                                                                            class="btn btn-danger text-white">Delete</a>
+                                            <table class="table mt-3">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>category_title</th>
+                                                        <th>category_image</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% category.map((data, index)=> { %>
+                                                        <tr>
+                                                            <td>
+                                                                <%= index + 1 %>
+                                                            </td>
+                                                            <td>
+                                                                <%= data.c_title %>
+                                                            </td>
+                                                            <td><img src="../<%= data.c_image %>" height="80px"></td>
+                                                            <td>
+                                                                <a href="/category/deletecategory/<%= data.id%>"
+                                                                    class="btn btn-danger text-white">Delete</a>
 
-                                                                        <a href="/category/updatecategory/<%= data.id%>"
-                                                                            class="btn btn-success text-white">Edit</a>
-                                                                    </td>
-                                                                </tr>
-                                                                <% }) %>
-                                                        </tbody>
-                                                    </table>
-                                                    <% } %>
+                                                                <a href="/category/updatecategory/<%= data.id%>"
+                                                                    class="btn btn-success text-white">Edit</a>
+                                                            </td>
+                                                        </tr>
+                                                        <% }) %>
+                                                </tbody>
+                                            </table>
+                                            <% } %>
                                         </div>
                                     </div>
                                 </div>

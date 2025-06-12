@@ -1,13 +1,25 @@
 const express = require('express');
+
 const route = express.Router();
-const { categorypage, addcategory, viewcategoryPage, deleteCategory, updatecategory, editcategory } = require('../controller/category')
+
 const upload = require('../middleware/categoryMulter');
 
-route.get('/addCategoryPage', categorypage);
-route.post('/addcategory', upload.single('category_image'), addcategory);
-route.get('/viewcategoryPage', viewcategoryPage);
-route.get('/deletecategory/:id', deleteCategory);
-route.get('/updatecategory/:id', upload.single('category_image'), updatecategory);
-route.post('/editcategory/:id', upload.single('category_image'), editcategory);
+const { addCategoryPage, insertCategory, viewCategoryPage, deleteCategory, editCategoryPage, updateCategory } = require('../controller/category');
+
+// Add Category Page
+route.get('/addCategoryPage', addCategoryPage);
+route.post('/insertCategory', upload.single('c_image'), insertCategory);
+
+// View Category Page
+route.get('/viewCategoryPage', viewCategoryPage);
+
+// Delete Category
+route.get('/deleteCategory/:id', deleteCategory);
+
+// Edit Category Page
+route.get('/editCategoryPage', editCategoryPage);
+
+// Update Category
+route.post('/updateCategory/:id', upload.single('c_image'), updateCategory);
 
 module.exports = route;

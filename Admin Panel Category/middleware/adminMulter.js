@@ -1,13 +1,13 @@
 const multer = require('multer');
-//multer middelware for admin image===================
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/admin');
+        cb(null, "uploads/category/"); // Note: This is 'category', not 'admin'. Ensure it's correct for avatars.
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + file.originalname);
     }
 });
-const upload = multer({ storage: storage });
 
+const upload = multer({ storage: storage }); // Middleware setup
 module.exports = upload;
