@@ -257,7 +257,7 @@ const checkEmail = async (req, res) => {
             service: "gmail",
             secure: false,
             auth: {
-                user: "rahulpatadiya07@gmail.com",
+                user: "gohilgautam2406@gmail.com",
                 pass: "elyiecppuhrbpfnk",
             },
         });
@@ -265,7 +265,7 @@ const checkEmail = async (req, res) => {
         const OTP = Math.floor(Math.random() * 999999);
 
         const info = await transporter.sendMail({
-            from: 'rahulpatadiya07@gmail.com',
+            from: 'gohilgautam2406@gmail.com',
             to: email,
             subject: "One-Time Password (OTP) for Forget Password",
             html: `

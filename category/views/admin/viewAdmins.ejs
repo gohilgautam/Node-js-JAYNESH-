@@ -1,0 +1,417 @@
+<%- include('../header') %>
+
+  <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0f2f7 0%, #cce7f0 100%); /* Softer, lighter blue gradient */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Subtle background circles for visual interest */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+        }
+
+        body::before {
+            top: -100px;
+            left: -100px;
+            background: rgba(173, 216, 230, 0.6); /* Light blue */
+        }
+
+        body::after {
+            bottom: -100px;
+            right: -100px;
+            background: rgba(135, 206, 250, 0.6); /* Sky blue */
+        }
+
+        .container {
+            max-width: 1200px; /* Wider container for the table */
+            width: 100%;
+            margin: auto;
+            padding: 0;
+        }
+
+        /* --- Styles for Table --- */
+        .table-container {
+            background: rgba(255, 255, 255, 0.9); /* Slightly more opaque for content */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Ensures rounded corners */
+            padding: 20px; /* Internal padding for the table card */
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: separate; /* Allows for border-radius on cells */
+            border-spacing: 0; /* Remove default spacing */
+            font-size: 0.9em;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px 15px; /* Comfortable padding */
+            text-align: left;
+            border-bottom: 1px solid #eee; /* Light bottom border */
+            vertical-align: middle;
+        }
+
+        .table thead th {
+            background-color: #f8f9fa; /* Light header background */
+            color: #6c757d; /* Darker grey text for headers */
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.75em; /* Smaller font for headers */
+            position: sticky;
+            top: 0;
+            z-index: 1; /* Keep header visible on scroll if container is scrollable */
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #fdfdfd; /* Very light stripe for readability */
+        }
+
+        .table tbody tr:hover {
+            background-color: #e9f5ff; /* Light blue on hover */
+        }
+
+        .table td .d-flex {
+            align-items: center;
+        }
+
+        .table td img.avatar {
+            border-radius: 50%; /* Make avatar images round */
+            width: 40px; /* Consistent avatar size */
+            height: 40px;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid #fff; /* White border for avatars */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .table td h6 {
+            font-size: 0.95em;
+            font-weight: 500;
+            color: #343a40;
+            margin-bottom: 0; /* Remove default margin */
+            line-height: 1.3;
+        }
+
+        .table td p.text-xs {
+            font-size: 0.8em;
+            color: #888;
+            margin-bottom: 0;
+            line-height: 1.3;
+        }
+
+        .badge {
+            display: inline-flex; /* Use flex for vertical centering */
+            align-items: center;
+            justify-content: center;
+            padding: 0.4em 0.7em;
+            font-size: 0.75em;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.375rem; /* Rounded badge corners */
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+
+        /* Specific badge colors */
+        .badge.bg-gradient-success {
+            background: linear-gradient(45deg, #28a745, #218838); /* Green gradient */
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+        }
+
+        .badge.bg-gradient-warning {
+            background: linear-gradient(45deg, #ffc107, #e0a800); /* Yellow gradient */
+            color: #333;
+            box-shadow: 0 2px 5px rgba(255, 193, 7, 0.2);
+        }
+
+        .badge.bg-gradient-danger {
+            background: linear-gradient(45deg, #dc3545, #c82333); /* Red gradient */
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(220, 53, 69, 0.2);
+        }
+
+        .table .btn {
+            padding: 8px 12px;
+            font-size: 0.75em; /* Smaller button text for table */
+            border-radius: 0.5rem; /* Rounded buttons */
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .table .btn-warning {
+            background: linear-gradient(45deg, #ffc107, #e0a800);
+            color: #333;
+            border: none;
+        }
+
+        .table .btn-warning:hover {
+            background: linear-gradient(45deg, #e0a800, #c29100);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .table .btn-danger {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            color: #fff;
+            border: none;
+        }
+
+        .table .btn-danger:hover {
+            background: linear-gradient(45deg, #c82333, #a71d2a);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive adjustments for table */
+        @media (max-width: 768px) {
+            .table-container {
+                padding: 15px;
+                border-radius: 10px;
+            }
+            .table thead {
+                display: none; /* Hide table headers on small screens */
+            }
+
+            .table, .table tbody, .table tr, .table td {
+                display: block; /* Make table elements behave like blocks */
+                width: 100%;
+            }
+
+            .table tr {
+                margin-bottom: 15px;
+                border: 1px solid #eee;
+                border-radius: 8px;
+                padding: 10px;
+                background-color: #fff; /* Ensure white background for each card-like row */
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            }
+
+            .table td {
+                text-align: right;
+                padding-left: 50%; /* Space for pseudo-element label */
+                position: relative;
+                border-bottom: none; /* Remove individual cell borders */
+            }
+
+            .table td::before {
+                content: attr(data-label); /* Use data-label for content */
+                position: absolute;
+                left: 15px;
+                width: calc(50% - 30px); /* Adjust width */
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: 600;
+                color: #555;
+                text-transform: uppercase;
+                font-size: 0.7em;
+            }
+
+            .table td:first-child {
+                padding-top: 15px; /* More padding for first cell */
+            }
+            .table td:last-child {
+                padding-bottom: 15px; /* More padding for last cell */
+            }
+
+            /* Specific handling for combined name/email cell */
+            .table td:nth-child(1) { /* First column (Author Name/Email) */
+                text-align: right;
+            }
+            .table td:nth-child(1) .d-flex {
+                justify-content: flex-end; /* Align content to the right */
+            }
+            .table td:nth-child(1) .d-flex::before {
+                 content: attr(data-label);
+                 left: 15px;
+                 text-align: left;
+                 width: auto;
+            }
+
+
+            .table td.action-cell {
+                text-align: center; /* Center buttons */
+                padding-top: 15px;
+            }
+            .table td.action-cell .d-flex {
+                justify-content: center; /* Center buttons within their container */
+            }
+        }
+    </style>
+
+  <!-- End Navbar -->
+  <div class="container-fluid py-2">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">Admin table</h6>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+              <% if(currentAdmin.email=="gohilgautam2405@gmail.com" ) { %>
+                <table class="table" align="center">
+                <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author Name</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
+                        <th class="text-secondary opacity-7 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (typeof records !== 'undefined' && records.length > 0) { %>
+                        <% records.forEach((data)=> { %>
+                        <tr>
+                            <td data-label="Author Name">
+                                <div class="d-flex px-2 py-1">
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm">
+                                            <%= data.adminFname %> <%= data.adminLname %>
+                                        </h6>
+                                        <p class="text-xs text-secondary mb-0">
+                                            <%= data.adminEmail %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="Function">
+                                <p class="text-xs font-weight-bold mb-0">
+                                    <%= data.adminFunction %>
+                                </p>
+                            </td>
+                            <td data-label="Status">
+                                <span class="badge badge-sm <%= data.adminStatus === 'Active' ? 'bg-gradient-success' : (data.adminStatus === 'Pending' ? 'bg-gradient-warning' : 'bg-gradient-danger') %>">
+                                    <%= data.adminStatus %>
+                                </span>
+                            </td>
+                            <td data-label="Image">
+                                <div>
+                                    <img src="<%= data.adminImage %>" onerror="this.onerror=null;this.src='https://placehold.co/40x40/f0f2f5/6c757d?text=IMG';" class="avatar avatar-sm me-3 border-radius-lg" alt="user image">
+                                </div>
+                            </td>
+                            <td data-label="Employed" class="text-center">
+                                <span class="text-secondary text-xs font-weight-bold">
+                                    <%= data.joinDate %>
+                                </span>
+                            </td>
+                            <td data-label="Action" class="action-cell">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="/editAdmin/<%= data._id %>" class="btn btn-warning" data-toggle="tooltip" data-original-title="Edit user">
+                                        Edit
+                                    </a>
+                                    <a href="/deleteAdmin/<%= data._id %>" class="btn btn-danger" data-toggle="tooltip" data-original-title="Delete user">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-secondary">No records found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+                <% } else { %>
+                  <table class="table" align="center">
+                <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author Name</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (typeof records !== 'undefined' && records.length > 0) { %>
+                        <% records.forEach((data)=> { %>
+                        <tr>
+                            <td data-label="Author Name">
+                                <div class="d-flex px-2 py-1">
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm">
+                                            <%= data.adminFname %> <%= data.adminLname %>
+                                        </h6>
+                                        <p class="text-xs text-secondary mb-0">
+                                            <%= data.adminEmail %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="Function">
+                                <p class="text-xs font-weight-bold mb-0">
+                                    <%= data.adminFunction %>
+                                </p>
+                            </td>
+                            <td data-label="Status">
+                                <span class="badge badge-sm <%= data.adminStatus === 'Active' ? 'bg-gradient-success' : (data.adminStatus === 'Pending' ? 'bg-gradient-warning' : 'bg-gradient-danger') %>">
+                                    <%= data.adminStatus %>
+                                </span>
+                            </td>
+                            <td data-label="Image">
+                                <div>
+                                    <img src="<%= data.adminImage %>" onerror="this.onerror=null;this.src='https://placehold.co/40x40/f0f2f5/6c757d?text=IMG';" class="avatar avatar-sm me-3 border-radius-lg" alt="user image">
+                                </div>
+                            </td>
+                            <td data-label="Employed" class="text-center">
+                                <span class="text-secondary text-xs font-weight-bold">
+                                    <%= data.joinDate %>
+                                </span>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-secondary">No records found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+                  <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<%- include('../footer')%> 
+

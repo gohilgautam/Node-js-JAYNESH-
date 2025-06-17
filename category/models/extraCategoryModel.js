@@ -11,6 +11,10 @@ const extraCategorySchema = mongoose.Schema({
         ref: "SubCategory",
         required: true,
     },
+    extracategory_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'extracategory',
+    },
     extraCategory_title: {
         type: String,
         required: true,

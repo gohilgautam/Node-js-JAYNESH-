@@ -1,68 +1,494 @@
-<%- include('header') %>
+<%- include('../header') %>
 
-<style>
-  .content {
-    margin-left: 250px;
-    padding: 90px 20px 30px 20px;
-  }
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #e0f2f7 0%, #cce7f0 100%);
+      /* Softer, lighter blue gradient */
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      padding: 20px;
+      box-sizing: border-box;
+      position: relative;
+    }
 
-  .form-section {
-    background: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  }
+    /* Subtle background circles */
+    .auth-bg span {
+      position: absolute;
+      display: block;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      opacity: 0.6;
+      animation: floating 7s infinite ease-in-out;
+    }
 
-  .form-label {
-    font-weight: 600;
-    color: #444;
-    margin-bottom: 6px;
-  }
+    .auth-bg span:nth-child(2) {
+      animation-duration: 9s;
+      animation-direction: reverse;
+    }
 
-  .form-control, .form-select {
-    border-radius: 8px;
-    font-size: 15px;
-  }
+    .auth-bg span:nth-child(3) {
+      animation-duration: 7s;
+    }
 
-  .form-check-input {
-    width: 18px;
-    height: 18px;
-    margin-top: 2px;
-  }
+    .auth-bg span:nth-child(4) {
+      animation-duration: 9s;
+    }
 
-  .form-check-label {
-    font-size: 15px;
-    margin-left: 6px;
-    color: #555;
-  }
+    .auth-bg span:nth-child(1) {
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: rgba(173, 216, 230, 0.7);
+    }
 
-  .avatar-preview {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid #ccc;
-    margin-top: 10px;
-  }
+    .auth-bg span:nth-child(2) {
+      top: 150px;
+      right: -150px;
+      width: 25px;
+      height: 25px;
+      background: rgba(255, 193, 7, 0.8);
+    }
 
-  .btn-primary {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-  }
+    .auth-bg span:nth-child(3) {
+      left: -150px;
+      bottom: 150px;
+      width: 25px;
+      height: 25px;
+      background: rgba(0, 123, 255, 0.8);
+    }
 
-  .section-title {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 30px;
-    color: #333;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-  }
-</style>
+    .auth-bg span:nth-child(4) {
+      left: -100px;
+      bottom: -100px;
+      width: 300px;
+      height: 300px;
+      background: rgba(135, 206, 250, 0.7);
+    }
 
-<div class="d-flex">
-  <div class="content w-100">
+    @keyframes floating {
+      0% {
+        transform: translateY(0px) translateX(0px);
+      }
+
+      50% {
+        transform: translateY(-20px) translateX(10px);
+      }
+
+      100% {
+        transform: translateY(0px) translateX(0px);
+      }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      /* Adjust max-width for the form card */
+      margin: auto;
+      padding: 0;
+    }
+
+    .form-section {
+      background: rgba(255, 255, 255, 0.85);
+      /* Semi-transparent white */
+      backdrop-filter: blur(25px);
+      /* Frosted glass effect */
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 25px;
+      /* More rounded card */
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      /* Clearer white border */
+      box-shadow: 0 15px 50px 0 rgba(31, 38, 135, 0.35);
+      /* Deeper, softer shadow */
+      padding: 40px;
+      /* Adjusted padding */
+      animation: fadeIn 0.8s ease-out;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .form-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px 0 rgba(31, 38, 135, 0.45);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-title {
+      font-size: 2.2em;
+      /* Larger heading */
+      font-weight: 700;
+      color: #2c3e50;
+      text-align: center;
+      position: relative;
+      padding-bottom: 15px;
+      margin-bottom: 30px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      /* Wider underline */
+      height: 5px;
+      /* Thicker underline */
+      background: linear-gradient(to right, #007bff, #20c997);
+      border-radius: 3px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
+      font-size: 0.95em;
+    }
+
+    .form-control,
+    .form-select {
+      width: 100%;
+      padding: 12px 18px;
+      border: 1px solid #d0d0d0;
+      border-radius: 12px;
+      font-size: 1em;
+      color: #333;
+      background-color: rgba(255, 255, 255, 0.95);
+      transition: all 0.3s ease;
+      outline: none;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-control::placeholder,
+    .form-select option[disabled][hidden] {
+      color: #a0a0a0;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+      background-color: #fff;
+    }
+
+    .form-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 20px;
+      padding-right: 40px;
+    }
+
+    .form-check-group {
+      display: flex;
+      gap: 25px;
+      /* Space between radio/checkbox options */
+      flex-wrap: wrap;
+      /* Allow wrapping on small screens */
+      margin-top: 5px;
+    }
+
+    .form-check {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .form-check-input {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      /* Slightly rounded for checkboxes */
+      transition: all 0.2s ease-in-out;
+      margin-right: 10px;
+      position: relative;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .form-check-input[type="radio"] {
+      border-radius: 50%;
+    }
+
+    .form-check-input:checked {
+      background-color: #007bff;
+      border-color: #007bff;
+      box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+    }
+
+    .form-check-input[type="checkbox"]:checked::before {
+      content: '\u2713';
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .form-check-input[type="radio"]:checked::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background-color: #fff;
+      border-radius: 50%;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .form-check-label {
+      font-weight: 500;
+      color: #666;
+      cursor: pointer;
+      font-size: 0.95em;
+    }
+
+    .avatar-preview {
+      width: 120px;
+      /* Larger preview image */
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      /* Circular */
+      border: 4px solid #fff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-top: 15px;
+      display: block;
+      /* Ensures it takes its own line */
+      margin-left: auto;
+      /* Center image */
+      margin-right: auto;
+      /* Center image */
+    }
+
+    .form-control-file {
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: rgba(255, 255, 255, 0.95);
+      cursor: pointer;
+    }
+
+    .form-control-file::-webkit-file-upload-button {
+      visibility: hidden;
+      width: 0;
+      padding: 0;
+      margin: 0;
+    }
+
+    .form-control-file::before {
+      content: 'Choose File';
+      display: inline-block;
+      background: linear-gradient(45deg, #20c997, #17a2b8);
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-right: 15px;
+      box-shadow: 0 3px 8px rgba(32, 201, 151, 0.3);
+    }
+
+    .form-control-file:hover::before {
+      background: linear-gradient(45deg, #17a2b8, #138496);
+      box-shadow: 0 5px 12px rgba(32, 201, 151, 0.4);
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, #007bff, #0056b3);
+      color: #fff;
+      padding: 14px 30px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.15em;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      /* Space above button */
+    }
+
+    .btn-primary i {
+      margin-right: 8px;
+      font-size: 1.2em;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(45deg, #0056b3, #004085);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 123, 255, 0.45);
+    }
+
+    /* LLM Feature Buttons */
+    .llm-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .llm-btn {
+      background: linear-gradient(45deg, #6c757d, #5a6268);
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-size: 0.85em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+    }
+
+    .llm-btn:hover {
+      background: linear-gradient(45deg, #5a6268, #495057);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .llm-btn i {
+      margin-right: 5px;
+    }
+
+    .llm-loading-spinner {
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #3498db;
+      border-radius: 50%;
+      width: 1em;
+      height: 1em;
+      animation: spin 0.8s linear infinite;
+      margin-left: 0.5em;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      .form-section {
+        padding: 25px;
+        border-radius: 15px;
+      }
+
+      .section-title {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+      }
+
+      .section-title::after {
+        width: 50px;
+        height: 4px;
+      }
+
+      .col-md-6,
+      .col-12 {
+        width: 100%;
+      }
+
+      /* Ensure columns stack */
+      .form-check-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .llm-buttons {
+        justify-content: center;
+      }
+
+      .btn-primary {
+        padding: 12px 25px;
+        font-size: 1.05em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .form-section {
+        padding: 20px;
+      }
+
+      .section-title {
+        font-size: 1.5em;
+      }
+
+      .form-control,
+      .form-select,
+      .form-control-file {
+        padding: 10px 15px;
+        font-size: 0.95em;
+      }
+
+      .form-check-input {
+        width: 18px;
+        height: 18px;
+      }
+
+      .llm-btn {
+        padding: 6px 12px;
+        font-size: 0.8em;
+      }
+
+      .btn-primary {
+        padding: 10px 20px;
+        font-size: 1em;
+      }
+    }
+  </style>
+
+  <div class="content w-100 flex items-center justify-center min-h-screen">
+    <div class="auth-bg">
+      <span class="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] block rounded-full bg-theme-bg-1"></span>
+      <span class="absolute top-[150px] right-[-150px] w-5 h-5 block rounded-full bg-primary-500"></span>
+      <span class="absolute left-[-150px] bottom-[150px] w-5 h-5 block rounded-full bg-theme-bg-1"></span>
+      <span class="absolute left-[-100px] bottom-[-100px] w-[300px] h-[300px] block rounded-full bg-theme-bg-2"></span>
+    </div>
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -72,35 +498,41 @@
               <div class="row g-4">
                 <!-- First & Last Name -->
                 <div class="col-md-6">
-                  <label class="form-label">First Name</label>
-                  <input type="text" name="fname" class="form-control" value="<%= currentAdmin.fname %>" required>
+                  <label class="form-label" for="fname">First Name</label>
+                  <input type="text" name="fname" id="fname" class="form-control"
+                    value="<%= currentAdmin.fname %>" required>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label">Last Name</label>
-                  <input type="text" name="lname" class="form-control" value="<%= currentAdmin.lname %>" required>
+                  <label class="form-label" for="lname">Last Name</label>
+                  <input type="text" name="lname" id="lname" class="form-control"
+                    value="<%= currentAdmin.lname %>" required>
                 </div>
 
                 <!-- Email & Password -->
                 <div class="col-md-6">
-                  <label class="form-label">Email Address</label>
-                  <input type="email" name="email" class="form-control" value="<%= currentAdmin.email %>" required>
+                  <label class="form-label" for="email">Email Address</label>
+                  <input type="email" name="email" id="email" class="form-control"
+                    value="<%= currentAdmin.email %>" required>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label">Password</label>
-                  <input type="password" name="password" class="form-control" value="<%= currentAdmin.password %>" required>
+                  <label class="form-label" for="password">Password</label>
+                  <input type="password" name="password" id="password" class="form-control"
+                    value="<%= currentAdmin.password %>" required>
                 </div>
 
                 <!-- Gender -->
                 <div class="col-md-6">
                   <label class="form-label d-block">Gender</label>
-                  <div class="d-flex gap-4">
+                  <div class="form-check-group">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="gender" value="male" <%= currentAdmin.gender === 'male' ? 'checked' : '' %>>
-                      <label class="form-check-label">Male</label>
+                      <input class="form-check-input" type="radio" name="gender" id="genderMale" value="male"
+                        <%=currentAdmin.gender==='male' ? 'checked' : '' %>>
+                      <label class="form-check-label" for="genderMale">Male</label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="gender" value="female" <%= currentAdmin.gender === 'female' ? 'checked' : '' %>>
-                      <label class="form-check-label">Female</label>
+                      <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="female"
+                        <%=currentAdmin.gender==='female' ? 'checked' : '' %>>
+                      <label class="form-check-label" for="genderFemale">Female</label>
                     </div>
                   </div>
                 </div>
@@ -108,54 +540,67 @@
                 <!-- Hobbies -->
                 <div class="col-md-6">
                   <label class="form-label d-block">Hobby</label>
-                  <% let hobbies = ['Coding', 'Gaming']; %>
-                  <div class="d-flex flex-wrap gap-3">
-                    <% hobbies.forEach(item => { %>
-                      <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="hobby" value="<%= item %>" 
-                          <%= currentAdmin.hobby && currentAdmin.hobby.includes(item) ? 'checked' : '' %>>
-                        <label class="form-check-label"><%= item %></label>
-                      </div>
-                    <% }) %>
-                  </div>
+                  <% let hobbies=['Coding', 'Gaming' , 'Reading' , 'Sports' , 'Traveling' ]; %>
+                    <% let currentHobbies=currentAdmin.hobby ? (Array.isArray(currentAdmin.hobby) ? currentAdmin.hobby :
+                      currentAdmin.hobby.split(', ')) : []; %>
+                                    <div class="form-check-group">
+                                        <% hobbies.forEach(item => { %>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="hobby" id="hobby<%= item %>" value="<%= item %>"
+                                                    <%= currentHobbies.includes(item) ? ' checked' : '' %>>
+                      <label class="form-check-label" for="hobby<%= item %>">
+                        <%= item %>
+                      </label>
                 </div>
-
-                <!-- City -->
-                <div class="col-md-6">
-                  <label class="form-label">City</label>
-                  <% let myCity = ['Surat', 'Baroda', 'Rajkot', 'Mumbai']; %>
-                  <select class="form-select" name="city">
-                    <option>Select</option>
-                    <% myCity.forEach(city => { %>
-                      <option value="<%= city %>" <%= currentAdmin.city === city ? 'selected' : '' %>><%= city %></option>
-                    <% }) %>
-                  </select>
-                </div>
-
-                <!-- Description -->
-                <div class="col-md-6">
-                  <label class="form-label">Description</label>
-                  <input type="text" name="desc" class="form-control" value="<%= currentAdmin.desc %>">
-                </div>
-
-                <!-- Avatar Upload -->
-                <div class="col-md-6">
-                  <label class="form-label">Profile Image</label>
-                  <input type="file" name="avatar" class="form-control">
-                  <img src="<%= currentAdmin.avatar %>" class="avatar-preview" alt="Profile Image">
-                </div>
-
-                <!-- Submit Button -->
-                <div class="col-12 mt-2">
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
+                <% }) %>
               </div>
-            </form>
+          </div>
+
+          <!-- City -->
+          <div class="col-md-6">
+            <label class="form-label" for="city">City</label>
+            <% let cities=['Surat', 'Baroda' , 'Rajkot' , 'Mumbai' , 'Delhi' , 'Ahmedabad' ]; %>
+              <select class="form-select" name="city" id="city" required>
+                <option value="" disabled selected hidden>Select City</option>
+                <% cities.forEach(city=> { %>
+                  <option value="<%= city %>" <%=currentAdmin.city===city ? 'selected' : '' %>><%= city %>
+                  </option>
+                  <% }) %>
+              </select>
+          </div>
+
+          <!-- Description -->
+          <div class="col-md-12">
+            <label class="form-label" for="desc">Description</label>
+            <textarea name="desc" id="desc" class="form-control" rows="4"
+              placeholder="Enter Description"><%= currentAdmin.desc %></textarea>
+          </div>
+
+          <!-- Avatar Upload -->
+          <div class="col-md-6">
+            <label class="form-label" for="avatar">Profile Image</label>
+            <input type="file" name="avatar" id="avatar" class="form-control-file">
+            <% if (currentAdmin.avatar) { %>
+              <img src="<%= currentAdmin.avatar %>" class="avatar-preview" alt="Profile Image"
+                onerror="this.onerror=null;this.src='https://placehold.co/120x120/e0e2e5/6c757d?text=No+Image';">
+              <% } else { %>
+                <img src="https://placehold.co/120x120/e0e2e5/6c757d?text=No+Image" class="avatar-preview"
+                  alt="No Image">
+                <% } %>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="col-12 mt-2">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save me-2"></i> Save Changes
+            </button>
           </div>
         </div>
+        </form>
       </div>
     </div>
   </div>
-</div>
+  </div>
+  </div>
 
-<%- include('footer') %>
+  <%- include('../footer') %>

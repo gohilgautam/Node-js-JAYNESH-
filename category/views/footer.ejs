@@ -69,6 +69,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script src="https://cdn.tailwindcss.com"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/3.0.7/metisMenu.min.js"></script>
@@ -96,6 +98,55 @@
     });
   });
 </script>
-</body>
 
+<% if (success && success.length> 0) { %>
+  <script>
+    // SweetAlert Success Notification
+    Swal.fire({
+      icon: 'success',
+      title: '✅ Success!',
+      html: `<strong><%= success %></strong>`,
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      },
+      background: '#f0fff4',
+      confirmButtonColor: '#28a745',
+      confirmButtonText: 'Great!',
+      customClass: {
+        title: 'text-success',
+        popup: 'border border-success shadow'
+      }
+    });
+  </script>
+  <% } %>
+
+    <% if (error && error.length> 0) { %>
+      <script>
+        // SweetAlert Error Notification
+        Swal.fire({
+          icon: 'error',
+          title: '❌ Oops!',
+          html: `<strong><%= error %></strong>`,
+          showClass: {
+            popup: 'animate__animated animate__shakeX'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOut'
+          },
+          background: '#fff5f5',
+          confirmButtonColor: '#dc3545',
+          confirmButtonText: 'Understood',
+          customClass: {
+            title: 'text-danger',
+            popup: 'border border-danger shadow'
+          }
+        });
+      </script>
+      <% } %>
+
+
+  </body>
 </html>
