@@ -1,0 +1,48 @@
+<%- include('../header') %>
+
+    <div class="page-wrapper">
+        <div class="page-breadcrumb py-3 px-4 bg-light border-bottom">
+            <h4 class="mb-0">Add SubCategory</h4>
+        </div>
+
+        <div class="container-fluid px-4" style="margin-left: 300px; margin-top: 50px;  width: 600px;">
+            <% if (success && success.length> 0) { %>
+                <div class="alert alert-success mt-3">
+                    <%= success %>
+                </div>
+                <% } %>
+                    <% if (error && error.length> 0) { %>
+                        <div class="alert alert-danger mt-3">
+                            <%= error %>
+                        </div>
+                        <% } %>
+
+                            <div class="card mt-4">
+                                <div class="card-body">
+                                    <form action="/subcategory/insertsubcategory" method="POST">
+                                        <div class="form-group mb-3">
+                                            <label for="category_id">Select Category:</label>
+                                            <select name="category_id" id="category_id" class="form-control" required>
+                                                <option value="">-- Select Category --</option>
+                                                <% allCategory.forEach((allCategory)=> { %>
+                                                    <option value="<%= allCategory._id %>">
+                                                        <%= allCategory.c_title %>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <label for="subcategory_title">SubCategory Title:</label>
+                                            <input type="text" name="subcategory_title" id="subcategory_title"
+                                                class="form-control" placeholder="Enter Subcategory Title" required />
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Add SubCategory</button>
+                                    </form>
+                                </div>
+                            </div>
+        </div>
+    </div>
+
+    <%- include('../footer') %>

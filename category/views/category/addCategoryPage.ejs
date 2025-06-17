@@ -1,0 +1,46 @@
+<%- include('../header') %>
+
+    <div class="page-wrapper" style="margin-left: 230px; margin-top: 20px;">
+        <div class="page-breadcrumb py-3 px-4 bg-light border-bottom">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Category Form</h4>
+            </div>
+        </div>
+
+        <div class="container-fluid" style="padding: 30px;">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h5 class="panel-title"><i class="fa fa-plus-circle"></i> Add New Category</h5>
+                        </div>
+                        <form method="post" action="/category/insertCategory" enctype="multipart/form-data">
+                            <div class="panel-body">
+
+                                <!-- Category Title -->
+                                <div class="form-group">
+                                    <label for="c_title">Category Title</label>
+                                    <input type="text" class="form-control" id="c_title" name="c_title"
+                                        placeholder="Enter category title" required>
+                                </div>
+
+                                <!-- Image Upload -->
+                                <div class="form-group">
+                                    <label for="c_image">Category Image</label>
+                                    <input class="form-control" type="file" id="c_image" name="c_image" required>
+                                </div>
+
+                            </div>
+                            <div class="panel-footer text-right">
+                                <button type="submit" class="btn btn-success">
+                                    Add Category
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../footer') %>

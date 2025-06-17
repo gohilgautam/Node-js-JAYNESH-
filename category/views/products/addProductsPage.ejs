@@ -1,0 +1,174 @@
+<%- include('../header') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <% if (success && success.length> 0) { %>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '<%= success %>',
+                confirmButtonColor: '#28a745'
+            });
+        </script>
+        <% } %>
+
+            <% if (error && error.length> 0) { %>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: '<%= error %>',
+                        confirmButtonColor: '#dc3545'
+                    });
+                </script>
+                <% } %>
+
+                    <!-- Custom Styling -->
+                    <style>
+                        .form-wrapper {
+                            margin-left: 280px;
+                            padding: 50px 20px;
+                            background-color: #f4f7fa;
+                            min-height: 100vh;
+                        }
+
+                        .product-form-box {
+                            background: #ffffff;
+                            padding: 40px;
+                            border-radius: 20px;
+                            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+                            max-width: 900px;
+                            margin: 10px;
+                        }
+
+                        .product-form-box h3 {
+                            font-weight: 700;
+                            color: #337ab7;
+                            margin-bottom: 30px;
+                            text-align: center;
+                        }
+
+                        label {
+                            font-weight: 600;
+                            color: #333;
+                            margin-bottom: 6px;
+                            display: block;
+                        }
+
+                        .form-control,
+                        .form-select {
+                            border-radius: 10px;
+                            padding: 10px 14px;
+                            border: 1px solid #ced4da;
+                            box-shadow: none;
+                            transition: 0.2s ease-in-out;
+                        }
+
+                        .form-control:focus,
+                        .form-select:focus {
+                            border-color: #337ab7;
+                            box-shadow: 0 0 0 0.15rem rgba(51, 122, 183, 0.25);
+                        }
+
+                        .form-group {
+                            margin-bottom: 20px;
+                        }
+
+                        .btn-submit {
+                            border-radius: 10px;
+                            padding: 12px 30px;
+                            font-weight: 600;
+                            background-color: #337ab7;
+                            border: none;
+                        }
+
+                        .btn-submit:hover {
+                            background-color: #286090;
+                        }
+                    </style>
+
+                    <!-- Form Layout -->
+                    <div class="page-wrapper form-wrapper">
+                        <div class="product-form-box">
+                            <h3>Add Product</h3>
+
+                            <form method="post" action="/product/insertProduct" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label>Product Name</label>
+                                    <input type="text" name="product_name" class="form-control"
+                                        placeholder="Enter product name" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Category</label>
+                                    <select name="category_id" class="form-select" required>
+                                        <option value="">Select Category</option>
+                                        <% allCategory.map((data)=> { %>
+                                            <option value="<%= data.id %>">
+                                                <%= data.c_title %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>SubCategory</label>
+                                    <select name="subcategory_id" class="form-select" required>
+                                        <option value="">Select SubCategory</option>
+                                        <% allSubCategory.map((data)=> { %>
+                                            <option value="<%= data.id %>">
+                                                <%= data.subcategory_title %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Extra Category</label>
+                                    <select name="extracategory_id" class="form-select">
+                                        <option value="">Select Extra Category</option>
+                                        <% allExtraCategory.map((data)=> { %>
+                                            <option value="<%= data.id %>">
+                                                <%= data.extraCategory_title %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Old Price</label>
+                                    <input type="number" name="old_price" class="form-control"
+                                        placeholder="Enter old price" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input type="number" name="product_price" class="form-control"
+                                        placeholder="Enter price" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea name="product_desc" class="form-control" rows="4"
+                                        placeholder="Enter product description"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Stock</label>
+                                    <input type="number" name="product_stock" class="form-control"
+                                        placeholder="Enter stock quantity" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Product Image</label>
+                                    <input type="file" name="product_image" class="form-control" required />
+                                </div>
+
+                                <div class="text-end mt-4">
+                                    <button type="submit" class="btn btn-submit">Add Product</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <%- include('../footer') %>

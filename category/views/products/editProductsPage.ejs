@@ -1,0 +1,107 @@
+<%- include('../header')%>
+    <div class="container" style="padding-top: 30px; margin-left: 300px;">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-9">
+                <div
+                    style="background: white; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); padding: 30px; border: 1px solid #ddd;">
+                    <h3 class="text-center mb-4" style="color: #007bff;">Update Product</h3>
+
+                    <form action="/product/editProductPage/<%= allproduct._id %>" method="POST"
+                        enctype="multipart/form-data">
+
+                        <!-- Product Name -->
+                        <div class="mb-3">
+                            <label class="form-label">Product Name</label>
+                            <input type="text" name="product_name" class="form-control"
+                                value="<%= allproduct.product_name %>" required>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" name="category_id" required>
+                                <% allCategory.map(cat=> { %>
+                                    <option value="<%= cat.id %>" <%=cat.id==allproduct.category_id.id ? 'selected' : ''
+                                        %>>
+                                        <%= cat.c_title %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                        </div>
+
+                        <!-- SubCategory -->
+                        <div class="mb-3">
+                            <label class="form-label">SubCategory</label>
+                            <select class="form-select" name="subcategory_id" required>
+                                <% allSubCategory.map(sub=> { %>
+                                    <option value="<%= sub.id %>" <%=sub.id==allproduct.subcategory_id.id ? 'selected'
+                                        : '' %>><%= sub.subcategory_title %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                        </div>
+
+                        <!-- ExtraCategory -->
+                        <div class="mb-3">
+                            <label class="form-label">ExtraCategory</label>
+                            <select class="form-select" name="extracategory_id">
+                                <option value="">Select</option>
+                                <% allExtraCategory.forEach(extra=> { %>
+                                    <option value="<%= extra._id %>"
+                                        <%=allproduct.extracategory_id?._id?.toString()===extra._id.toString()
+                                        ? 'selected' : '' %>>
+                                        <%= extra.extraCategory_title %>
+                                    </option>
+                                    <% }) %>
+
+                            </select>
+                        </div>
+
+                        <!-- Old Price -->
+                        <div class="mb-3">
+                            <label class="form-label">Old Price</label>
+                            <input type="number" name="old_price" class="form-control"
+                                value="<%= allproduct.old_price %>" required>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <input type="number" name="product_price" class="form-control"
+                                value="<%= allproduct.product_price %>" required>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="product_desc" rows="3"
+                                required><%= allproduct.product_desc %></textarea>
+                        </div>
+
+                        <!-- Stock -->
+                        <div class="mb-3">
+                            <label class="form-label">Stock</label>
+                            <input type="number" name="product_stock" class="form-control"
+                                value="<%= allproduct.product_stock %>" required>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="mb-3">
+                            <label class="form-label">Current Image</label><br />
+                            <img src="/<%= allproduct.product_image %>" height="80" class="mb-3"
+                                style="object-fit: cover; max-width: 120px; border-radius: 8px;" />
+                            <input type="file" name="product_image" class="form-control">
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="text-end mt-4">
+                            <button type="submit" class="btn btn-primary px-5 py-2">Update Product</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../footer')%>

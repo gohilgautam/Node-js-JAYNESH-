@@ -1,0 +1,60 @@
+<%- include('../header') %>
+
+    <div class="page-wrapper">
+        <!-- Main Content -->
+        <div class="container-fluid" style=" height: 550px; margin-left: 270px;">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm rounded">
+                        <form class="form-horizontal" method="post"
+                            action="/subcategory/editsubcategory/<%= updateSubCategory.id %>">
+                            <div class="card-body">
+
+
+                                <!-- Category Dropdown -->
+
+                                <div class="form-group row mb-3" style="margin-top: 70px;">
+                                    <h4 class="card-title mb-4">Update Sub Category</h4>
+                                    <label class="col-sm-3 col-form-label text-end">Category</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="category_id" required>
+                                            <option value="">--- Select ---</option>
+                                            <% allCategory.map((category)=> { %>
+                                                <option value="<%= category.id %>" <%
+                                                    if(category.id==updateSubCategory.category_id) { %> selected <% } %>
+                                                        >
+                                                        <%= category.c_title %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <!-- SubCategory Title -->
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-3 col-form-label text-end">SubCategory Title</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="subcategory_title" class="form-control"
+                                            placeholder="Enter Sub Category Title"
+                                            value="<%= updateSubCategory.subcategory_title %>" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="border-top">
+                                <div class="card-body text-end">
+                                    <button type="submit" class="btn btn-primary">
+                                        Update Sub Category
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../footer') %>

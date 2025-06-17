@@ -1,0 +1,113 @@
+<%- include('../header') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Flash Messages -->
+    <% if (success && success.length> 0) { %>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '<%= success %>',
+                confirmButtonColor: '#28a745'
+            });
+        </script>
+        <% } %>
+            <% if (error && error.length> 0) { %>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: '<%= error %>',
+                        confirmButtonColor: '#dc3545'
+                    });
+                </script>
+                <% } %>
+
+                    <!-- Styles -->
+                    <style>
+                        .custom-table-box {
+                            background: #fff;
+                            border-radius: 12px;
+                            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+                            padding: 30px;
+                            max-width: 95%;
+                            margin: 50px auto;
+                        }
+
+                        .custom-table-box h3 {
+                            text-align: center;
+                            font-weight: 700;
+                            color: #337ab7;
+                            margin-bottom: 25px;
+                        }
+
+                        table th {
+                            background-color: #337ab7;
+                            color: white;
+                            font-weight: 600;
+                        }
+
+                        .table td,
+                        .table th {
+                            vertical-align: middle;
+                        }
+                    </style>
+
+                    <!-- Page Wrapper -->
+                    <div class="page-wrapper">
+                        <div class="container-fluid">
+                            <div class="custom-table-box" style="margin-left: 280px;">
+                                <h3>All Extra Categories</h3>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Category</th>
+                                                <th>SubCategory</th>
+                                                <th>Extra Category Title</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (allExtraCategory.length> 0) { %>
+                                                <% allExtraCategory.forEach((item, index)=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= index + 1 %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.category_id?.c_title || 'N/A' %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.subCategory_id?.subcategory_title || 'N/A' %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.extraCategory_title %>
+                                                        </td>
+                                                        <td>
+                                                            <!-- Optional buttons -->
+                                                            <a href="/extracategory/updateExtracategorypage/<%= item._id %>"
+                                                                class="btn btn-sm btn-primary">Edit</a>
+                                                            <a href="/extracategory/deleteextracategory/<%= item._id %>"
+                                                                class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                                        <% } else { %>
+                                                            <tr>
+                                                                <td colspan="5" class="text-center">No Extra Categories
+                                                                    Found.</td>
+                                                            </tr>
+                                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%- include('../footer') %>
