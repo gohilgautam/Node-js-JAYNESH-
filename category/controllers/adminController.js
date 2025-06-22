@@ -1,3 +1,36 @@
+const Admin = require('../models/adminModel');
+const fs = require('fs');
+const path = require('path');
+const nodemailer = require('nodemailer');
+
+// Dashboard Page
+const DashbordPage = async (req, res) => {
+    res.render('dashbord', { success: req.flash('success'), error: req.flash('error') });
+
+};
+
+// Add Admin Page
+const addAdminPage = (req, res) => {
+    res.render('addAdmin', { success: req.flash('success'), error: req.flash('error') });
+
+};
+
+// Insert New Admin
+const insertAdmin = async (req, res) => {
+    try {
+        req.body.avatar = req.file.path;
+        const insert = await Admin.create(req.body);
+        if (insert) {
+            req.flash('success', 'Admin added successfully!');
+        } else {
+            req.flash('error', 'Admin could not be added.');
+        }
+        res.redirect('/addAdmin');
+    } catch (error) {
+        req.flash('error', 'Something went wrong.');
+        res.send(`<h2> not found : ${error} </h2>`);
+    }
+};
 
 // View All Admins (excluding current)
 const viewAdminPage = async (req, res) => {
@@ -5,7 +38,7 @@ const viewAdminPage = async (req, res) => {
         const currentAdmin = req.user;
         let records = await Admin.find();
         records = records.filter((data) => data.id != currentAdmin._id)
-        res.render('admin/viewAdmins', {
+        res.render('viewAdmins', {
 
             records,
             success: req.flash('success'),
@@ -21,7 +54,7 @@ const UpdateAdmin = async (req, res) => {
     try {
         const data = await Admin.findById(req.query.id);
         if (data) {
-            res.render('admin/updateAdmin', {
+            res.render('updateAdmin', {
                 data,
                 success: "",
                 error: ""
@@ -47,14 +80,14 @@ const editAdmin = async (req, res) => {
             }
 
             // Set new path (relative)
-            req.body.avatar = "uploads/admin" + req.file.filename;
+            req.body.avatar = "uploads/" + req.file.filename;
         } else {
             req.body.avatar = admin.avatar;
         }
 
         await Admin.findByIdAndUpdate(req.params.editId, req.body);
         req.flash('success', 'Admin updated successfully');
-        res.redirect('/admin/viewadmin');
+        res.redirect('/viewadmin');
     } catch (e) {
         console.error("Edit error:", e);
         res.send(`<p>Error: ${e.message}</p>`);
@@ -81,7 +114,7 @@ const DeleteAdmin = async (req, res) => {
 
         await Admin.findByIdAndDelete(req.params.id);
         req.flash('success', 'Admin deleted successfully');
-        res.redirect('admin/viewadmin');
+        res.redirect('/viewadmin');
     } catch (e) {
         console.error("Delete error:", e);
         res.status(500).send(`<p> Error: ${e.message} </p>`);
@@ -92,7 +125,7 @@ const DeleteAdmin = async (req, res) => {
 // Login Page
 const loginPage = (req, res) => {
     const error = req.session.message;
-    res.render('admin/signInPage', { success: req.flash('success'), error: error });
+    res.render('login', { success: req.flash('success'), error: error });
     req.session.message = undefined;
 };
 
@@ -100,7 +133,7 @@ const loginPage = (req, res) => {
 const userChecked = async (req, res) => {
     console.log("-------Running------------");
     req.flash('success', 'Admin login successfully');
-    res.render("/dashboard");
+    res.redirect("/dashboard");
 };
 
 // Logout
@@ -126,7 +159,7 @@ const updateProfile = async (req, res) => {
         const currentAdmin = req.user;
 
         if (data) {
-            res.render('admin/updateprofile', { data, currentAdmin, success: "", error: "" });
+            res.render('updateprofile', { data, currentAdmin, success: "", error: "" });
         } else {
             res.send("Admin record not found.");
         }
@@ -146,14 +179,14 @@ const editProfile = async (req, res) => {
         if (req.file) {
             const oldPath = "public" + data.avatar; // correct for relative path
             if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-            req.body.avatar = "/uploads/admin" + req.file.filename;
+            req.body.avatar = "/uploads/" + req.file.filename;
         } else {
             req.body.avatar = data.avatar; // keep old image
         }
 
         await Admin.findByIdAndUpdate(editId, req.body);
         req.flash('success', 'Profile updated successfully');
-        res.redirect('/admin/viewProfile');
+        res.redirect('/viewProfile');
 
     } catch (e) {
         console.error("Edit error:", e);
@@ -166,7 +199,7 @@ const editProfile = async (req, res) => {
 
 // Password Change Page
 const changePassword = async (req, res) => {
-    res.render('admin/changepassword', { success: req.flash('success'), error: req.flash('error') });
+    res.render('Changepassword', { success: req.flash('success'), error: req.flash('error') });
 };
 
 // Handle Password Change
@@ -176,7 +209,7 @@ const changemypassword = async (req, res) => {
     try {
         if (!req.user) {
             req.flash('error', 'User not logged in');
-            return res.redirect('admin/changepassword');
+            return res.redirect('/changepassword');
         }
 
         const myAdmin = await Admin.findById(req.user.id);
@@ -188,12 +221,12 @@ const changemypassword = async (req, res) => {
 
         if (newpassword === oldpassword) {
             req.flash('error', 'New password must be different from current password');
-            return res.redirect('admin/changepassword');
+            return res.redirect('/changepassword');
         }
 
         if (newpassword !== confimpassword) {
             req.flash('error', 'New and confirm passwords do not match');
-            return res.redirect('admin/changepassword');
+            return res.redirect('/changepassword');
         }
 
         await Admin.findByIdAndUpdate(req.user.id, { password: newpassword });
@@ -202,14 +235,14 @@ const changemypassword = async (req, res) => {
     } catch (e) {
         console.error("Password update error:", e);
         req.flash('error', 'Something went wrong.');
-        return res.redirect('admin/changepassword');
+        return res.redirect('/changepassword');
     }
 };
 
 
 // Forgot Password Page
 const losspassword = async (req, res) => {
-    res.render('auth/lostpassword');
+    res.render('losspassword');
 };
 
 // Send OTP
@@ -338,10 +371,10 @@ const checkEmail = async (req, res) => {
             res.cookie('email', email);
             res.redirect('/otpVerify');
         } else {
-            res.redirect('/auth/lostpassword');
+            res.redirect('/lostpassword');
         }
     } else {
-        res.redirect('/auth/lostpassword');
+        res.redirect('/lostpassword');
     }
 };
 
@@ -356,27 +389,27 @@ const checkOtp = (req, res) => {
     const storedOtp = req.cookies.OTP;
 
     if (enteredOtp === storedOtp) {
-        res.redirect('/auth/newsetpassword');
+        res.redirect('/newsetpassword');
     } else {
-        res.redirect('/auth/otpVerifyPage');
+        res.redirect('/otpVerify');
     }
 };
 
 
 // New Password Set Page
 const newsetpassword = (req, res) => {
-    res.render('auth/newsetpassword');
+    res.render('newsetpassword');
 };
 
 // Update New Password
 const checknewpassword = async (req, res) => {
     try {
         const { newPassword, confirmPassword } = req.body;
-        if (newPassword !== confirmPassword) return res.redirect('auth/newsetpassword');
+        if (newPassword !== confirmPassword) return res.redirect('/newsetpassword');
 
         const email = req.cookies.email;
         const user = await Admin.findOne({ email });
-        if (!user) return res.redirect('auth/newsetpassword');
+        if (!user) return res.redirect('/newsetpassword');
 
         const updated = await Admin.findByIdAndUpdate(user.id, { password: newPassword });
         if (updated) {
@@ -384,7 +417,7 @@ const checknewpassword = async (req, res) => {
             res.clearCookie('OTP');
             res.redirect('/');
         } else {
-            res.redirect('auth/newsetpassword');
+            res.redirect('/newsetpassword');
         }
     } catch (e) {
         res.send(`Not Found : ${e}`);

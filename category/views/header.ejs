@@ -9,608 +9,309 @@
     <meta name="author" content="" />
     <title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
     <!-- loader-->
-    <link href="assets/css/pace.min.css" rel="stylesheet" />
-    <script src="assets/js/pace.min.js"></script>
+    <link href="../public/assets/css/pace.min.css" rel="stylesheet" />
+    <script src="../public/assets/js/pace.min.js"></script>
     <!--favicon-->
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../public/assets/images/favicon.ico" type="image/x-icon">
     <!-- Vector CSS -->
-    <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+    <link href="../public/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
     <!-- simplebar CSS-->
-    <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+    <link href="../public/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
     <!-- Bootstrap core CSS-->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../public/assets/css/bootstrap.min.css" rel="stylesheet" />
     <!-- animate CSS-->
-    <link href="assets/css/animate.css" rel="stylesheet" type="text/css" />
+    <link href="../public/assets/css/animate.css" rel="stylesheet" type="text/css" />
     <!-- Icons CSS-->
-    <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="../public/assets/css/icons.css" rel="stylesheet" type="text/css" />
     <!-- Sidebar CSS-->
-    <link href="assets/css/sidebar-menu.css" rel="stylesheet" />
+    <link href="../public/assets/css/sidebar-menu.css" rel="stylesheet" />
     <!-- Custom Style-->
-    <link href="assets/css/app-style.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="../public/assets/css/app-style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/3.0.7/metisMenu.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background-color: #f5f6fa;
+        }
+
+        #wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        #sidebar-wrapper {
+            min-width: 250px;
+            max-width: 250px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            height: 100vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #side-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #side-menu .sidebar-header {
+            padding: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #bdc3c7;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #side-menu li a {
+            display: block;
+            padding: 14px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        #side-menu li a:hover,
+        #side-menu li.active>a {
+            background-color: #1abc9c;
+            color: #fff;
+        }
+
+        #side-menu li a i {
+            margin-right: 10px;
+            font-size: 1rem;
+        }
+
+        #side-menu ul.nav-second-level {
+            padding-left: 0;
+            background: #34495e;
+        }
+
+        #side-menu ul.nav-second-level li a {
+            padding-left: 40px;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+
+        #side-menu ul.nav-second-level li a:hover {
+            background: #1abc9c;
+            color: #fff;
+        }
+
+        .sidebar-search {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-search input {
+            background: #4a677d;
+            color: #fff;
+            border: 1px solid #4a677d;
+        }
+
+        .sidebar-search input::placeholder {
+            color: #ccc;
+        }
+
+        .sidebar-search .btn {
+            background-color: #3498db;
+            border: none;
+        }
+
+        #page-content-wrapper {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .fa.arrow:before {
+            content: "\f105";
+            float: right;
+            transition: transform 0.3s ease;
+        }
+
+        li.active>a>.fa.arrow:before {
+            transform: rotate(90deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: -250px;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: 0;
+            }
+        }
+    </style>
 
 </head>
 
 <body class="bg-theme bg-theme1">
 
-    <div class="pace  pace-inactive">
-        <div class="pace-progress" data-progress-text="100%" data-progress="99"
-            style="transform: translate3d(100%, 0px, 0px);">
-            <div class="pace-progress-inner"></div>
-        </div>
-        <div class="pace-activity"></div>
-    </div>
-
+    <!-- Start wrapper-->
     <div id="wrapper">
 
         <!--Start sidebar-wrapper-->
-        <div id="sidebar-wrapper" data-simplebar="init" data-simplebar-auto-hide="true" class="active">
-            <div class="simplebar-track vertical" style="visibility: visible;">
-                <div class="simplebar-scrollbar visible" style="visibility: visible; top: 0px; height: 333px;"></div>
+        <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
+            <div class="brand-logo">
+                <a href="#">
+                    <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+                    <h5 class="logo-text">Dashtreme Admin</h5>
+                </a>
             </div>
-            <div class="simplebar-track horizontal" style="visibility: hidden;">
-                <div class="simplebar-scrollbar"></div>
-            </div>
-            <div class="simplebar-scroll-content" style="padding-right: 15px; margin-bottom: -30px;">
-                <div class="simplebar-content" style="padding-bottom: 15px; margin-right: -15px;">
-                    <div class="brand-logo">
-                        <a href="index.html">
-                            <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
-                            <h5 class="logo-text">Dashtreme Admin</h5>
-                        </a>
-                    </div>
-                    <ul class="space-y-2 text-gray-300">
-                        <!-- Simple Link: Dashboard -->
-                        <li>
-                            <a href="/dashboard"
-                                class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-700 transition-all duration-200 ease-in-out">
-                                <i class="fa fa-tachometer-alt text-lg"></i> <span class="font-medium">Dashboard</span>
-                            </a>
+            <div id="wrapper">
+                <div id="sidebar-wrapper">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-header">MAIN NAVIGATION</li>
+
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </li>
 
-                        <!-- Accordion Item: Admin -->
+                        <li><a href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+
                         <li>
-                            <a href="#"
-                                class="flex items-center justify-between w-full px-4 py-2 rounded-lg hover:bg-gray-700 transition-all duration-200 ease-in-out toggle-submenu"
-                                aria-expanded="false" aria-controls="submenu-admin">
-                                <span class="flex items-center gap-3">
-                                    <i class="fa fa-users text-lg"></i> <span class="font-medium">Admin</span>
-                                </span>
-                                <i class="fa fa-chevron-right ml-auto transition-transform text-xs"></i>
-                            </a>
-                            <ul id="submenu-admin" class="submenu-level ml-6 mt-1 space-y-1 text-sm text-gray-400">
-                                <li><a href="/admin/addAdmin"
-                                        class="block px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 ease-in-out">Add
-                                        Admin</a></li>
-                                <li><a href="/admin/viewAdmin"
-                                        class="block px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 ease-in-out">View
-                                        Admin</a></li>
+                            <a href="#"><i class="fa fa-users"></i> Admin <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level **collapse**">
+                                <li><a href="/admin/addAdmin">Add Admin</a></li>
+                                <li><a href="/admin/viewAdmin">View Admin</a></li>
                             </ul>
                         </li>
 
-                        <!-- Accordion Item: Category -->
                         <li>
-                            <a href="#"
-                                class="flex items-center justify-between w-full px-4 py-2 rounded-lg hover:bg-gray-700 transition-all duration-200 ease-in-out toggle-submenu"
-                                aria-expanded="false" aria-controls="submenu-category">
-                                <span class="flex items-center gap-3">
-                                    <i class="fa fa-folder-open text-lg"></i> <span class="font-medium">Category</span>
-                                </span>
-                                <i class="fa fa-chevron-right ml-auto transition-transform text-xs"></i>
-                            </a>
-                            <ul id="submenu-category" class="submenu-level ml-6 mt-1 space-y-1 text-sm text-gray-400">
-                                <li><a href="/category/addCategoryPage"
-                                        class="block px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 ease-in-out">Add
-                                        Category</a></li>
-                                <li><a href="/category/viewCategoryPage"
-                                        class="block px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 ease-in-out">View
-                                        Category</a></li>
+                            <a href="#"><i class="fa fa-folder-open"></i> Category <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level **collapse**">
+                                <li><a href="/category/addCategoryPage">Add Category</a></li>
+                                <li><a href="/category/viewCategoryPage">View Category</a></li>
                             </ul>
                         </li>
 
-                        <!-- Accordion Item: Subcategory -->
                         <li>
-                            <a href="#"
-                                class="flex items-center justify-between w-full px-4 py-2 rounded-lg hover:bg-gray-700 transition-all duration-200 ease-in-out toggle-submenu"
-                                aria-expanded="false" aria-controls="submenu-subcategory">
-                                <span class="flex items-center gap-3">
-                                    <i class="fa fa-code-fork text-lg"></i> <span class="font-medium">Subcategory</span>
-                                </span>
-                                <i class="fa fa-chevron-right ml-auto transition-transform text-xs"></i>
-                            </a>
-                            <ul id="submenu-subcategory"
-                                class="submenu-level ml-6 mt-1 space-y-1 text-sm text-gray-400">
-                                <li><a href="/subcategory/addSubCategoryPage"
-                                        class="block px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 ease-in-out">Add
-                                        Subcategory</a></li>
-                                <li><a href="/subcategory/viewSubCategory"
-                                        class="block px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 ease-in-out">View
-                                        Subcategory</a></li>
+                            <a href="#"><i class="fa fa-code-fork"></i> Subcategory <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level **collapse**">
+                                <li><a href="/subcategory/addSubCategoryPage">Add Subcategory</a></li>
+                                <li><a href="/subcategory/viewSubCategory">View Subcategory</a></li>
                             </ul>
                         </li>
 
-                        <!-- Accordion Item: Extra Category -->
                         <li>
-                            <a href="#"
-                                class="flex items-center justify-between w-full px-4 py-2 rounded-lg hover:bg-gray-700 transition-all duration-200 ease-in-out toggle-submenu"
-                                aria-expanded="false" aria-controls="submenu-extra-category">
-                                <span class="flex items-center gap-3">
-                                    <i class="fa fa-puzzle-piece text-lg"></i> <span class="font-medium">Extra
-                                        Category</span>
-                                </span>
-                                <i class="fa fa-chevron-right ml-auto transition-transform text-xs"></i>
-                            </a>
-                            <ul id="submenu-extra-category"
-                                class="submenu-level ml-6 mt-1 space-y-1 text-sm text-gray-400">
-                                <li><a href="/extracategory/addextracategorypage"
-                                        class="block px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 ease-in-out">Add
-                                        Extra Category</a></li>
-                                <li><a href="/extracategory/viewextracategorypage"
-                                        class="block px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 ease-in-out">View
-                                        Extra Category</a></li>
+                            <a href="#"><i class="fa fa-puzzle-piece"></i> Extra Category <span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level **collapse**">
+                                <li><a href="/extracategory/addextracategorypage">Add Extra Category</a></li>
+                                <li><a href="/extracategory/viewextracategorypage">View Extra Category</a></li>
                             </ul>
                         </li>
 
-                        <!-- Accordion Item: Product -->
                         <li>
-                            <a href="#"
-                                class="flex items-center justify-between w-full px-4 py-2 rounded-lg hover:bg-gray-700 transition-all duration-200 ease-in-out toggle-submenu"
-                                aria-expanded="false" aria-controls="submenu-product">
-                                <span class="flex items-center gap-3">
-                                    <i class="fa fa-box-open text-lg"></i> <span class="font-medium">Product</span>
-                                </span>
-                                <i class="fa fa-chevron-right ml-auto transition-transform text-xs"></i>
-                            </a>
-                            <ul id="submenu-product" class="submenu-level ml-6 mt-1 space-y-1 text-sm text-gray-400">
-                                <li><a href="/product/addProductsPage"
-                                        class="block px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 ease-in-out">Add
-                                        Product</a></li>
-                                <li><a href="/product/viewProductPage"
-                                        class="block px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 ease-in-out">View
-                                        Product</a></li>
+                            <a href="#"><i class="fa fa-box-open"></i> Product <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level **collapse**">
+                                <li><a href="/product/addProductsPage">Add Product</a></li>
+                                <li><a href="/product/viewProductPage">View Product</a></li>
                             </ul>
                         </li>
 
-                        <!-- Simple Links: Profile, Change Password, Logout -->
-                        <li>
-                            <a href="/viewProfile"
-                                class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-700 transition-all duration-200 ease-in-out">
-                                <i class="fa fa-user text-lg"></i> <span class="font-medium">Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/changePassword"
-                                class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-700 transition-all duration-200 ease-in-out">
-                                <i class="fa fa-lock text-lg"></i> <span class="font-medium">Change Password</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/logout"
-                                class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-600 text-red-400 hover:text-white transition-all duration-200 ease-in-out">
-                                <i class="fa fa-power-off text-lg"></i> <span class="font-medium">Logout</span>
-                            </a>
-                        </li>
+                        <li class="sidebar-header">ACCOUNT</li>
+
+                        <li><a href="/viewProfile"><i class="fa fa-user"></i> Profile</a></li>
+                        <li><a href="/changePassword"><i class="fa fa-lock"></i> Change Password</a></li>
+                        <li><a href="/logout"><i class="fa fa-power-off"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
-        </div>
-        <!--End sidebar-wrapper-->
+            <!--End sidebar-wrapper-->
 
-        <!--Start topbar header-->
-        <header class="topbar-nav">
-            <nav class="navbar navbar-expand fixed-top">
-                <ul class="navbar-nav mr-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link toggle-menu" href="javascript:void();">
-                            <i class="icon-menu menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <form class="search-bar">
-                            <input type="text" class="form-control" placeholder="Enter keywords">
-                            <a href="javascript:void();"><i class="icon-magnifier"></i></a>
-                        </form>
-                    </li>
-                </ul>
+            <!--Start topbar header-->
+            <header class="topbar-nav">
+                <nav class="navbar navbar-expand fixed-top">
+                    <ul class="navbar-nav mr-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link toggle-menu" href="javascript:void();">
+                                <i class="icon-menu menu-icon"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <form class="search-bar">
+                                <input type="text" class="form-control" placeholder="Enter keywords">
+                                <a href="javascript:void();"><i class="icon-magnifier"></i></a>
+                            </form>
+                        </li>
+                    </ul>
 
-                <ul class="navbar-nav align-items-center right-nav-link">
-                    <li class="nav-item dropdown-lg">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
-                            href="javascript:void();">
-                            <i class="fa fa-envelope-open-o"></i></a>
-                    </li>
-                    <li class="nav-item dropdown-lg">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
-                            href="javascript:void();">
-                            <i class="fa fa-bell-o"></i></a>
-                    </li>
-                    <li class="nav-item language">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
-                            href="javascript:void();"><i class="fa fa-flag"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item"> <i class="flag-icon flag-icon-gb mr-2"></i> English</li>
-                            <li class="dropdown-item"> <i class="flag-icon flag-icon-fr mr-2"></i> French</li>
-                            <li class="dropdown-item"> <i class="flag-icon flag-icon-cn mr-2"></i> Chinese</li>
-                            <li class="dropdown-item"> <i class="flag-icon flag-icon-de mr-2"></i> German</li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                            <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle"
-                                    alt="user avatar"></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item user-details">
-                                <a href="javaScript:void();">
-                                    <div class="media">
-                                        <div class="avatar"><img class="align-self-start mr-3"
-                                                src="https://via.placeholder.com/110x110" alt="user avatar"></div>
-                                        <div class="media-body">
-                                            <h6 class="mt-2 user-title">Sarajhon Mccoy</h6>
-                                            <p class="user-subtitle">mccoy@example.com</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><i class="icon-envelope mr-2"></i> Inbox</li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        </header>
-        <!--End topbar header-->
-
-        <div class="clearfix"></div>
-
-        <div class="content-wrapper">
-            <div class="container-fluid">
-
-                <!--Start Dashboard Content-->
-
-                <div class="card mt-3">
-                    <div class="card-content">
-                        <div class="row row-group m-0">
-                            <div class="col-12 col-lg-6 col-xl-3 border-light">
-                                <div class="card-body">
-                                    <h5 class="text-white mb-0">9526 <span class="float-right"><i
-                                                class="fa fa-shopping-cart"></i></span></h5>
-                                    <div class="progress my-3" style="height:3px;">
-                                        <div class="progress-bar" style="width:55%"></div>
-                                    </div>
-                                    <p class="mb-0 text-white small-font">Total Orders <span class="float-right">+4.2%
-                                            <i class="zmdi zmdi-long-arrow-up"></i></span></p>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6 col-xl-3 border-light">
-                                <div class="card-body">
-                                    <h5 class="text-white mb-0">8323 <span class="float-right"><i
-                                                class="fa fa-usd"></i></span></h5>
-                                    <div class="progress my-3" style="height:3px;">
-                                        <div class="progress-bar" style="width:55%"></div>
-                                    </div>
-                                    <p class="mb-0 text-white small-font">Total Revenue <span class="float-right">+1.2%
-                                            <i class="zmdi zmdi-long-arrow-up"></i></span></p>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6 col-xl-3 border-light">
-                                <div class="card-body">
-                                    <h5 class="text-white mb-0">6200 <span class="float-right"><i
-                                                class="fa fa-eye"></i></span></h5>
-                                    <div class="progress my-3" style="height:3px;">
-                                        <div class="progress-bar" style="width:55%"></div>
-                                    </div>
-                                    <p class="mb-0 text-white small-font">Visitors <span class="float-right">+5.2% <i
-                                                class="zmdi zmdi-long-arrow-up"></i></span></p>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6 col-xl-3 border-light">
-                                <div class="card-body">
-                                    <h5 class="text-white mb-0">5630 <span class="float-right"><i
-                                                class="fa fa-envira"></i></span></h5>
-                                    <div class="progress my-3" style="height:3px;">
-                                        <div class="progress-bar" style="width:55%"></div>
-                                    </div>
-                                    <p class="mb-0 text-white small-font">Messages <span class="float-right">+2.2% <i
-                                                class="zmdi zmdi-long-arrow-up"></i></span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 col-lg-8 col-xl-8">
-                        <div class="card">
-                            <div class="card-header">Site Traffic
-                                <div class="card-action">
-                                    <div class="dropdown">
-                                        <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
-                                            data-toggle="dropdown">
-                                            <i class="icon-options"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="javascript:void();">Action</a>
-                                            <a class="dropdown-item" href="javascript:void();">Another action</a>
-                                            <a class="dropdown-item" href="javascript:void();">Something else here</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="javascript:void();">Separated link</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-inline">
-                                    <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>New Visitor
-                                    </li>
-                                    <li class="list-inline-item"><i class="fa fa-circle mr-2 text-light"></i>Old Visitor
-                                    </li>
-                                </ul>
-                                <div class="chart-container-1">
-                                    <div class="chartjs-size-monitor"
-                                        style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-                                        <div class="chartjs-size-monitor-expand"
-                                            style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                            <div
-                                                style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
+                    <ul class="navbar-nav align-items-center right-nav-link">
+                        <li class="nav-item dropdown-lg">
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect"
+                                data-toggle="dropdown" href="javascript:void();">
+                                <i class="fa fa-envelope-open-o"></i></a>
+                        </li>
+                        <li class="nav-item dropdown-lg">
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect"
+                                data-toggle="dropdown" href="javascript:void();">
+                                <i class="fa fa-bell-o"></i></a>
+                        </li>
+                        <li class="nav-item language">
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect"
+                                data-toggle="dropdown" href="javascript:void();"><i class="fa fa-flag"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li class="dropdown-item"> <i class="flag-icon flag-icon-gb mr-2"></i> English</li>
+                                <li class="dropdown-item"> <i class="flag-icon flag-icon-fr mr-2"></i> French</li>
+                                <li class="dropdown-item"> <i class="flag-icon flag-icon-cn mr-2"></i> Chinese</li>
+                                <li class="dropdown-item"> <i class="flag-icon flag-icon-de mr-2"></i> German</li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
+                                <span class="user-profile"><img src="https://via.placeholder.com/110x110"
+                                        class="img-circle" alt="user avatar"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li class="dropdown-item user-details">
+                                    <a href="javaScript:void();">
+                                        <div class="media">
+                                            <div class="avatar"><img class="align-self-start mr-3"
+                                                    src="https://via.placeholder.com/110x110" alt="user avatar"></div>
+                                            <div class="media-body">
+                                                <h6 class="mt-2 user-title">Sarajhon Mccoy</h6>
+                                                <p class="user-subtitle">mccoy@example.com</p>
                                             </div>
                                         </div>
-                                        <div class="chartjs-size-monitor-shrink"
-                                            style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                            <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
-                                        </div>
-                                    </div>
-                                    <canvas id="chart1" width="702" height="260"
-                                        style="display: block; width: 702px; height: 260px;"
-                                        class="chartjs-render-monitor"></canvas>
-                                </div>
-                            </div>
-
-                            <div class="row m-0 row-group text-center border-top border-light-3">
-                                <div class="col-12 col-lg-4">
-                                    <div class="p-3">
-                                        <h5 class="mb-0">45.87M</h5>
-                                        <small class="mb-0">Overall Visitor <span> <i class="fa fa-arrow-up"></i>
-                                                2.43%</span></small>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="p-3">
-                                        <h5 class="mb-0">15:48</h5>
-                                        <small class="mb-0">Visitor Duration <span> <i class="fa fa-arrow-up"></i>
-                                                12.65%</span></small>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="p-3">
-                                        <h5 class="mb-0">245.65</h5>
-                                        <small class="mb-0">Pages/Visit <span> <i class="fa fa-arrow-up"></i>
-                                                5.62%</span></small>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-lg-4 col-xl-4">
-                        <div class="card">
-                            <div class="card-header">Weekly sales
-                                <div class="card-action">
-                                    <div class="dropdown">
-                                        <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
-                                            data-toggle="dropdown">
-                                            <i class="icon-options"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="javascript:void();">Action</a>
-                                            <a class="dropdown-item" href="javascript:void();">Another action</a>
-                                            <a class="dropdown-item" href="javascript:void();">Something else here</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="javascript:void();">Separated link</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-container-2">
-                                    <div class="chartjs-size-monitor"
-                                        style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-                                        <div class="chartjs-size-monitor-expand"
-                                            style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                            <div
-                                                style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
-                                            </div>
-                                        </div>
-                                        <div class="chartjs-size-monitor-shrink"
-                                            style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                            <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
-                                        </div>
-                                    </div>
-                                    <canvas id="chart2" width="318" height="188"
-                                        style="display: block; width: 318px; height: 188px;"
-                                        class="chartjs-render-monitor"></canvas>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table align-items-center">
-                                    <tbody>
-                                        <tr>
-                                            <td><i class="fa fa-circle text-white mr-2"></i> Direct</td>
-                                            <td>$5856</td>
-                                            <td>+55%</td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="fa fa-circle text-light-1 mr-2"></i>Affiliate</td>
-                                            <td>$2602</td>
-                                            <td>+25%</td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="fa fa-circle text-light-2 mr-2"></i>E-mail</td>
-                                            <td>$1802</td>
-                                            <td>+15%</td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="fa fa-circle text-light-3 mr-2"></i>Other</td>
-                                            <td>$1105</td>
-                                            <td>+5%</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--End Row-->
-
-                <div class="row">
-                    <div class="col-12 col-lg-12">
-                        <div class="card">
-                            <div class="card-header">Recent Order Tables
-                                <div class="card-action">
-                                    <div class="dropdown">
-                                        <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
-                                            data-toggle="dropdown">
-                                            <i class="icon-options"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="javascript:void();">Action</a>
-                                            <a class="dropdown-item" href="javascript:void();">Another action</a>
-                                            <a class="dropdown-item" href="javascript:void();">Something else here</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="javascript:void();">Separated link</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table align-items-center table-flush table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Photo</th>
-                                            <th>Product ID</th>
-                                            <th>Amount</th>
-                                            <th>Date</th>
-                                            <th>Shipping</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Iphone 5</td>
-                                            <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                    alt="product img"></td>
-                                            <td>#9405822</td>
-                                            <td>$ 1250.00</td>
-                                            <td>03 Aug 2017</td>
-                                            <td>
-                                                <div class="progress shadow" style="height: 3px;">
-                                                    <div class="progress-bar" role="progressbar" style="width: 90%">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Earphone GL</td>
-                                            <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                    alt="product img"></td>
-                                            <td>#9405820</td>
-                                            <td>$ 1500.00</td>
-                                            <td>03 Aug 2017</td>
-                                            <td>
-                                                <div class="progress shadow" style="height: 3px;">
-                                                    <div class="progress-bar" role="progressbar" style="width: 60%">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>HD Hand Camera</td>
-                                            <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                    alt="product img"></td>
-                                            <td>#9405830</td>
-                                            <td>$ 1400.00</td>
-                                            <td>03 Aug 2017</td>
-                                            <td>
-                                                <div class="progress shadow" style="height: 3px;">
-                                                    <div class="progress-bar" role="progressbar" style="width: 70%">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Clasic Shoes</td>
-                                            <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                    alt="product img"></td>
-                                            <td>#9405825</td>
-                                            <td>$ 1200.00</td>
-                                            <td>03 Aug 2017</td>
-                                            <td>
-                                                <div class="progress shadow" style="height: 3px;">
-                                                    <div class="progress-bar" role="progressbar" style="width: 100%">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Hand Watch</td>
-                                            <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                    alt="product img"></td>
-                                            <td>#9405840</td>
-                                            <td>$ 1800.00</td>
-                                            <td>03 Aug 2017</td>
-                                            <td>
-                                                <div class="progress shadow" style="height: 3px;">
-                                                    <div class="progress-bar" role="progressbar" style="width: 40%">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Clasic Shoes</td>
-                                            <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                    alt="product img"></td>
-                                            <td>#9405825</td>
-                                            <td>$ 1200.00</td>
-                                            <td>03 Aug 2017</td>
-                                            <td>
-                                                <div class="progress shadow" style="height: 3px;">
-                                                    <div class="progress-bar" role="progressbar" style="width: 100%">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--End Row-->
-
-                <!--End Dashboard Content-->
-
-                <!--start overlay-->
-                <div class="overlay toggle-menu"></div>
-                <!--end overlay-->
-
-            </div>
-            <!-- End container-fluid-->
-
-        </div><!--End content-wrapper-->
-        <!--Start Back To Top Button-->
-        <a href="javaScript:void();" class="back-to-top" style="display: none;"><i class="fa fa-angle-double-up"></i>
-        </a>
-        <!--End Back To Top Button-->
-
-        <!--Start footer-->
+                                    </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li class="dropdown-item"><i class="icon-envelope mr-2"></i> Inbox</li>
+                                <li class="dropdown-divider"></li>
+                                <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
+                                <li class="dropdown-divider"></li>
+                                <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
+                                <li class="dropdown-divider"></li>
+                                <li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
