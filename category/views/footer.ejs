@@ -1,0 +1,136 @@
+<footer class="footer">
+  <div class="container">
+    <div class="text-center">
+      Copyright © 2018 Dashtreme Admin
+    </div>
+  </div>
+</footer>
+<!--End footer-->
+
+<!--start color switcher-->
+<div class="right-sidebar">
+  <div class="switcher-icon">
+    <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+  </div>
+  <div class="right-sidebar-content">
+
+    <p class="mb-0">Gaussion Texture</p>
+    <hr>
+
+    <ul class="switcher">
+      <li id="theme1"></li>
+      <li id="theme2"></li>
+      <li id="theme3"></li>
+      <li id="theme4"></li>
+      <li id="theme5"></li>
+      <li id="theme6"></li>
+    </ul>
+
+    <p class="mb-0">Gradient Background</p>
+    <hr>
+
+    <ul class="switcher">
+      <li id="theme7"></li>
+      <li id="theme8"></li>
+      <li id="theme9"></li>
+      <li id="theme10"></li>
+      <li id="theme11"></li>
+      <li id="theme12"></li>
+      <li id="theme13"></li>
+      <li id="theme14"></li>
+      <li id="theme15"></li>
+    </ul>
+
+  </div>
+</div>
+<!--end color switcher-->
+
+</div><!--End wrapper-->
+
+
+
+<!-- Bootstrap core JavaScript-->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<!-- simplebar js -->
+<script src="assets/plugins/simplebar/js/simplebar.js"></script>
+<!-- sidebar-menu js -->
+<script src="assets/js/sidebar-menu.js"></script>
+<!-- loader scripts -->
+<script src="assets/js/jquery.loading-indicator.js"></script>
+<!-- Custom scripts -->
+<script src="assets/js/app-script.js"></script>
+<!-- Chart js -->
+
+<script src="assets/plugins/Chart.js/Chart.min.js"></script>
+
+<!-- Index js -->
+<script src="assets/js/index.js"></script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleLinks = document.querySelectorAll('.toggle-submenu'); // Changed to toggleLinks
+
+            // Function to collapse a submenu
+            function collapseSubmenu(link, submenu) { // Changed 'button' to 'link'
+                submenu.style.maxHeight = submenu.scrollHeight + 'px';
+                requestAnimationFrame(() => {
+                    submenu.style.maxHeight = '0px';
+                    submenu.style.opacity = '0';
+                    link.classList.remove('active'); // Changed 'button' to 'link'
+                    submenu.classList.remove('active');
+                    link.setAttribute('aria-expanded', 'false'); // Changed 'button' to 'link'
+                });
+            }
+
+            toggleLinks.forEach(link => { // Changed 'button' to 'link'
+                const submenu = link.nextElementSibling;
+                const icon = link.querySelector('.transition-transform'); // Changed 'button' to 'link'
+
+                // Set initial aria attributes
+                if (submenu && submenu.classList.contains('submenu-level')) {
+                    link.setAttribute('aria-controls', submenu.id); // Changed 'button' to 'link'
+                }
+
+                link.addEventListener('click', (event) => { // Changed 'button' to 'link'
+                    event.preventDefault(); // Prevent default link behavior (navigating to #)
+
+                    if (submenu && submenu.classList.contains('submenu-level')) {
+                        const isExpanded = link.classList.contains('active'); // Changed 'button' to 'link'
+
+                        if (isExpanded) {
+                            collapseSubmenu(link, submenu); // Changed 'button' to 'link'
+                        } else {
+                            // Close any currently open submenus
+                            document.querySelectorAll('.toggle-submenu.active').forEach(openLink => { // Changed 'openButton' to 'openLink'
+                                const openSubmenu = openLink.nextElementSibling;
+                                if (openSubmenu) {
+                                    collapseSubmenu(openLink, openSubmenu); // Changed 'openButton' to 'openLink'
+                                }
+                            });
+
+                            // Expand the clicked submenu
+                            submenu.style.maxHeight = submenu.scrollHeight + 'px';
+                            submenu.style.opacity = '1';
+                            link.classList.add('active'); // Changed 'button' to 'link'
+                            submenu.classList.add('active');
+                            link.setAttribute('aria-expanded', 'true'); // Changed 'button' to 'link'
+
+                            submenu.addEventListener('transitionend', function handler() {
+                                if (link.classList.contains('active')) { // Changed 'button' to 'link'
+                                    submenu.style.maxHeight = 'none';
+                                }
+                                submenu.removeEventListener('transitionend', handler);
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

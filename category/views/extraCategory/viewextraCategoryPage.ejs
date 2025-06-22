@@ -1,0 +1,366 @@
+<%- include('../header') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Flash Messages -->
+    <% if (success && success.length> 0) { %>
+        <script>
+            // SweetAlert Success Notification
+            Swal.fire({
+                icon: 'success',
+                title: '✅ Success!',
+                html: `<strong><%= success %></strong>`,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                },
+                background: '#f0fff4',
+                confirmButtonColor: '#28a745',
+                confirmButtonText: 'Great!',
+                customClass: {
+                    title: 'text-success',
+                    popup: 'border border-success shadow'
+                }
+            });
+        </script>
+        <% } %>
+
+            <% if (error && error.length> 0) { %>
+                <script>
+                    // SweetAlert Error Notification
+                    Swal.fire({
+                        icon: 'error',
+                        title: '❌ Oops!',
+                        html: `<strong><%= error %></strong>`,
+                        showClass: {
+                            popup: 'animate__animated animate__shakeX'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOut'
+                        },
+                        background: '#fff5f5',
+                        confirmButtonColor: '#dc3545',
+                        confirmButtonText: 'Understood',
+                        customClass: {
+                            title: 'text-danger',
+                            popup: 'border border-danger shadow'
+                        }
+                    });
+                </script>
+                <% } %>
+
+
+                    <!-- Styles -->
+                    <style>
+                        body {
+                            font-family: 'Inter', sans-serif;
+                            background: linear-gradient(135deg, #f0f4f8 0%, #e6eff7 100%);
+                            min-height: 100vh;
+                            display: flex;
+                            align-items: flex-start;
+                            justify-content: center;
+                            color: #333;
+                            padding: 20px;
+                            box-sizing: border-box;
+                            overflow-x: hidden;
+                            position: relative;
+                            /* Added for background blobs positioning */
+                        }
+
+                        /* Subtle background circles for visual interest */
+                        .auth-bg span {
+                            position: absolute;
+                            display: block;
+                            border-radius: 50%;
+                            filter: blur(80px);
+                            z-index: -1;
+                            opacity: 0.6;
+                            animation: floating 7s infinite ease-in-out;
+                        }
+
+                        .auth-bg span:nth-child(1) {
+                            top: -100px;
+                            right: -100px;
+                            width: 300px;
+                            height: 300px;
+                            background: rgba(173, 216, 230, 0.7);
+                        }
+
+                        .auth-bg span:nth-child(2) {
+                            top: 150px;
+                            right: -150px;
+                            width: 25px;
+                            height: 25px;
+                            background: rgba(255, 193, 7, 0.8);
+                            animation-duration: 9s;
+                            animation-direction: reverse;
+                        }
+
+                        .auth-bg span:nth-child(3) {
+                            left: -150px;
+                            bottom: 150px;
+                            width: 25px;
+                            height: 25px;
+                            background: rgba(0, 123, 255, 0.8);
+                        }
+
+                        .auth-bg span:nth-child(4) {
+                            left: -100px;
+                            bottom: -100px;
+                            width: 300px;
+                            height: 300px;
+                            background: rgba(135, 206, 250, 0.7);
+                            animation-duration: 9s;
+                        }
+
+                        @keyframes floating {
+                            0% {
+                                transform: translateY(0px) translateX(0px);
+                            }
+
+                            50% {
+                                transform: translateY(-20px) translateX(10px);
+                            }
+
+                            100% {
+                                transform: translateY(0px) translateX(0px);
+                            }
+                        }
+
+                        .custom-table-box {
+                            background: rgba(255, 255, 255, 0.95);
+                            border-radius: 18px;
+                            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+                            padding: 30px;
+                            width: 100%;
+                            max-width: 95%;
+                            margin: 50px auto;
+                            border: 1px solid rgba(255, 255, 255, 0.8);
+                            backdrop-filter: blur(15px);
+                            -webkit-backdrop-filter: blur(15px);
+                            transition: transform 0.3s ease, box-shadow 0.3s ease;
+                        }
+
+                        .custom-table-box:hover {
+                            transform: translateY(-5px);
+                            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.15);
+                        }
+
+                        .custom-table-box h3 {
+                            text-align: center;
+                            font-weight: 700;
+                            color: #337ab7;
+                            font-size: 2.2em;
+                            margin-bottom: 25px;
+                            position: relative;
+                            padding-bottom: 10px;
+                        }
+
+                        .custom-table-box h3::after {
+                            content: '';
+                            position: absolute;
+                            bottom: 0;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 80px;
+                            height: 4px;
+                            background: linear-gradient(to right, #337ab7, #20c997);
+                            border-radius: 2px;
+                        }
+
+                        .table-responsive {
+                            overflow-x: auto;
+                        }
+
+                        .table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                            border-radius: 8px;
+                            /* Rounded table corners */
+                            overflow: hidden;
+                            /* Ensures border-radius applies to table content */
+                        }
+
+                        .table th,
+                        .table td {
+                            padding: 12px 15px;
+                            text-align: left;
+                            border-bottom: 1px solid #e0e0e0;
+                            font-size: 0.95em;
+                        }
+
+                        .table thead th {
+                            background: linear-gradient(45deg, #337ab7, #20c997);
+                            color: white;
+                            font-weight: 600;
+                            position: sticky;
+                            top: 0;
+                            z-index: 1;
+                        }
+
+                        .table tbody tr:hover {
+                            background-color: #f0f8ff;
+                        }
+
+                        .table td {
+                            vertical-align: middle;
+                        }
+
+                        .btn-action {
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 8px 12px;
+                            border-radius: 8px;
+                            font-size: 0.85em;
+                            font-weight: 600;
+                            text-decoration: none;
+                            transition: all 0.2s ease;
+                            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                            color: #fff;
+                            margin: 2px;
+                        }
+
+                        .btn-edit {
+                            background: linear-gradient(45deg, #007bff, #0056b3);
+                        }
+
+                        .btn-edit:hover {
+                            background: linear-gradient(45deg, #0056b3, #004085);
+                            transform: translateY(-2px);
+                            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+                        }
+
+                        .btn-delete {
+                            background: linear-gradient(45deg, #dc3545, #b30018);
+                        }
+
+                        .btn-delete:hover {
+                            background: linear-gradient(45deg, #b30018, #8c000e);
+                            transform: translateY(-2px);
+                            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+                        }
+
+                        .text-center {
+                            text-align: center;
+                        }
+
+                        .no-records-message {
+                            padding: 20px;
+                            text-align: center;
+                            color: #6c757d;
+                            font-size: 1.1em;
+                            background-color: #f8f8f8;
+                            border-radius: 8px;
+                            margin-top: 20px;
+                        }
+
+
+                        /* Responsive adjustments */
+                        @media (max-width: 768px) {
+                            .custom-table-box {
+                                padding: 20px;
+                                margin: 20px auto;
+                                max-width: 100%;
+                            }
+
+                            .custom-table-box h3 {
+                                font-size: 1.8em;
+                            }
+
+                            .table th,
+                            .table td {
+                                padding: 10px;
+                                font-size: 0.9em;
+                            }
+
+                            .btn-action {
+                                padding: 6px 10px;
+                                font-size: 0.8em;
+                            }
+                        }
+
+                        @media (max-width: 480px) {
+                            .custom-table-box {
+                                padding: 15px;
+                            }
+
+                            .custom-table-box h3 {
+                                font-size: 1.5em;
+                            }
+
+                            .table th,
+                            .table td {
+                                padding: 8px;
+                                font-size: 0.8em;
+                            }
+                        }
+                    </style>
+
+                    <!-- Page Wrapper -->
+                    <div class="auth-bg">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <div class="page-wrapper flex flex-col items-center w-full min-h-screen">
+                        <div class="container-fluid w-full">
+                            <div class="custom-table-box">
+                                <h3>All Extra Categories</h3>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Category</th>
+                                                <th>SubCategory</th>
+                                                <th>Extra Category Title</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (allExtraCategory.length> 0) { %>
+                                                <% allExtraCategory.forEach((item, index)=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= index + 1 %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.category_id?.c_title || 'N/A' %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.subCategory_id?.subcategory_title || 'N/A' %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.extraCategory_title %>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/extracategory/updateExtracategorypage/<%= item._id %>"
+                                                                class="btn-action btn-edit">
+                                                                Edit
+                                                            </a>
+                                                            <button type="button" class="btn-action btn-delete"
+                                                                onclick="showConfirmModal('/extracategory/deleteextracategory/<%= item._id %>')">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                                        <% } else { %>
+                                                            <tr>
+                                                                <td colspan="5" class="text-center no-records-message">
+                                                                    No Extra Categories Found.</td>
+                                                            </tr>
+                                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%- include('../footer') %>

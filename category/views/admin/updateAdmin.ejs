@@ -1,0 +1,627 @@
+<%- include('../header') %>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0f2f7 0%, #cce7f0 100%);
+            /* Softer, lighter blue gradient */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Subtle background circles for visual interest */
+        .auth-bg span {
+            position: absolute;
+            display: block;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            /* Make them more visible */
+        }
+
+        .auth-bg span:nth-child(1) {
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(173, 216, 230, 0.7);
+            /* Light blue */
+            animation: floating 7s infinite ease-in-out;
+        }
+
+        .auth-bg span:nth-child(2) {
+            top: 150px;
+            right: -150px;
+            width: 25px;
+            /* Slightly larger */
+            height: 25px;
+            background: rgba(255, 193, 7, 0.8);
+            /* Accent yellow */
+            animation: floating 9s infinite ease-in-out reverse;
+        }
+
+        .auth-bg span:nth-child(3) {
+            left: -150px;
+            bottom: 150px;
+            width: 25px;
+            /* Slightly larger */
+            height: 25px;
+            background: rgba(0, 123, 255, 0.8);
+            /* Primary blue */
+            animation: floating 7s infinite ease-in-out;
+        }
+
+        .auth-bg span:nth-child(4) {
+            left: -100px;
+            bottom: -100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(135, 206, 250, 0.7);
+            /* Sky blue */
+            animation: floating 9s infinite ease-in-out;
+        }
+
+        @keyframes floating {
+            0% {
+                transform: translateY(0px) translateX(0px);
+            }
+
+            50% {
+                transform: translateY(-20px) translateX(10px);
+            }
+
+            100% {
+                transform: translateY(0px) translateX(0px);
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            /* Slightly increase max-width for the form card */
+            margin: auto;
+            padding: 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            /* Slightly less transparent for content */
+            backdrop-filter: blur(25px);
+            /* More blur for a stronger frosted effect */
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 25px;
+            /* More rounded card */
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            /* Clearer white border */
+            box-shadow: 0 15px 50px 0 rgba(31, 38, 135, 0.35);
+            /* Deeper, softer shadow */
+            padding: 35px;
+            /* Adjusted padding */
+            animation: fadeIn 0.8s ease-out;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            /* Gentle lift on hover */
+            box-shadow: 0 20px 60px 0 rgba(31, 38, 135, 0.45);
+            /* Stronger shadow on hover */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            border-bottom: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-size: 2em;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, #007bff, #20c997);
+            /* Gradient underline */
+            border-radius: 2px;
+        }
+
+        .card-body {
+            padding: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+            font-size: 0.95em;
+        }
+
+        .form-control,
+        .form-select,
+        .form-control-file {
+            width: 100%;
+            padding: 12px 18px;
+            border: 1px solid #d0d0d0;
+            border-radius: 12px;
+            font-size: 1em;
+            color: #333;
+            background-color: rgba(255, 255, 255, 0.95);
+            transition: all 0.3s ease;
+            outline: none;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-control::placeholder,
+        .form-select option[disabled][hidden] {
+            color: #a0a0a0;
+        }
+
+        .form-control:focus,
+        .form-select:focus,
+        .form-control-file:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+            background-color: #fff;
+        }
+
+        .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            padding-right: 40px;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-right: 25px;
+        }
+
+        .form-check-input {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .form-check-input[type="radio"] {
+            border-radius: 50%;
+        }
+
+        .form-check-input:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+        }
+
+        .form-check-input[type="checkbox"]:checked::before,
+        .form-check-input[type="radio"]:checked::before {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .form-check-input[type="checkbox"]:checked::before {
+            content: '\u2713';
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .form-check-input[type="radio"]:checked::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+        }
+
+        .icheck-material-white label {
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+
+        /* Custom file input appearance */
+        .form-control-file {
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(255, 255, 255, 0.95);
+            cursor: pointer;
+        }
+
+        .form-control-file::-webkit-file-upload-button {
+            visibility: hidden;
+            width: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .form-control-file::before {
+            content: 'Choose File';
+            display: inline-block;
+            background: linear-gradient(45deg, #20c997, #17a2b8);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 15px;
+            box-shadow: 0 3px 8px rgba(32, 201, 151, 0.3);
+        }
+
+        .form-control-file:hover::before {
+            background: linear-gradient(45deg, #17a2b8, #138496);
+            box-shadow: 0 5px 12px rgba(32, 201, 151, 0.4);
+        }
+
+        .current-image-preview {
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 15px;
+            max-width: 120px;
+            height: auto;
+            border: 2px solid #eee;
+        }
+
+        .card-action {
+            padding-top: 25px;
+            border-top: 1px solid rgba(230, 230, 230, 0.8);
+            margin-top: 30px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: #fff;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.15em;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary i {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #0056b3, #004085);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 123, 255, 0.45);
+        }
+
+        /* LLM Feature Buttons */
+        .llm-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: flex-end;
+            /* Align to the right */
+            flex-wrap: wrap;
+            /* Allow buttons to wrap on smaller screens */
+        }
+
+        .llm-btn {
+            background: linear-gradient(45deg, #6c757d, #5a6268);
+            /* Grey gradient */
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .llm-btn:hover {
+            background: linear-gradient(45deg, #5a6268, #495057);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .llm-btn i {
+            margin-right: 5px;
+        }
+
+        /* Loading indicator for LLM buttons */
+        .llm-loading-spinner {
+            border: 2px solid #f3f3f3;
+            /* Light grey */
+            border-top: 2px solid #3498db;
+            /* Blue */
+            border-radius: 50%;
+            width: 1em;
+            height: 1em;
+            animation: spin 0.8s linear infinite;
+            margin-left: 0.5em;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .card {
+                margin: 0;
+                padding: 25px;
+                border-radius: 15px;
+            }
+
+            .card-title {
+                font-size: 1.6em;
+                margin-bottom: 20px;
+            }
+
+            .card-title::after {
+                height: 3px;
+                width: 40px;
+            }
+
+            .col-md-6 {
+                width: 100%;
+            }
+
+            .d-flex {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-check {
+                margin-bottom: 10px;
+            }
+
+            .form-control,
+            .form-select,
+            input[type="file"] {
+                padding: 10px 15px;
+                font-size: 0.95em;
+            }
+
+            input[type="file"]::before {
+                padding: 8px 15px;
+                font-size: 0.95em;
+            }
+
+            .btn-primary {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+
+            .llm-buttons {
+                justify-content: center;
+                /* Center LLM buttons on small screens */
+            }
+        }
+    </style>
+
+    <div class="container">
+        <div class="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Edit Admin</div>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="/updateAdmin/<%= record._id %>" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="fname">First Name</label>
+                                        <input type="text" class="form-control form-control-rounded" id="fname"
+                                            name="adminFname" placeholder="Enter First Name"
+                                            value="<%= record?.adminFname || '' %>" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="lname">Last Name</label>
+                                        <input type="text" class="form-control form-control-rounded" id="lname"
+                                            name="adminLname" placeholder="Enter Last Name"
+                                            value="<%= record?.adminLname || '' %>" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="email">Email Address</label>
+                                        <input type="email" class="form-control form-control-rounded" id="email"
+                                            name="adminEmail" placeholder="Enter Email Address"
+                                            value="<%= record?.adminEmail || '' %>" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="adminFunction">Function</label>
+                                        <select name="adminFunction" id="adminFunction"
+                                            class="form-select form-control-rounded" required>
+                                            <option disabled selected hidden>-- Select Function --</option>
+                                            <% ["Manager", "HR" , "Web-Developer" , "Application-Developer"
+                                                ].forEach((func)=> { %>
+                                                <option value="<%= func %>" <%=record?.adminFunction===func ? "selected"
+                                                    : "" %>><%= func %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="adminStatus">Status</label>
+                                        <select name="adminStatus" id="adminStatus"
+                                            class="form-select form-control-rounded" required>
+                                            <option disabled selected hidden>-- Select Status --</option>
+                                            <% ["Online", "Offline" ].forEach((status)=> { %>
+                                                <option value="<%= status %>" <%=record?.adminStatus===status
+                                                    ? "selected" : "" %>><%= status %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="joinDate">Join Date</label>
+                                        <input type="date" name="joinDate" id="joinDate"
+                                            class="form-control form-control-rounded"
+                                            value="<%= record?.joinDate || '' %>" required />
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Gender</label><br />
+                                        <div class="d-flex">
+                                            <div class="form-check me-3">
+                                                <input class="form-check-input" type="radio" name="gender"
+                                                    id="genderMale" value="male" <%=record?.gender==='male' ? 'checked'
+                                                    : '' %> required />
+                                                <label for="genderMale">Male</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="gender"
+                                                    id="genderFemale" value="female" <%=record?.gender==='female'
+                                                    ? 'checked' : '' %> required />
+                                                <label for="genderFemale">Female</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Hobby</label>
+                                        <div class="d-flex flex-wrap">
+                                            <% let myHobby=['Coding', 'Gaming' , 'Reading' , 'Sports' , 'Traveling' ];
+                                                %>
+                                                <% let recordHobby=record?.hobby ? (Array.isArray(record.hobby) ?
+                                                    record.hobby :
+                                                    record.hobby.split(', ')) : []; %>
+                                            <% myHobby.forEach(item => { %>
+                                                <div class="form-check me-3">
+                                                    <input type="checkbox" class="form-check-input" name="hobby" id="hobby<%= item %>" value="<%= item %>" <%= recordHobby.includes(item) ? '
+                                                    checked' : '' %>>
+                                                    <label for="hobby<%= item %>">
+                                                        <%= item %>
+                                                    </label>
+                                        </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="city">City</label>
+                                    <select class="form-select form-control-rounded" name="city" id="city" required>
+                                        <option value="" disabled selected hidden>Select City</option>
+                                        <% ['Surat', 'Baroda' , 'Rajkot' , 'Mumbai' , 'Delhi' , 'Ahmedabad'
+                                            ].forEach(cityOption=> { %>
+                                            <option value="<%= cityOption %>" <%=record?.city===cityOption ? 'selected'
+                                                : '' %>><%= cityOption %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12 form-group">
+                                    <label for="desc">Description</label>
+                                    <textarea class="form-control form-control-rounded" id="desc" name="desc" rows="4"
+                                        placeholder="Enter Description" required><%= record?.desc || '' %></textarea>
+                                    <div class="llm-buttons">
+                                        <button type="button" id="elaborate-desc-btn" class="llm-btn">✨
+                                            Elaborate</button>
+                                        <button type="button" id="summarize-desc-btn" class="llm-btn">✨
+                                            Summarize</button>
+                                        <span id="llm-loading" class="llm-loading-spinner hidden"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Current Image Preview -->
+                                <% if (record?.adminImage) { %>
+                                    <div class="col-md-12 form-group">
+                                        <label class="form-label">Current Image:</label><br>
+                                        <img src="../<%= record.adminImage %>" height="100"
+                                            class="rounded current-image-preview" alt="Current Admin Image" />
+                                    </div>
+                                    <% } %>
+
+                                        <div class="col-md-12 form-group">
+                                            <label for="adminImage">Upload New Image</label>
+                                            <input type="file" class="form-control-file" id="adminImage"
+                                                name="adminImage">
+                                        </div>
+
+                                        <div class="col-md-12 form-group py-2">
+                                            <div class="icheck-material-white">
+                                                <input type="checkbox" id="terms" required />
+                                                <label for="terms">I Agree Terms & Conditions</label>
+                                            </div>
+                                        </div>
+                        </div>
+                        <div class="card-action text-end">
+                            <button type="submit" class="btn btn-primary px-5">
+                                <i class="fas fa-save me-2"></i> Update Admin
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    
+    <%- include('../footer') %>

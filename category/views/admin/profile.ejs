@@ -1,0 +1,333 @@
+<%- include('../header') %>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0f2f7 0%, #cce7f0 100%);
+            /* Softer, lighter blue gradient */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+            /* Prevent scrollbars if background elements extend */
+            position: relative;
+        }
+
+        /* Subtle background circles for visual interest */
+        body::before,
+        body::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+        }
+
+        body::before {
+            top: -100px;
+            left: -100px;
+            background: rgba(173, 216, 230, 0.6);
+            /* Light blue */
+        }
+
+        body::after {
+            bottom: -100px;
+            right: -100px;
+            background: rgba(135, 206, 250, 0.6);
+            /* Sky blue */
+        }
+
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            margin: auto;
+            padding: 0;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.75);
+            /* Slightly less transparent */
+            backdrop-filter: blur(20px);
+            /* More blur for a stronger frosted effect */
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 25px;
+            /* Slightly more rounded corners */
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            /* Clearer white border */
+            box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.25);
+            /* Deeper, softer shadow */
+            padding: 30px;
+            /* Increased internal padding */
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            /* Increased space */
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-8px);
+            /* More pronounced lift on hover */
+            box-shadow: 0 15px 50px 0 rgba(31, 38, 135, 0.35);
+            /* Stronger shadow on hover */
+        }
+
+        .profile-img {
+            width: 100px;
+            /* Slightly larger image */
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            /* Thicker white border */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            /* Nicer image shadow */
+            flex-shrink: 0;
+            margin-top: 5px;
+            /* Keeps alignment */
+            animation: fadeInScale 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            /* Bouncy animation */
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .profile-text-content {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .profile-text-content h3 {
+            font-size: 1.8em;
+            /* Larger name */
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            /* Subtle text shadow */
+        }
+
+        .profile-text-content .handle {
+            font-size: 1em;
+            /* Slightly larger handle */
+            color: #6a828e;
+            /* Softer gray for handle */
+            margin-bottom: 12px;
+            /* More space below handle */
+            font-weight: 500;
+        }
+
+        .profile-text-content .description {
+            font-size: 0.98em;
+            /* Adjusted description font size */
+            color: #4a4a4a;
+            /* Darker gray for better contrast */
+            margin-bottom: 25px;
+            /* More space below description */
+            line-height: 1.6;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            /* Increased space between stats */
+            margin-bottom: 30px;
+            padding-top: 20px;
+            /* More padding above separator */
+            border-top: 1px solid rgba(255, 255, 255, 0.6);
+            /* Even clearer white separator */
+            position: relative;
+            /* For the subtle glow */
+        }
+
+        /* Subtle glow effect for the separator */
+        .profile-stats::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(0, 123, 255, 0.3), transparent);
+            filter: blur(1px);
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-item .number {
+            font-size: 1.8em;
+            /* Larger numbers */
+            font-weight: 700;
+            color: #007bff;
+            /* Primary blue accent color */
+            margin-bottom: 2px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-item .label {
+            font-size: 0.85em;
+            /* Slightly larger label */
+            color: #777;
+            /* Standard gray for labels */
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            /* More spacing for labels */
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            margin-top: 25px;
+            /* More space above buttons */
+        }
+
+        .action-buttons a {
+            padding: 12px 25px;
+            /* Larger padding for buttons */
+            text-decoration: none;
+            border-radius: 10px;
+            /* More rounded buttons */
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Smoother, bouncier transition */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.5px;
+            font-size: 0.95em;
+            /* Slightly larger button text */
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .follow-btn {
+            background: linear-gradient(45deg, #2c3e50, #4a6572);
+            /* Darker, sophisticated gradient */
+            color: #fff;
+            border: none;
+            /* No explicit border */
+        }
+
+        .follow-btn:hover {
+            background: linear-gradient(45deg, #1c2a35, #3a505c);
+            /* Darker on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+        }
+
+        .view-profile-btn {
+            background: linear-gradient(45deg, #f0f2f5, #e0e6eb);
+            /* Lighter, subtle gradient */
+            color: #333;
+            border: 1px solid #dcdcdc;
+            /* Subtle light border */
+        }
+
+        .view-profile-btn:hover {
+            background: linear-gradient(45deg, #e0e2e5, #d0d6db);
+            /* Darker on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .profile-card {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                padding: 25px;
+                border-radius: 15px;
+            }
+
+            .profile-img {
+                margin: 0;
+            }
+
+            .profile-text-content {
+                text-align: center;
+            }
+
+            .profile-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 25px;
+                padding-top: 15px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+
+            .action-buttons a {
+                flex-grow: unset;
+                width: 100%;
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+
+   <div class="container">
+        <div class="profile-card">
+            <!-- Dynamic Image Source -->
+            <img src="<%= currentAdmin.avatar %>" onerror="this.onerror=null;this.src='https://placehold.co/100x100/add8e6/ffffff?text=AD';" class="profile-img" alt="Profile Image">
+            <div class="profile-text-content">
+                <!-- Dynamic Name -->
+                <h3><%= currentAdmin.fname %> <%= currentAdmin.lname %></h3>
+                <!-- Dynamic Handle (example: using first name lowercase) -->
+                <p class="handle">@<%= currentAdmin.fname.toLowerCase() %></p>
+                <!-- Dynamic Description -->
+                <p class="description"><%= currentAdmin.desc %></p>
+
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="number">1.2K</div>
+                        <div class="label">Logins</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">85</div>
+                        <div class="label">Reports</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">240</div>
+                        <div class="label">Users</div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <!-- Dynamic Edit Profile Link -->
+                    <a href="/updateProfile" class="follow-btn">Edit Profile</a>
+                    <a href="/logout" class="view-profile-btn">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../footer') %>
