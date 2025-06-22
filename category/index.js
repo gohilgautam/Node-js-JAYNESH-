@@ -1,38 +1,48 @@
 const express = require('express');
 const db = require('./config/db');
-const flash = require('connect-flash');
-const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const passport = require('passport');
+const session = require("express-session");
+const passport = require("passport");
+const localStrategy = require("./config/passportLocalStrategy");
+const flash = require("connect-flash");
 
 const app = express();
-const port = 9000;
+const port = 8000;
+
+// View engine setup
 app.set('view engine', 'ejs');
 
-app.use(express.static('public'));
-app.use('/uploads', express.static('uploads'));
-app.use('/images', express.static('images'));
+// Static files
+app.use(express.static(__dirname + '/public'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// Middleware
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-    secret: '8799125274',
+    name: "AdminPanel",
+    secret: "myJS-Web",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }
+    cookie: {
+        maxAge: 60 * 60 * 1000, // 1 hour
+    },
 }));
 
-// initialize passport
+app.use(flash());
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Flash messages
-app.use(flash());
+// Routes
+app.use('/', require('./routes/adminRoutes'));
 
-app.use('/', require('./routes/admin'));
-
-app.listen(port, () => {
-    console.log('server is started....');
+// Server start
+app.listen(port, (err) => {
+    if (err) {
+        console.log("Something Went Wrong In Server...", err);
+    } else {
+        console.log(`Server is Started At http://localhost:${port}`);
+    }
 });
