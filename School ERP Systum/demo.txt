@@ -1,0 +1,42 @@
+🏫 User Roles & Permissions
+1. Principal
+Admin-level access
+
+Can:
+
+Add/Remove teachers
+
+View all students and teachers
+
+Assign teachers to classes
+
+View reports (attendance, grades, etc.)
+
+2. Teacher
+Can:
+
+View assigned classes/students
+
+Add/Update student marks and attendance
+
+Communicate with parents
+
+Upload homework
+
+3. Student
+Can:
+
+View their grades, attendance
+
+See assigned homework
+
+Message teachers or view announcements
+
+4. Parent
+Can:
+
+View child’s grades & attendance
+
+Receive messages/announcements from teachers/principal
+
+Message teachers/principal
