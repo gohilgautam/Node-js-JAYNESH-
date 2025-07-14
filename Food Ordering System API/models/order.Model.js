@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     restaurant: {
       type: Schema.Types.ObjectId,
       ref: "Restaurant",
@@ -36,15 +40,7 @@ const OrderSchema = new Schema(
     },
     status: {
       type: String,
-      enum: [
-        "pending",
-        "accepted",
-        "preparing",
-        "out_for_delivery",
-        "delivered",
-        "cancelled",
-      ],
-      default: "pending",
+      required: true,
     },
     deliveryAddress: {
       type: String,
@@ -55,13 +51,12 @@ const OrderSchema = new Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["cash_on_delivery", "credit_card", "upi"],
       required: true,
     },
     paid: {
       type: Boolean,
       default: false,
-        },
+    },
   },
   { timestamps: true }
 );

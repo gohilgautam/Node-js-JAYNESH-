@@ -3,10 +3,8 @@ const MenuItem = require('../models/MenuItem');
 const Restaurant = require('../models/Restaurant');
 const User = require('../models/User');
 
-// @route   POST /api/orders
-// @desc    Place a new order
-// @access  Private (Customer only)
-const placeOrder = async (req, res) => { // Changed to const
+
+const placeOrder = async (req, res) => {
     try {
         const { restaurantId, items, deliveryAddress, specialInstructions, paymentMethod } = req.body;
 
@@ -68,11 +66,7 @@ const placeOrder = async (req, res) => { // Changed to const
         res.status(500).send('Server Error');
     }
 };
-
-// @route   GET /api/orders/my
-// @desc    Get all orders for the logged-in customer
-// @access  Private (Customer only)
-const getUserOrders = async (req, res) => { // Changed to const
+const getUserOrders = async (req, res) => {
     try {
         const orders = await Order.find({ user: req.user.id })
             .populate('restaurant', 'name address phoneNumber')
@@ -85,10 +79,7 @@ const getUserOrders = async (req, res) => { // Changed to const
     }
 };
 
-// @route   GET /api/orders/:id
-// @desc    Get a single order by ID (customer can get their own, admin can get any)
-// @access  Private
-const getOrderById = async (req, res) => { // Changed to const
+const getOrderById = async (req, res) => { 
     try {
         const order = await Order.findById(req.params.id)
             .populate('restaurant', 'name address phoneNumber')
@@ -110,10 +101,7 @@ const getOrderById = async (req, res) => { // Changed to const
     }
 };
 
-// @route   GET /api/orders
-// @desc    Get all orders (Admin only)
-// @access  Private (Admin only)
-const getAllOrders = async (req, res) => { // Changed to const
+const getAllOrders = async (req, res) => { 
     try {
         if (req.user.role !== 'admin') {
             return res.status(403).json({ msg: 'Forbidden: Only administrators can view all orders' });
@@ -132,10 +120,7 @@ const getAllOrders = async (req, res) => { // Changed to const
     }
 };
 
-// @route   PUT /api/orders/:id/status
-// @desc    Update order status
-// @access  Private (Admin only)
-const updateOrderStatus = async (req, res) => { // Changed to const
+const updateOrderStatus = async (req, res) => {
     try {
         const { status } = req.body;
         const orderId = req.params.id;
@@ -163,10 +148,7 @@ const updateOrderStatus = async (req, res) => { // Changed to const
     }
 };
 
-// @route   PUT /api/orders/:id/cancel
-// @desc    Cancel an order
-// @access  Private (Customer for their own, Admin for any)
-const cancelOrder = async (req, res) => { // Changed to const
+const cancelOrder = async (req, res) => { 
     try {
         const orderId = req.params.id;
         const order = await Order.findById(orderId);
@@ -199,7 +181,6 @@ const cancelOrder = async (req, res) => { // Changed to const
     }
 };
 
-// Export all functions at once
 module.exports = {
     placeOrder,
     getUserOrders,

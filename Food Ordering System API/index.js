@@ -4,7 +4,7 @@ const db = require("./config/db");
 const app = express();
 const PORT = 9000;
 
-app.use("/", require("./routes/index"));
+app.use("/", require("./routes/index.Routes"));
 
 app.listen(PORT, (err) => {
   if (err) {

@@ -1,10 +1,9 @@
-const MenuItem = require('../models/MenuItem');
-const Restaurant = require('../models/Restaurant');
+const MenuItem = require('../models/menuItem.Model');
+const Restaurant = require('../models/restaurant.Model');
+const Order = require('../models/order.Model');
+const customer = require('../models/customer.Model');
 
-// @route   POST /api/menu-items/restaurants/:restaurantId
-// @desc    Add a new menu item to a specific restaurant
-// @access  Private (Admin only)
-const addMenuItem = async (req, res) => { // Changed to const
+const addMenuItem = async (req, res) => { 
     try {
         const { restaurantId } = req.params;
         const { name, description, price, category, imageUrl, isAvailable } = req.body;
@@ -36,10 +35,7 @@ const addMenuItem = async (req, res) => { // Changed to const
     }
 };
 
-// @route   GET /api/menu-items/restaurants/:restaurantId
-// @desc    Get all menu items for a specific restaurant
-// @access  Public (Menu Browse)
-const getMenuItemsByRestaurant = async (req, res) => { // Changed to const
+const getMenuItemsByRestaurant = async (req, res) => { 
     try {
         const { restaurantId } = req.params;
         const menuItems = await MenuItem.find({ restaurant: restaurantId, isAvailable: true });
@@ -53,10 +49,7 @@ const getMenuItemsByRestaurant = async (req, res) => { // Changed to const
     }
 };
 
-// @route   GET /api/menu-items/:id
-// @desc    Get a single menu item by ID
-// @access  Public
-const getMenuItemById = async (req, res) => { // Changed to const
+const getMenuItemById = async (req, res) => { 
     try {
         const menuItem = await MenuItem.findById(req.params.id);
         if (!menuItem) {
@@ -69,10 +62,7 @@ const getMenuItemById = async (req, res) => { // Changed to const
     }
 };
 
-// @route   PUT /api/menu-items/:id
-// @desc    Update an existing menu item
-// @access  Private (Admin only)
-const updateMenuItem = async (req, res) => { // Changed to const
+const updateMenuItem = async (req, res) => {
     try {
         let menuItem = await MenuItem.findById(req.params.id);
         if (!menuItem) {
@@ -95,10 +85,7 @@ const updateMenuItem = async (req, res) => { // Changed to const
     }
 };
 
-// @route   DELETE /api/menu-items/:id
-// @desc    Delete a menu item
-// @access  Private (Admin only)
-const deleteMenuItem = async (req, res) => { // Changed to const
+const deleteMenuItem = async (req, res) => {
     try {
         const menuItem = await MenuItem.findById(req.params.id);
         if (!menuItem) {
@@ -117,7 +104,6 @@ const deleteMenuItem = async (req, res) => { // Changed to const
     }
 };
 
-// Export all functions at once
 module.exports = {
     addMenuItem,
     getMenuItemsByRestaurant,
