@@ -49,7 +49,7 @@ const getMenuItemsByRestaurant = async (req, res) => {
     }
 };
 
-const getMenuItemById = async (req, res) => { 
+const getMenuItem = async (req, res) => { 
     try {
         const menuItem = await MenuItem.findById(req.params.id);
         if (!menuItem) {
@@ -107,7 +107,7 @@ const deleteMenuItem = async (req, res) => {
 module.exports = {
     addMenuItem,
     getMenuItemsByRestaurant,
-    getMenuItemById,
+    getMenuItem,
     updateMenuItem,
     deleteMenuItem,
 };

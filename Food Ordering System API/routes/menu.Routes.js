@@ -1,16 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const menuController = require('../controllers/menu.Controller');
-const auth = require('../middleware/auth');
-const authorize = require('../middleware/authorize');
+const auth = require('../middleware/auth.Middleware');
 
 // Public routes for Browse menus
-router.get('/:restaurantId', menuController.getMenuItemsByRestaurant); 
-router.get('/:id', menuController.getMenuItemById); 
+router.get('/restaurant/:Id', menuController.getMenuItemsByRestaurant); 
+router.get('/getMenuItem/:id', menuController.getMenuItem); 
 
 // Admin-only routes for managing menu items
-router.post('/:restaurantId', auth, authorize(['admin']), menuController.addMenuItem);
-router.put('/:id', auth, authorize(['admin']), menuController.updateMenuItem);
-router.delete('/:id', auth, authorize(['admin']), menuController.deleteMenuItem);
+router.post('/restaurant/:Id', auth, menuController.addMenuItem);
+router.put('/updateMenuItem/:id', auth, menuController.updateMenuItem);
+router.delete('/deleteMenuItem/:id', auth, menuController.deleteMenuItem);
 
 module.exports = router;

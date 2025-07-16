@@ -79,7 +79,7 @@ const getUserOrders = async (req, res) => {
     }
 };
 
-const getOrderById = async (req, res) => { 
+const getOrder= async (req, res) => { 
     try {
         const order = await Order.findById(req.params.id)
             .populate('restaurant', 'name address phoneNumber')
@@ -184,7 +184,7 @@ const cancelOrder = async (req, res) => {
 module.exports = {
     placeOrder,
     getUserOrders,
-    getOrderById,
+    getOrder,
     getAllOrders,
     updateOrderStatus,
     cancelOrder,
