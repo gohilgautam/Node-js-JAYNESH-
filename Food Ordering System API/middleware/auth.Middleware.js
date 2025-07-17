@@ -10,7 +10,7 @@ const adminAuth = (req, res, next) => {
   try {
     token = token.slice(7, token.length);
 
-    const data = jwt.verify(token, "Admin@JWT#123");
+    const data = jwt.verify(token, "Gautam@123");
 
     if (data) {
       req.user = data.adminData;
