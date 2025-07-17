@@ -1,9 +1,7 @@
 const Restaurant = require('../models/restaurant.Model');
 
-// @route   POST /api/restaurants
-// @desc    Create a new restaurant
-// @access  Private (Admin only)
-const createRestaurant = async (req, res) => { // Changed to const
+
+const createRestaurant = async (req, res) => { 
     try {
         const { name, address, phoneNumber, description } = req.body;
 
@@ -27,10 +25,8 @@ const createRestaurant = async (req, res) => { // Changed to const
     }
 };
 
-// @route   GET /api/restaurants
-// @desc    Get all restaurants
-// @access  Public
-const getAllRestaurants = async (req, res) => { // Changed to const
+
+const getAllRestaurants = async (req, res) => { 
     try {
         const restaurants = await Restaurant.find();
         res.json(restaurants);
@@ -40,10 +36,8 @@ const getAllRestaurants = async (req, res) => { // Changed to const
     }
 };
 
-// @route   GET /api/restaurants/:id
-// @desc    Get restaurant by ID
-// @access  Public
-const getRestaurantById = async (req, res) => { // Changed to const
+
+const getRestaurantById = async (req, res) => { 
     try {
         const restaurant = await Restaurant.findById(req.params.id);
         if (!restaurant) {
@@ -56,10 +50,8 @@ const getRestaurantById = async (req, res) => { // Changed to const
     }
 };
 
-// @route   PUT /api/restaurants/:id
-// @desc    Update restaurant details
-// @access  Private (Admin only)
-const updateRestaurant = async (req, res) => { // Changed to const
+
+const updateRestaurant = async (req, res) => { 
     try {
         let restaurant = await Restaurant.findById(req.params.id);
         if (!restaurant) {
@@ -78,11 +70,8 @@ const updateRestaurant = async (req, res) => { // Changed to const
     }
 };
 
-// @route   DELETE /api/restaurants/:id
-// @desc    Delete a restaurant
-// @access  Private (Admin only)
-const deleteRestaurant = async (req, res) => { // Changed to const
-    try {
+
+const deleteRestaurant = async (req, res) => { 
         const restaurant = await Restaurant.findById(req.params.id);
         if (!restaurant) {
             return res.status(404).json({ msg: 'Restaurant not found' });
