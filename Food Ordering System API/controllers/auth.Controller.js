@@ -41,7 +41,7 @@ const adminLogin = async (req, res) => {
       if (await bcrypt.compare(req.body.password, adminUserNameData.password)) {
         const token = jwt.sign(
           { adminData: adminUserNameData },
-          "Admin@JWT#123",
+          "Gautam@123",
           { expiresIn: "1d" }
         );
 
@@ -59,7 +59,7 @@ const adminLogin = async (req, res) => {
         if (await bcrypt.compare(req.body.password, adminEmailData.password)) {
           const token = jwt.sign(
             { adminData: adminEmailData },
-            "Admin@JWT#123",
+            "Gautam@123",
             { expiresIn: "1d" }
           );
           res
