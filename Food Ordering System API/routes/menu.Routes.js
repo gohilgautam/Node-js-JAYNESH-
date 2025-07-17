@@ -4,7 +4,7 @@ const menuController = require('../controllers/menu.Controller');
 const auth = require('../middleware/auth.Middleware');
 
 // Public routes for Browse menus
-router.get('/restaurant/:Id', menuController.getMenuItemsByRestaurant); 
+router.get('/restaurant/:Id', menuController.restaurantMenu); 
 router.get('/getMenuItem/:id', menuController.getMenuItem); 
 
 // Admin-only routes for managing menu items

@@ -35,7 +35,7 @@ const addMenuItem = async (req, res) => {
     }
 };
 
-const getMenuItemsByRestaurant = async (req, res) => { 
+const restaurantMenu = async (req, res) => { 
     try {
         const { restaurantId } = req.params;
         const menuItems = await MenuItem.find({ restaurant: restaurantId, isAvailable: true });
@@ -106,7 +106,7 @@ const deleteMenuItem = async (req, res) => {
 
 module.exports = {
     addMenuItem,
-    getMenuItemsByRestaurant,
+    restaurantMenu,
     getMenuItem,
     updateMenuItem,
     deleteMenuItem,
